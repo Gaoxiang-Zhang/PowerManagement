@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Power Supervisor</string>
+    <string name="pref_name">Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="help_info">Instruction</string>
+    <string name="response">Response</string>
+    <string name="allow_box">Allow</string>
+    <string name="forbid_box">Forbid</string>
+    <string name="basicPref">Basic Option</string>
+    <string name="connPref">Connection Option</string>
+    <string name="langPref">Language</string>
+    <string name="responsePref">Send usage messages</string>
+    <string name="responsePrefSummary">Help us change experience</string>
+    <string name="updatePref">Auto Update</string>
+    <string-array name="tab_names">
+        <item>General</item>
+        <item>Custom</item>
+        <item>Ranking</item>
+    </string-array>
+    <string-array name="preference_language">
+        <item>简体中文</item>
+        <item>English</item>
+    </string-array>
+</resources>

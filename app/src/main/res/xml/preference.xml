@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/basicPref">
+        <ListPreference
+            android:title="@string/langPref"
+            android:entries="@array/preference_language"
+            android:entryValues="@array/preference_language"
+            android:key="languagePref"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/connPref">
+        <SwitchPreference
+            android:title="@string/responsePref"
+            android:defaultValue="true"
+            android:key="responsePref"
+            android:summary="@string/responsePrefSummary"/>
+        <SwitchPreference
+            android:title="@string/updatePref"
+            android:defaultValue="true"
+            android:key="updatePref"/>
+    </PreferenceCategory>
+</PreferenceScreen>

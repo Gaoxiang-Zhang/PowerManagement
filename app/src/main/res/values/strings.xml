@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PowerManagement</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">电源管理</string>
+    <string name="pref_name">设置</string>
+    <string name="action_settings">设置</string>
+    <string name="help_info">使用帮助</string>
+    <string name="response">反馈</string>
+    <string name="allow_box">允许</string>
+    <string name="forbid_box">禁止</string>
+    <string name="basicPref">基本选项</string>
+    <string name="connPref">连接选项</string>
+    <string name="langPref">语言</string>
+    <string name="responsePref">自动发送使用信息</string>
+    <string name="responsePrefSummary">帮助我们改善产品体验</string>
+    <string name="updatePref">自动更新</string>
+    <string-array name="tab_names">
+        <item>通用</item>
+        <item>自定义设置</item>
+        <item>耗电排行</item>
+    </string-array>
+    <string-array name="preference_language">
+        <item>简体中文</item>
+        <item>English</item>
+    </string-array>
 
 </resources>
