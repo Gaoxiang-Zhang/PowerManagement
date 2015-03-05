@@ -48,7 +48,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-
         //set name for each tab
         tab_names = getResources().getStringArray(R.array.tab_names);
         for (String tab_name : tab_names) {
