@@ -1,6 +1,7 @@
 package com.example.administrator.powermanagement;
 
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,7 @@ import android.util.Log;
  */
 public class GridService extends Service {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        private static final String tag="tag";
+        private static final String tag="Debug Info";
         @Override
         public void onReceive(Context context, Intent intent) {
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
@@ -34,6 +35,18 @@ public class GridService extends Service {
                         break;
                 }
             }
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())){
+                int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+                switch (bluetoothState){
+                    case BluetoothAdapter.STATE_ON:
+                        Log.d(tag,"蓝牙打开");
+                        break;
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.d(tag,"蓝牙关闭");
+                        break;
+                }
+
+            }
         }
     };
     @Override
@@ -45,6 +58,7 @@ public class GridService extends Service {
         super.onCreate();
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        mFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mReceiver, mFilter);
     }
     @Override
