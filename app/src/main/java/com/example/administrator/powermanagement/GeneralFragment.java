@@ -1,9 +1,13 @@
 package com.example.administrator.powermanagement;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,67 +18,98 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class GeneralFragment extends Fragment {
+
+    // main gridview
+    GridView gridView;
     // the image and text shown in general fragment
-    Integer[] openImages={
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px,
-            R.drawable.cloud_128px
-    };
-    Integer[] closeImages={
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px,
-            R.drawable.denied_128px
-    };
+    // Due to the features in Adapter (deliver real argument), use ArrayList instead of Integer[]
+    ArrayList<Integer>  gridImages;
     String[] imageText;
     // Wifi Manager
     WifiAdmin wifiAdmin;
     // Bluetooth Manager
     BluetoothAdmin bluetoothAdmin;
+    // Adapter (ImageAdapter) that control the UI.
+    ImageAdapter imageAdapter;
+    // Broadcast receiver to get broadcast from GridService
+    BroadcastReceiver mReceiver;
+    IntentFilter intentFilter;
     // onCreateView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View general = inflater.inflate(R.layout.general_fragment,container,false);
+
         // Initialize Admin
         wifiAdmin = new WifiAdmin(this.getActivity());
         bluetoothAdmin = new BluetoothAdmin();
 
+        // Set initial values for gridImages
+        gridImages = new ArrayList<Integer>();
+        setGridImages();
+
+        // Set every name of the grid
         imageText=getResources().getStringArray(R.array.general_items);
-        GridView gridView = (GridView)general.findViewById(R.id.general_grid);
-        gridView.setAdapter(new ImageAdapter(this.getActivity(),imageText,openImages,closeImages));
+        gridView = (GridView)general.findViewById(R.id.general_grid);
+        imageAdapter = new ImageAdapter(this.getActivity(),imageText,gridImages);
+        gridView.setAdapter(imageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Toast.makeText(general.getContext(), "pic" + (position + 1) + "selected", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Start GridService
         Intent i = new Intent(this.getActivity(),GridService.class);
         getActivity().startService(i);
+
+        // Set and register broadcast receiver
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.example.administrator.powermanagement.gridservice");
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent){
+                int wifi_result,tooth_result;
+                wifi_result = intent.getIntExtra("wifi_state",0);
+                tooth_result = intent.getIntExtra("tooth_state",0);
+                Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
+                editItem edit= new editItem();
+                edit.execute(-1,-1,wifi_result,-1,-1,tooth_result,-1,-1,-1);
+
+            }
+        };
+        getActivity().registerReceiver(mReceiver,intentFilter);
+
         return general;
     }
-
+    /*
+        setGridImages: set initial values for ArrayList gridImages
+     */
+    private void setGridImages(){
+        for(int i = 0; i < 9 ; i++){
+            gridImages.add(R.drawable.denied_128px);
+        }
+        if(wifiAdmin.checkWifi()==1){
+            gridImages.set(2,R.drawable.cloud_128px);
+        }
+        if(bluetoothAdmin.checkBluetooth()==1){
+            gridImages.set(5,R.drawable.cloud_128px);
+        }
+    }
+    /*
+        ImageAdapter: Adapter controls UI of gridView
+     */
     public class ImageAdapter extends BaseAdapter
     {
         private Context context;
         private final String[] imageText;
-        private final Integer[] openImage;
-        private final Integer[] closeImage;
-        public ImageAdapter(Context c,String[] itemtext,Integer[] open_pic,Integer[] close_pic){
+        private final ArrayList<Integer> imageContent;
+        public ImageAdapter(Context c,String[] itemtext,ArrayList<Integer> imagecontent){
             context=c;
-            this.openImage=open_pic;
-            this.closeImage=close_pic;
-            this.imageText=itemtext;
+            this.imageContent = imagecontent;
+            this.imageText = itemtext;
         }
         public int getCount(){
             return imageText.length;
@@ -85,39 +120,54 @@ public class GeneralFragment extends Fragment {
         public long getItemId(int position){
             return position;
         }
+        // called in the beginning and notifyDataSetChanged
         public View getView(int position, View convertView,ViewGroup parent){
             View grid;
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            Log.d("Debug Info", position+"getView"+gridImages.get(position));
             if(convertView == null){
-                grid = new View(context);
                 grid = inflater.inflate(R.layout.grid_single,null);
                 TextView textView = (TextView)grid.findViewById(R.id.grid_text);
                 ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
-                switch (position){
-                    case 2: //Wifi
-                        if(wifiAdmin.checkWifi()==0){
-                            imageView.setImageResource(closeImage[position]);
-                        }
-                        else{
-                            imageView.setImageResource(openImage[position]);
-                        }
-                        break;
-                    case 5: //Bluetooth
-                        if(bluetoothAdmin.checkBluetooth()==0){
-                            imageView.setImageResource(closeImage[position]);
-                        }
-                        else{
-                            imageView.setImageResource(openImage[position]);
-                        }
-                        break;
-                    default:
-                        imageView.setImageResource(openImage[position]);
-                }
+                imageView.setImageResource(imageContent.get(position));
                 textView.setText(imageText[position]);
             }else{
+                TextView textView = (TextView)convertView.findViewById(R.id.grid_text);
+                ImageView imageView = (ImageView)convertView.findViewById(R.id.grid_image);
+                imageView.setImageResource(imageContent.get(position));
+                textView.setText(imageText[position]);
                 grid = convertView;
             }
             return grid;
         }
+    }
+
+    /*
+        editItem: Async task that handles gridImages change and notify imageAdapter
+     */
+    public class editItem extends AsyncTask<Integer,Integer,String>{
+        @Override
+        protected String doInBackground(Integer... params) {
+            int i;
+            for(i=0;i<gridImages.size();i++){
+                if(params[i]==1){
+                    gridImages.set(i,R.drawable.cloud_128px);
+                }else if(params[i]==-1){
+                    gridImages.set(i,R.drawable.denied_128px);
+                }
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            imageAdapter.notifyDataSetChanged();
+        }
+
+    }
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 }

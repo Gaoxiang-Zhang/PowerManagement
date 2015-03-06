@@ -18,35 +18,52 @@ public class GridService extends Service {
         private static final String tag="Debug Info";
         @Override
         public void onReceive(Context context, Intent intent) {
+            Intent broadcast_intent = new Intent();
+            //Initial value is 0
+            int wifiState,bluetoothState;
+            // If get broadcast from WiFi
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-                int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
+                wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
                 switch (wifiState) {
                     case WifiManager.WIFI_STATE_DISABLED:
                         Log.d(tag, "Wifi未连接");
+                        broadcast_intent.putExtra("wifi_state",-1);
                         break;
                     case WifiManager.WIFI_STATE_DISABLING:
                         Log.d(tag, "Wifi正在断开");
+                        broadcast_intent.putExtra("wifi_state",0);
                         break;
                     case WifiManager.WIFI_STATE_ENABLED:
                         Log.d(tag, "Wifi已连接");
+                        broadcast_intent.putExtra("wifi_state",1);
                         break;
                     case WifiManager.WIFI_STATE_ENABLING:
                         Log.d(tag, "Wifi正在连接");
+                        broadcast_intent.putExtra("wifi_state",0);
                         break;
+                    default:
+                        broadcast_intent.putExtra("wifi_state",0);
                 }
             }
+            // If get broadcast from Bluetooth
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())){
-                int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+                bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
                 switch (bluetoothState){
                     case BluetoothAdapter.STATE_ON:
                         Log.d(tag,"蓝牙打开");
+                        broadcast_intent.putExtra("tooth_state",1);
                         break;
                     case BluetoothAdapter.STATE_OFF:
                         Log.d(tag,"蓝牙关闭");
+                        broadcast_intent.putExtra("tooth_state",-1);
                         break;
+                    default:
+                        broadcast_intent.putExtra("tooth_state",0);
                 }
-
             }
+            //send broadcast
+            broadcast_intent.setAction("com.example.administrator.powermanagement.gridservice");
+            sendBroadcast(broadcast_intent);
         }
     };
     @Override

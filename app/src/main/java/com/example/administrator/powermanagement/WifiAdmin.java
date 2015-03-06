@@ -27,11 +27,11 @@ public class WifiAdmin {
     public int checkWifi(){
         int result=wifiManager.getWifiState();
         if(result == WifiManager.WIFI_STATE_DISABLED){
-            return 0;
+            return -1;
         }
         else if(result == WifiManager.WIFI_STATE_ENABLED ){
             return 1;
         }
-        return -1;
+        return 0;
     }
 }
