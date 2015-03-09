@@ -24,15 +24,15 @@
         <item>English</item>
     </string-array>
     <string-array name="general_items">
-        <item>亮度</item>
-        <item>铃声</item>
         <item>WiFi</item>
         <item>数据流量</item>
+        <item>飞行模式</item>
+        <item>自动同步</item>
         <item>GPS</item>
         <item>蓝牙</item>
-        <item>自动同步</item>
         <item>触动反馈</item>
         <item>振动</item>
+        <item>铃声</item>
     </string-array>
 
 </resources>

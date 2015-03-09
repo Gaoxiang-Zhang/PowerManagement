@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,28 +24,34 @@ import java.util.ArrayList;
 
 public class GeneralFragment extends Fragment {
 
-    // main gridview
+    /*
+        variable declaration
+     */
+    // main gridView
     GridView gridView;
     // the image and text shown in general fragment
     // Due to the features in Adapter (deliver real argument), use ArrayList instead of Integer[]
     ArrayList<Integer>  gridImages;
     String[] imageText;
-    // Wifi Manager
-    WifiAdmin wifiAdmin;
-    // Bluetooth Manager
+    // const variable definition
+    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,TOOTH_NUM=5;
+    // Module Manager
+    NetworkAdmin networkAdmin;
+    //WifiAdmin wifiAdmin;
     BluetoothAdmin bluetoothAdmin;
     // Adapter (ImageAdapter) that control the UI.
     ImageAdapter imageAdapter;
     // Broadcast receiver to get broadcast from GridService
     BroadcastReceiver mReceiver;
     IntentFilter intentFilter;
+
     // onCreateView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View general = inflater.inflate(R.layout.general_fragment,container,false);
 
         // Initialize Admin
-        wifiAdmin = new WifiAdmin(this.getActivity());
+        networkAdmin = new NetworkAdmin(this.getActivity());
         bluetoothAdmin = new BluetoothAdmin();
 
         // Set initial values for gridImages
@@ -58,6 +66,8 @@ public class GeneralFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Toast.makeText(general.getContext(), "pic" + (position + 1) + "selected", Toast.LENGTH_SHORT).show();
+                switch(position){
+                }
             }
         });
 
@@ -71,12 +81,15 @@ public class GeneralFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent){
-                int wifi_result,tooth_result;
+                int wifi_result,tooth_result,data_result,plane_result;
                 wifi_result = intent.getIntExtra("wifi_state",0);
                 tooth_result = intent.getIntExtra("tooth_state",0);
-                Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
+                data_result = intent.getIntExtra("data_state",0);
+                plane_result = intent.getIntExtra("plane_state",0);
+                //Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
                 editItem edit= new editItem();
-                edit.execute(-1,-1,wifi_result,-1,-1,tooth_result,-1,-1,-1);
+                //wifi,tooth,mobile data
+                edit.execute(wifi_result,data_result,plane_result,-1,-1,tooth_result,-1,-1,-1);
 
             }
         };
@@ -84,22 +97,28 @@ public class GeneralFragment extends Fragment {
 
         return general;
     }
-    /*
-        setGridImages: set initial values for ArrayList gridImages
+    /**
+     *   setGridImages: set initial values for ArrayList gridImages
      */
     private void setGridImages(){
         for(int i = 0; i < 9 ; i++){
             gridImages.add(R.drawable.denied_128px);
         }
-        if(wifiAdmin.checkWifi()==1){
-            gridImages.set(2,R.drawable.cloud_128px);
+        if(networkAdmin.isWifiConnected()){
+            gridImages.set(WIFI_NUM,R.drawable.cloud_128px);
+        }
+        if(networkAdmin.isMobileConnected()){
+            gridImages.set(GPRS_NUM,R.drawable.cloud_128px);
+        }
+        if(networkAdmin.isAirplaneModeOn()){
+            gridImages.set(PLANE_NUM,R.drawable.cloud_128px);
         }
         if(bluetoothAdmin.checkBluetooth()==1){
-            gridImages.set(5,R.drawable.cloud_128px);
+            gridImages.set(TOOTH_NUM,R.drawable.cloud_128px);
         }
     }
-    /*
-        ImageAdapter: Adapter controls UI of gridView
+    /**
+     *   ImageAdapter: Adapter controls UI of gridView
      */
     public class ImageAdapter extends BaseAdapter
     {
@@ -142,8 +161,8 @@ public class GeneralFragment extends Fragment {
         }
     }
 
-    /*
-        editItem: Async task that handles gridImages change and notify imageAdapter
+    /**
+     *   editItem: Async task that handles gridImages change and notify imageAdapter
      */
     public class editItem extends AsyncTask<Integer,Integer,String>{
         @Override

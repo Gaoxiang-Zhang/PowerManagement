@@ -6,8 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 
 /**
@@ -45,6 +48,18 @@ public class GridService extends Service {
                         broadcast_intent.putExtra("wifi_state",0);
                 }
             }
+            // If get broadcast from mobile data
+            if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+                if(NetworkInfo.State.CONNECTED==mMobile.getState()){
+                    Log.e(tag, "数据连接");
+                    broadcast_intent.putExtra("data_state", 1);
+                }else{
+                    Log.e(tag, "无数据连接");
+                    broadcast_intent.putExtra("data_state", -1);
+                }
+            }
             // If get broadcast from Bluetooth
             if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())){
                 bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
@@ -59,6 +74,18 @@ public class GridService extends Service {
                         break;
                     default:
                         broadcast_intent.putExtra("tooth_state",0);
+                }
+            }
+            if (Intent.ACTION_AIRPLANE_MODE_CHANGED.equals(intent.getAction())){
+                int modeIdx = Settings.System.getInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON,0);
+                boolean isEnabled = (modeIdx == 1);
+                if(isEnabled) {
+                    Log.d(tag, "飞行模式on");
+                    broadcast_intent.putExtra("plane_state",1);
+                }
+                else{
+                    Log.d(tag, "飞行模式off");
+                    broadcast_intent.putExtra("plane_state",-1);
                 }
             }
             //send broadcast
@@ -76,6 +103,8 @@ public class GridService extends Service {
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        mFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         registerReceiver(mReceiver, mFilter);
     }
     @Override
