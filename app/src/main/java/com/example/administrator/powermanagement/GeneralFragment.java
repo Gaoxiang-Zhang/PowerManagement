@@ -1,13 +1,14 @@
 package com.example.administrator.powermanagement;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,15 +18,20 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.app.AlertDialog.Builder;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GeneralFragment extends Fragment {
 
-    /*
-        variable declaration
+    /**
+     *  variable declaration
      */
     // main gridView
     GridView gridView;
@@ -34,18 +40,21 @@ public class GeneralFragment extends Fragment {
     ArrayList<Integer>  gridImages;
     String[] imageText;
     // const variable definition
-    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,TOOTH_NUM=5;
+    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,GPS_NUM=4,TOOTH_NUM=5,SOUND_NUM=6;
     // Module Manager
     NetworkAdmin networkAdmin;
-    //WifiAdmin wifiAdmin;
     BluetoothAdmin bluetoothAdmin;
+    GPSAdmin gpsAdmin;
     // Adapter (ImageAdapter) that control the UI.
     ImageAdapter imageAdapter;
     // Broadcast receiver to get broadcast from GridService
     BroadcastReceiver mReceiver;
     IntentFilter intentFilter;
-
-    // onCreateView
+    // Dialog constant
+    static final int SOUND_DIALOG=0;
+    /**
+     * onCreateView: Preparation
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View general = inflater.inflate(R.layout.general_fragment,container,false);
@@ -53,6 +62,7 @@ public class GeneralFragment extends Fragment {
         // Initialize Admin
         networkAdmin = new NetworkAdmin(this.getActivity());
         bluetoothAdmin = new BluetoothAdmin();
+        gpsAdmin = new GPSAdmin(this.getActivity());
 
         // Set initial values for gridImages
         gridImages = new ArrayList<Integer>();
@@ -65,14 +75,19 @@ public class GeneralFragment extends Fragment {
         gridView.setAdapter(imageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                Toast.makeText(general.getContext(), "pic" + (position + 1) + "selected", Toast.LENGTH_SHORT).show();
                 switch(position){
+                    case GPS_NUM:
+                        gpsAdmin.toggleGPS();
+                        break;
+                    case SOUND_NUM:
+                        getActivity().showDialog(SOUND_DIALOG);
+                        break;
                 }
             }
         });
 
         // Start GridService
-        Intent i = new Intent(this.getActivity(),GridService.class);
+        Intent i = new Intent(this.getActivity(),GeneralBroadcastService.class);
         getActivity().startService(i);
 
         // Set and register broadcast receiver
@@ -81,15 +96,16 @@ public class GeneralFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent){
-                int wifi_result,tooth_result,data_result,plane_result;
+                int wifi_result,tooth_result,data_result,plane_result,gps_result;
                 wifi_result = intent.getIntExtra("wifi_state",0);
-                tooth_result = intent.getIntExtra("tooth_state",0);
                 data_result = intent.getIntExtra("data_state",0);
                 plane_result = intent.getIntExtra("plane_state",0);
+                gps_result = intent.getIntExtra("gps_state",0);
+                tooth_result = intent.getIntExtra("tooth_state",0);
                 //Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
                 editItem edit= new editItem();
                 //wifi,tooth,mobile data
-                edit.execute(wifi_result,data_result,plane_result,-1,-1,tooth_result,-1,-1,-1);
+                edit.execute(wifi_result,data_result,plane_result,-1,gps_result,tooth_result,-1,-1,-1);
 
             }
         };
@@ -112,6 +128,9 @@ public class GeneralFragment extends Fragment {
         }
         if(networkAdmin.isAirplaneModeOn()){
             gridImages.set(PLANE_NUM,R.drawable.cloud_128px);
+        }
+        if(gpsAdmin.isGPSOn()){
+            gridImages.set(GPS_NUM,R.drawable.cloud_128px);
         }
         if(bluetoothAdmin.checkBluetooth()==1){
             gridImages.set(TOOTH_NUM,R.drawable.cloud_128px);
@@ -182,8 +201,10 @@ public class GeneralFragment extends Fragment {
             super.onPostExecute(result);
             imageAdapter.notifyDataSetChanged();
         }
-
     }
+    /**
+     * onDestroy: unregister broadcast receiver
+     */
     @Override
     public void onDestroy() {
         getActivity().unregisterReceiver(mReceiver);

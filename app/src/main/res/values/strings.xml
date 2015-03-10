@@ -8,6 +8,7 @@
     <string name="response">反馈</string>
     <string name="allow_box">允许</string>
     <string name="forbid_box">禁止</string>
+    <string name="cancel">取消</string>
     <string name="basicPref">基本选项</string>
     <string name="connPref">连接选项</string>
     <string name="langPref">语言</string>
@@ -33,6 +34,13 @@
         <item>触动反馈</item>
         <item>振动</item>
         <item>铃声</item>
+    </string-array>
+    <string name="sound">音量</string>
+    <string-array name="sound_items">
+        <item>铃声</item>
+        <item>媒体</item>
+        <item>闹钟</item>
+        <item>通话</item>
     </string-array>
 
 </resources>
