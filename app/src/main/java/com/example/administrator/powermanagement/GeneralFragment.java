@@ -1,14 +1,11 @@
 package com.example.administrator.powermanagement;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,15 +15,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.app.AlertDialog.Builder;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GeneralFragment extends Fragment {
 
@@ -50,8 +41,6 @@ public class GeneralFragment extends Fragment {
     // Broadcast receiver to get broadcast from GridService
     BroadcastReceiver mReceiver;
     IntentFilter intentFilter;
-    // Dialog constant
-    static final int SOUND_DIALOG=0;
     /**
      * onCreateView: Preparation
      */
@@ -65,7 +54,7 @@ public class GeneralFragment extends Fragment {
         gpsAdmin = new GPSAdmin(this.getActivity());
 
         // Set initial values for gridImages
-        gridImages = new ArrayList<Integer>();
+        gridImages = new ArrayList<>();
         setGridImages();
 
         // Set every name of the grid
@@ -80,7 +69,8 @@ public class GeneralFragment extends Fragment {
                         gpsAdmin.toggleGPS();
                         break;
                     case SOUND_NUM:
-                        getActivity().showDialog(SOUND_DIALOG);
+                        Intent i = new Intent(getActivity(),VolumeActivity.class);
+                        startActivity(i);
                         break;
                 }
             }

@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".VolumeActivity"
+            android:theme="@style/Theme.VolumeDialogTheme">
+        </activity>
         <service android:enabled="true" android:name=".GeneralBroadcastService">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED"/>

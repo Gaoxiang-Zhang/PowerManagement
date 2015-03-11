@@ -31,16 +31,14 @@
         <item>自动同步</item>
         <item>GPS</item>
         <item>蓝牙</item>
-        <item>触动反馈</item>
-        <item>振动</item>
         <item>铃声</item>
+        <item>振动</item>
+        <item>触动反馈</item>
     </string-array>
     <string name="sound">音量</string>
-    <string-array name="sound_items">
-        <item>铃声</item>
-        <item>媒体</item>
-        <item>闹钟</item>
-        <item>通话</item>
-    </string-array>
-
+    <string name="alarm">闹钟</string>
+    <string name="music">音乐</string>
+    <string name="ring">铃声</string>
+    <string name="system">系统</string>
+    <string name="voice">语音</string>
 </resources>
