@@ -1,20 +1,26 @@
 package com.example.administrator.powermanagement;
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,6 +47,8 @@ public class GeneralFragment extends Fragment {
     // Broadcast receiver to get broadcast from GridService
     BroadcastReceiver mReceiver;
     IntentFilter intentFilter;
+    //
+    SeekBar seekBar;
     /**
      * onCreateView: Preparation
      */
@@ -54,11 +62,11 @@ public class GeneralFragment extends Fragment {
         gpsAdmin = new GPSAdmin(this.getActivity());
 
         // Set initial values for gridImages
+        imageText=getResources().getStringArray(R.array.general_items);
         gridImages = new ArrayList<>();
         setGridImages();
 
-        // Set every name of the grid
-        imageText=getResources().getStringArray(R.array.general_items);
+        // Set every content of the grid
         gridView = (GridView)general.findViewById(R.id.general_grid);
         imageAdapter = new ImageAdapter(this.getActivity(),imageText,gridImages);
         gridView.setAdapter(imageAdapter);
@@ -95,11 +103,15 @@ public class GeneralFragment extends Fragment {
                 //Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
                 editItem edit= new editItem();
                 //wifi,tooth,mobile data
-                edit.execute(wifi_result,data_result,plane_result,-1,gps_result,tooth_result,-1,-1,-1);
+                edit.execute(wifi_result,data_result,plane_result,-1,gps_result,tooth_result,-1,-1,-1,-1);
 
             }
         };
         getActivity().registerReceiver(mReceiver,intentFilter);
+
+        // Set seekbar
+        seekBar = (SeekBar)general.findViewById(R.id.light_bar);
+        initBar(seekBar);
 
         return general;
     }
@@ -107,7 +119,7 @@ public class GeneralFragment extends Fragment {
      *   setGridImages: set initial values for ArrayList gridImages
      */
     private void setGridImages(){
-        for(int i = 0; i < 9 ; i++){
+        for(int i = 0; i < imageText.length ; i++){
             gridImages.add(R.drawable.denied_128px);
         }
         if(networkAdmin.isWifiConnected()){
@@ -191,6 +203,46 @@ public class GeneralFragment extends Fragment {
             super.onPostExecute(result);
             imageAdapter.notifyDataSetChanged();
         }
+    }
+    /**
+     *
+     */
+    public void initBar(SeekBar bar){
+        final int minBrightness = 10;
+        final int maxBrightness = 255;
+        bar.setMax(maxBrightness - minBrightness);
+        float curBrightnessValue = 0;
+        try{
+            curBrightnessValue = android.provider.Settings.System.getInt(
+                    getActivity().getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS);
+        }catch (Settings.SettingNotFoundException e){
+            e.printStackTrace();
+        }
+        int screenBrightness = (int) curBrightnessValue;
+        bar.setProgress(screenBrightness);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                progress = i + minBrightness;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                android.provider.Settings.System.putInt(getActivity().getContentResolver(),
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS, progress);
+                WindowManager.LayoutParams layoutParams = getActivity().getWindow().getAttributes();
+                layoutParams.screenBrightness = progress / (float)255;
+                getActivity().getWindow().setAttributes(layoutParams);
+            }
+        });
     }
     /**
      * onDestroy: unregister broadcast receiver

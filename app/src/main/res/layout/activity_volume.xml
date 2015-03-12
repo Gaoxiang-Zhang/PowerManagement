@@ -19,62 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="@string/alarm"
-        android:layout_gravity="start"
-        android:layout_marginStart="20dp"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="20dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/trends_64px"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
-        <SeekBar
-            android:id="@+id/alarm_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="@string/music"
-        android:layout_gravity="start"
-        android:layout_marginStart="20dp"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="20dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/trends_64px"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
-        <SeekBar
-            android:id="@+id/music_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
         android:text="@string/ring"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
@@ -84,10 +28,11 @@
         android:orientation="horizontal"
         android:paddingStart="20dp">
         <ImageView
+            android:id="@+id/imgRing"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/trends_64px"
+            android:src="@drawable/volume_normal"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
         <SeekBar
@@ -103,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="@string/system"
+        android:text="@string/alarm"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
     <LinearLayout
@@ -115,11 +60,39 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/trends_64px"
+            android:src="@drawable/volume_normal"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
         <SeekBar
-            android:id="@+id/system_bar"
+            android:id="@+id/alarm_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="@string/media"
+        android:layout_gravity="start"
+        android:layout_marginStart="20dp"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="20dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/volume_normal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+        <SeekBar
+            android:id="@+id/music_bar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingTop="10dp"
@@ -144,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/trends_64px"
+            android:src="@drawable/volume_normal"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
         <SeekBar

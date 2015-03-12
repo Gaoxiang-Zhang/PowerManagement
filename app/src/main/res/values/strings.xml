@@ -37,8 +37,8 @@
     </string-array>
     <string name="sound">音量</string>
     <string name="alarm">闹钟</string>
-    <string name="music">音乐</string>
+    <string name="media">媒体</string>
     <string name="ring">铃声</string>
-    <string name="system">系统</string>
     <string name="voice">语音</string>
+    <string name="light">亮度</string>
 </resources>
