@@ -1,16 +1,16 @@
 package com.example.administrator.powermanagement;
 
-import android.app.ActionBar;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +37,7 @@ public class GeneralFragment extends Fragment {
     ArrayList<Integer>  gridImages;
     String[] imageText;
     // const variable definition
-    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,GPS_NUM=4,TOOTH_NUM=5,SOUND_NUM=6;
+    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,SOUND_NUM=3,GPS_NUM=4,TOOTH_NUM=5,BRI_NUM=9;
     // Module Manager
     NetworkAdmin networkAdmin;
     BluetoothAdmin bluetoothAdmin;
@@ -47,8 +47,10 @@ public class GeneralFragment extends Fragment {
     // Broadcast receiver to get broadcast from GridService
     BroadcastReceiver mReceiver;
     IntentFilter intentFilter;
-    //
+    // brightness seekBar, brightness content, ContentObserver
     SeekBar seekBar;
+    final String BRIGHTNESS_STRING = android.provider.Settings.System.SCREEN_BRIGHTNESS;
+    BrightnessObserver brightnessObserver = null;
     /**
      * onCreateView: Preparation
      */
@@ -73,8 +75,22 @@ public class GeneralFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 switch(position){
+                    case WIFI_NUM:
+                        networkAdmin.toggleWiFi();
+                        break;
+                    case GPRS_NUM:
+                        networkAdmin.toggleGPRS();
+                        break;
+                    // airplane mode is not available
+                    case PLANE_NUM:
+                        networkAdmin.toggleAirplaneMode();
+                        break;
+                    // GPS permission is not available
                     case GPS_NUM:
                         gpsAdmin.toggleGPS();
+                        break;
+                    case TOOTH_NUM:
+                        bluetoothAdmin.toggleBluetooth();
                         break;
                     case SOUND_NUM:
                         Intent i = new Intent(getActivity(),VolumeActivity.class);
@@ -109,10 +125,14 @@ public class GeneralFragment extends Fragment {
         };
         getActivity().registerReceiver(mReceiver,intentFilter);
 
-        // Set seekbar
+        // Set seekBar
         seekBar = (SeekBar)general.findViewById(R.id.light_bar);
         initBar(seekBar);
-
+        // Set Brightness ContentObserver
+        final Uri BRIGHTNESS_URL = Settings.System.getUriFor(BRIGHTNESS_STRING);
+        brightnessObserver = new BrightnessObserver(new Handler());
+        getActivity().getApplicationContext().getContentResolver()
+                .registerContentObserver(BRIGHTNESS_URL,true,brightnessObserver);
         return general;
     }
     /**
@@ -180,6 +200,22 @@ public class GeneralFragment extends Fragment {
             }
             return grid;
         }
+        // areAllItemsEnabled: set that not all grids are able to be clicked
+        @Override
+        public boolean areAllItemsEnabled(){
+            return false;
+        }
+        // isEnabled: set whether a grid can be clicked by its position
+        @Override
+        public boolean isEnabled(int position){
+            switch (position){
+                case PLANE_NUM:
+                case BRI_NUM:
+                    return false;
+                default:
+                    return true;
+            }
+        }
     }
 
     /**
@@ -204,22 +240,29 @@ public class GeneralFragment extends Fragment {
             imageAdapter.notifyDataSetChanged();
         }
     }
+
     /**
-     *
+     * getBrightnessValue: read and return brightness value (10~255)
+     */
+    private float getBrightnessValue(){
+        float curBrightnessValue = 0;
+        try{
+            curBrightnessValue = android.provider.Settings.System.getInt(
+                    getActivity().getContentResolver(),
+                    BRIGHTNESS_STRING);
+        }catch (Settings.SettingNotFoundException e){
+            e.printStackTrace();
+        }
+        return curBrightnessValue;
+    }
+    /**
+     * initialBar: initial the bar value and attach it to system brightness
      */
     public void initBar(SeekBar bar){
         final int minBrightness = 10;
         final int maxBrightness = 255;
         bar.setMax(maxBrightness - minBrightness);
-        float curBrightnessValue = 0;
-        try{
-            curBrightnessValue = android.provider.Settings.System.getInt(
-                    getActivity().getContentResolver(),
-                    android.provider.Settings.System.SCREEN_BRIGHTNESS);
-        }catch (Settings.SettingNotFoundException e){
-            e.printStackTrace();
-        }
-        int screenBrightness = (int) curBrightnessValue;
+        int screenBrightness = (int) getBrightnessValue();
         bar.setProgress(screenBrightness);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
@@ -231,7 +274,6 @@ public class GeneralFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -245,11 +287,30 @@ public class GeneralFragment extends Fragment {
         });
     }
     /**
+     * BrightnessObserver: get change of brightness in time and change the seekBar progress
+     */
+    private class BrightnessObserver extends ContentObserver {
+        public BrightnessObserver(Handler h){
+            super(h);
+        }
+        @Override
+        public boolean deliverSelfNotifications(){
+            return true;
+        }
+        @Override
+        public void onChange(boolean selfChange){
+            super.onChange(selfChange);
+            seekBar.setProgress((int) getBrightnessValue());
+        }
+    }
+
+    /**
      * onDestroy: unregister broadcast receiver
      */
     @Override
     public void onDestroy() {
         getActivity().unregisterReceiver(mReceiver);
+        getActivity().getContentResolver().unregisterContentObserver(brightnessObserver);
         super.onDestroy();
     }
 }

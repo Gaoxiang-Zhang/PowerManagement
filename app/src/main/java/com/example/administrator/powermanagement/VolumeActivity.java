@@ -17,6 +17,7 @@ import android.widget.SeekBar;
  * Volume Activity: The Activity shows the volume interface
  */
 public class VolumeActivity extends Activity {
+
     // SeekBar of 4 volume respects
     ImageView system = null;
     SeekBar ring = null;
@@ -25,9 +26,9 @@ public class VolumeActivity extends Activity {
     SeekBar voice = null;
     // AudioManager controls the stat and change of the audio
     AudioManager audioManager = null;
-    //
+    // IntentFilter filters the intent of broadcast of audio
     IntentFilter intentFilter;
-    //
+    // Saved volume for the change of instant silence
     int savedVolume = 0;
 
     @Override
@@ -41,10 +42,11 @@ public class VolumeActivity extends Activity {
         getWindow().setLayout(screenWidth, ActionBar.LayoutParams.WRAP_CONTENT);
         // initialize the AudioManager
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        //
+        // filter the broadcast of volume change
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.media.VOLUME_CHANGED_ACTION");
 
+        // get each view
         system = (ImageView)findViewById(R.id.imgRing);
         alarm = (SeekBar)findViewById(R.id.alarm_bar);
         media = (SeekBar)findViewById(R.id.music_bar);
@@ -57,6 +59,7 @@ public class VolumeActivity extends Activity {
         initBar(ring,AudioManager.STREAM_RING);
         initBar(voice,AudioManager.STREAM_VOICE_CALL);
 
+        // set click event of ring button
         system.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +110,7 @@ public class VolumeActivity extends Activity {
         });
     }
     /**
-     *
+     * mReceiver: get the broadcast of volume change
      */
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent){
@@ -131,21 +134,25 @@ public class VolumeActivity extends Activity {
         }
     };
     /**
-     *
+     * handlerRingChanged: assist mReceiver to change the status of ring button and seek bar
      */
     public void handlerRingChanged(int old_value, int new_value){
         int mode = audioManager.getRingerMode();
+        // high volume -> low volume
         if(old_value > 0 && new_value > 0){
             ring.setProgress(new_value);
         }
+        // low volume -> vibration
         else if(old_value > 0 && new_value == 0){
             system.setImageResource(R.drawable.volume_vibrate);
             ring.setProgress(new_value);
         }
+        // vibration/silent -> low volume
         else if(old_value == 0 && new_value > 0){
             system.setImageResource(R.drawable.volume_normal);
             ring.setProgress(new_value);
         }
+        // vibration <-> silent
         else if(old_value == 0 && new_value == 0){
             if(mode == AudioManager.RINGER_MODE_SILENT){
                 system.setImageResource(R.drawable.volume_silent);
@@ -157,7 +164,7 @@ public class VolumeActivity extends Activity {
         return;
     }
     /**
-     *
+     * onDestroy: unregister mReceiver
      */
     public void onDestroy(){
         super.onDestroy();

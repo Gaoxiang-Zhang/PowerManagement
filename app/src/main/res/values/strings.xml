@@ -28,10 +28,10 @@
         <item>WiFi</item>
         <item>数据流量</item>
         <item>飞行模式</item>
-        <item>自动同步</item>
+        <item>音量</item>
         <item>GPS</item>
         <item>蓝牙</item>
-        <item>铃声</item>
+        <item>点亮时间</item>
         <item>振动</item>
         <item>触动反馈</item>
     </string-array>

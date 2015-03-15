@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.provider.Settings;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -19,16 +21,6 @@ public class NetworkAdmin {
     public NetworkAdmin(Context context){
         this.context = context;
         connectivityManager = (ConnectivityManager)this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    }
-    /**
-     * Judge whether the network is connected
-     */
-    public boolean isNetworkConnected(){
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo != null){
-            return networkInfo.isConnected();
-        }
-        return false;
     }
     /**
      * Judge whether wifi is available
@@ -53,19 +45,59 @@ public class NetworkAdmin {
     /**
      * GPRS network switch
      */
-    public void toggleGprs(boolean isEnable) throws Exception{
-        Class<?> cmClass = connectivityManager.getClass();
-        Class<?>[] argClasses = new Class[1];
-        argClasses[0] = boolean.class;
-        Method method = cmClass.getMethod("setMobileDataEnabled",argClasses);
-        method.invoke(connectivityManager,isEnable);
+    public void toggleGPRS(){
+        if(!isWifiConnected()){
+            toggleGPRSTask task = new toggleGPRSTask();
+            task.execute();
+        }
+    }
+    public class toggleGPRSTask extends AsyncTask<Void,Void,Boolean>
+    {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean enabled = isMobileConnected();
+            return !enabled;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            Class<?> cmClass = connectivityManager.getClass();
+            Class<?>[] argClasses = new Class[1];
+            argClasses[0] = boolean.class;
+            Method method = null;
+            try{
+                method = cmClass.getMethod("setMobileDataEnabled",argClasses);
+            } catch (NoSuchMethodException e){
+                e.printStackTrace();
+            }
+            if(method != null){
+                try{
+                    method.invoke(connectivityManager,result);
+                } catch (IllegalAccessException | InvocationTargetException e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     /**
      * WiFi network switch
      */
-    public boolean toggleWiFi(boolean enabled){
-        WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        return wm.setWifiEnabled(enabled);
+    public void toggleWiFi(){
+        toggleWiFiTask task = new toggleWiFiTask();
+        task.execute();
+    }
+    public class toggleWiFiTask extends AsyncTask<Void,Void,Boolean>
+    {
+        WifiManager wm;
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+            boolean enabled = isWifiConnected();
+            return !enabled;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            wm.setWifiEnabled(result);
+        }
     }
     /**
      * Judge whether the phone is in airplane mode
@@ -76,12 +108,26 @@ public class NetworkAdmin {
         return isEnabled;
     }
     /**
-     * Airplane switch
+     * Airplane switch: in Android > 4.2, this function needs rooted system, so it needs further discussion
      */
-    public void toggleAirplaneMode(boolean setAirPlane){
-        Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON,setAirPlane?1:0);
-        Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        intent.putExtra("state",setAirPlane);
-        context.sendBroadcast(intent);
+    public void toggleAirplaneMode(){
+        //togglePlaneTask task = new togglePlaneTask();
+        //task.execute();
+    }
+    public class togglePlaneTask extends AsyncTask<Void,Void,Boolean>
+    {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean enabled = isAirplaneModeOn();
+            return !enabled;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            //Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON,result?1:0);
+            Settings.Global.putInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON,result?1:0);
+            Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+            intent.putExtra("state",result);
+            context.sendBroadcast(intent);
+        }
     }
 }

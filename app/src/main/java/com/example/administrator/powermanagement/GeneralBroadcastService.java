@@ -13,13 +13,14 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
- * Created by Administrator on 15/3/5.
+ * GeneralBroadcastService: receive multiple broadcast and send it to general fragment
  */
 public class GeneralBroadcastService extends Service {
     final String GPS_CHANGE_ACTION = "android.location.PROVIDERS_CHANGED";
+
+    // core receiver to get multiple event and to pack as a single broadcast
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         private static final String tag="Debug Info";
         @Override
@@ -56,10 +57,10 @@ public class GeneralBroadcastService extends Service {
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo mMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
                 if(NetworkInfo.State.CONNECTED==mMobile.getState()){
-                    Log.e(tag, "数据连接");
+                    Log.d(tag, "数据连接");
                     broadcast_intent.putExtra("data_state", 1);
                 }else{
-                    Log.e(tag, "无数据连接");
+                    Log.d(tag, "无数据连接");
                     broadcast_intent.putExtra("data_state", -1);
                 }
             }
@@ -109,14 +110,17 @@ public class GeneralBroadcastService extends Service {
             sendBroadcast(broadcast_intent);
         }
     };
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
         IntentFilter mFilter = new IntentFilter();
+        // filter the event to be trapped
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -124,11 +128,16 @@ public class GeneralBroadcastService extends Service {
         mFilter.addAction(GPS_CHANGE_ACTION);
         registerReceiver(mReceiver, mFilter);
     }
+
+    /**
+     * onDestroy: unregister the receiver
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
