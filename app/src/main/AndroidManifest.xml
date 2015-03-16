@@ -26,7 +26,15 @@
         </activity>
         <activity
             android:name=".VolumeActivity"
-            android:theme="@style/Theme.VolumeDialogTheme">
+            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ScreenOffActivity"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+        </activity>
+        <activity
+            android:name=".VibrationActivity"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
         </activity>
         <service android:enabled="true" android:name=".GeneralBroadcastService">
             <intent-filter>

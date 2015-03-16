@@ -31,9 +31,9 @@
         <item>音量</item>
         <item>GPS</item>
         <item>蓝牙</item>
-        <item>点亮时间</item>
-        <item>振动</item>
-        <item>触动反馈</item>
+        <item>休眠时间</item>
+        <item>触摸效果</item>
+        <item>重启/关机</item>
     </string-array>
     <string name="sound">音量</string>
     <string name="alarm">闹钟</string>
@@ -41,4 +41,19 @@
     <string name="ring">铃声</string>
     <string name="voice">语音</string>
     <string name="light">亮度</string>
+
+    <string name="screenOff">锁屏时间</string>
+    <string name="screen15s">15秒</string>
+    <string name="screen30s">30秒</string>
+    <string name="screen1m">1分钟</string>
+    <string name="screen2m">2分钟</string>
+    <string name="screen5m">5分钟</string>
+    <string name="screen10m">10分钟</string>
+    <string name="screen30m">30分钟</string>
+
+    <string name="touchShow">触摸效果</string>
+    <string name="DialTone">拨号键盘触摸音效</string>
+    <string name="touchSound">触摸提示音</string>
+    <string name="lockSound">锁屏提示音</string>
+    <string name="touchVib">触摸时振动</string>
 </resources>

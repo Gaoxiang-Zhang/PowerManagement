@@ -37,7 +37,7 @@ public class GeneralFragment extends Fragment {
     ArrayList<Integer>  gridImages;
     String[] imageText;
     // const variable definition
-    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,SOUND_NUM=3,GPS_NUM=4,TOOTH_NUM=5,BRI_NUM=9;
+    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,SOUND_NUM=3,GPS_NUM=4,TOOTH_NUM=5,SCR_NUM=6,VIB_NUM=7,POWER_NUM=8,BRI_NUM=9;
     // Module Manager
     NetworkAdmin networkAdmin;
     BluetoothAdmin bluetoothAdmin;
@@ -83,7 +83,8 @@ public class GeneralFragment extends Fragment {
                         break;
                     // airplane mode is not available
                     case PLANE_NUM:
-                        networkAdmin.toggleAirplaneMode();
+                        Intent plane = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                        startActivity(plane);
                         break;
                     // GPS permission is not available
                     case GPS_NUM:
@@ -93,8 +94,16 @@ public class GeneralFragment extends Fragment {
                         bluetoothAdmin.toggleBluetooth();
                         break;
                     case SOUND_NUM:
-                        Intent i = new Intent(getActivity(),VolumeActivity.class);
-                        startActivity(i);
+                        Intent sound = new Intent(getActivity(),VolumeActivity.class);
+                        startActivity(sound);
+                        break;
+                    case SCR_NUM:
+                        Intent screen = new Intent(getActivity(),ScreenOffActivity.class);
+                        startActivity(screen);
+                        break;
+                    case VIB_NUM:
+                        Intent vibration = new Intent(getActivity(),VibrationActivity.class);
+                        startActivity(vibration);
                         break;
                 }
             }
@@ -209,7 +218,7 @@ public class GeneralFragment extends Fragment {
         @Override
         public boolean isEnabled(int position){
             switch (position){
-                case PLANE_NUM:
+                //case PLANE_NUM:
                 case BRI_NUM:
                     return false;
                 default:

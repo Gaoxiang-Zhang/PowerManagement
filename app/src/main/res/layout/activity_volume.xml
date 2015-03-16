@@ -4,21 +4,22 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->
+    android:paddingStart="15dp"
+    android:paddingEnd="20dp">
 
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"
         android:text="@string/sound"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:gravity="center"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:text="@string/ring"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
@@ -33,21 +34,21 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:src="@drawable/volume_normal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"/>
         <SeekBar
             android:id="@+id/ring_bar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:text="@string/alarm"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
@@ -61,21 +62,21 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:src="@drawable/volume_normal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"/>
         <SeekBar
             android:id="@+id/alarm_bar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:text="@string/media"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
@@ -89,21 +90,21 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:src="@drawable/volume_normal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"/>
         <SeekBar
             android:id="@+id/music_bar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"/>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:text="@string/voice"
         android:layout_gravity="start"
         android:layout_marginStart="20dp"/>
@@ -112,20 +113,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingStart="20dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:src="@drawable/volume_normal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"/>
         <SeekBar
             android:id="@+id/voice_bar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"/>
     </LinearLayout>

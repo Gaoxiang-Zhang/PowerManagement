@@ -5,5 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.VolumeDialogTheme" parent="Platform.AppCompat.Light.Dialog">
+
+    </style>
+    <style name="Theme.ScreenDialogTheme" parent="Platform.AppCompat.Dialog">
+
     </style>
 </resources>
