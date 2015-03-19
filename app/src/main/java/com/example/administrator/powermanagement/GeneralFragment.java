@@ -102,7 +102,7 @@ public class GeneralFragment extends Fragment {
                         startActivity(screen);
                         break;
                     case VIB_NUM:
-                        Intent vibration = new Intent(getActivity(),VibrationActivity.class);
+                        Intent vibration = new Intent(getActivity(),InteractionActivity.class);
                         startActivity(vibration);
                         break;
                 }

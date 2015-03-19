@@ -33,7 +33,7 @@
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
         </activity>
         <activity
-            android:name=".VibrationActivity"
+            android:name=".InteractionActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
         </activity>
         <service android:enabled="true" android:name=".GeneralBroadcastService">

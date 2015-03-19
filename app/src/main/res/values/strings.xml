@@ -32,7 +32,7 @@
         <item>GPS</item>
         <item>蓝牙</item>
         <item>休眠时间</item>
-        <item>触摸效果</item>
+        <item>互动效果</item>
         <item>重启/关机</item>
     </string-array>
     <string name="sound">音量</string>
@@ -51,7 +51,7 @@
     <string name="screen10m">10分钟</string>
     <string name="screen30m">30分钟</string>
 
-    <string name="touchShow">触摸效果</string>
+    <string name="touchShow">互动效果</string>
     <string name="DialTone">拨号键盘触摸音效</string>
     <string name="touchSound">触摸提示音</string>
     <string name="lockSound">锁屏提示音</string>
