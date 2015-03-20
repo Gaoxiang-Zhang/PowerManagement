@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/volume_normal"
+            android:src="@drawable/ring"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"/>
         <SeekBar
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/volume_normal"
+            android:src="@drawable/alarm"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"/>
         <SeekBar
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/volume_normal"
+            android:src="@drawable/media"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"/>
         <SeekBar
@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:src="@drawable/volume_normal"
+            android:src="@drawable/voice"
             android:paddingTop="8dp"
             android:paddingBottom="12dp"/>
         <SeekBar

@@ -35,9 +35,31 @@ public class GeneralFragment extends Fragment {
     // the image and text shown in general fragment
     // Due to the features in Adapter (deliver real argument), use ArrayList instead of Integer[]
     ArrayList<Integer>  gridImages;
+    final Integer[] gridImagesOn={
+            R.drawable.wifi,
+            R.drawable.gprs,
+            R.drawable.bluetooth,
+            R.drawable.airplane,
+            R.drawable.hotspot,
+            R.drawable.gps,
+            R.drawable.volume,
+            R.drawable.action,
+            R.drawable.clock
+    };
+    final Integer[] gridImagesOff={
+            R.drawable.wifi_off,
+            R.drawable.gprs_off,
+            R.drawable.bluetooth_off,
+            R.drawable.airplane_off,
+            R.drawable.hotspot_off,
+            R.drawable.gps_off,
+            R.drawable.volume,
+            R.drawable.action,
+            R.drawable.clock
+    };
     String[] imageText;
     // const variable definition
-    final int WIFI_NUM=0,GPRS_NUM=1,PLANE_NUM=2,SOUND_NUM=3,GPS_NUM=4,TOOTH_NUM=5,SCR_NUM=6,VIB_NUM=7,POWER_NUM=8,BRI_NUM=9;
+    final int WIFI_NUM=0,GPRS_NUM=1,TOOTH_NUM=2,PLANE_NUM=3,SPOT_NUM=4,GPS_NUM=5,SOUND_NUM=6,VIB_NUM=7,SCR_NUM=8,BRI_NUM=9;
     // Module Manager
     NetworkAdmin networkAdmin;
     BluetoothAdmin bluetoothAdmin;
@@ -51,6 +73,7 @@ public class GeneralFragment extends Fragment {
     SeekBar seekBar;
     final String BRIGHTNESS_STRING = android.provider.Settings.System.SCREEN_BRIGHTNESS;
     BrightnessObserver brightnessObserver = null;
+
     /**
      * onCreateView: Preparation
      */
@@ -81,12 +104,11 @@ public class GeneralFragment extends Fragment {
                     case GPRS_NUM:
                         networkAdmin.toggleGPRS();
                         break;
-                    // airplane mode is not available
+                    case SPOT_NUM:
                     case PLANE_NUM:
                         Intent plane = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
                         startActivity(plane);
                         break;
-                    // GPS permission is not available
                     case GPS_NUM:
                         gpsAdmin.toggleGPS();
                         break;
@@ -97,14 +119,15 @@ public class GeneralFragment extends Fragment {
                         Intent sound = new Intent(getActivity(),VolumeActivity.class);
                         startActivity(sound);
                         break;
-                    case SCR_NUM:
-                        Intent screen = new Intent(getActivity(),ScreenOffActivity.class);
-                        startActivity(screen);
-                        break;
                     case VIB_NUM:
                         Intent vibration = new Intent(getActivity(),InteractionActivity.class);
                         startActivity(vibration);
                         break;
+                    case SCR_NUM:
+                        Intent screen = new Intent(getActivity(),ScreenOffActivity.class);
+                        startActivity(screen);
+                        break;
+
                 }
             }
         });
@@ -119,16 +142,17 @@ public class GeneralFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent){
-                int wifi_result,tooth_result,data_result,plane_result,gps_result;
+                int wifi_result,tooth_result,data_result,plane_result,gps_result,hotspot_result;
                 wifi_result = intent.getIntExtra("wifi_state",0);
                 data_result = intent.getIntExtra("data_state",0);
                 plane_result = intent.getIntExtra("plane_state",0);
                 gps_result = intent.getIntExtra("gps_state",0);
                 tooth_result = intent.getIntExtra("tooth_state",0);
+                hotspot_result = intent.getIntExtra("hotspot_state",0);
                 //Log.d("Debug Info", "得到广播"+wifi_result+tooth_result);
                 editItem edit= new editItem();
                 //wifi,tooth,mobile data
-                edit.execute(wifi_result,data_result,plane_result,-1,gps_result,tooth_result,-1,-1,-1,-1);
+                edit.execute(wifi_result,data_result,tooth_result,plane_result,hotspot_result,gps_result,-1,-1,-1,-1);
 
             }
         };
@@ -149,22 +173,22 @@ public class GeneralFragment extends Fragment {
      */
     private void setGridImages(){
         for(int i = 0; i < imageText.length ; i++){
-            gridImages.add(R.drawable.denied_128px);
+            gridImages.add(gridImagesOff[i]);
         }
         if(networkAdmin.isWifiConnected()){
-            gridImages.set(WIFI_NUM,R.drawable.cloud_128px);
+            gridImages.set(WIFI_NUM,gridImagesOn[WIFI_NUM]);
         }
         if(networkAdmin.isMobileConnected()){
-            gridImages.set(GPRS_NUM,R.drawable.cloud_128px);
+            gridImages.set(GPRS_NUM,gridImagesOn[GPRS_NUM]);
         }
         if(networkAdmin.isAirplaneModeOn()){
-            gridImages.set(PLANE_NUM,R.drawable.cloud_128px);
+            gridImages.set(PLANE_NUM,gridImagesOn[PLANE_NUM]);
         }
         if(gpsAdmin.isGPSOn()){
-            gridImages.set(GPS_NUM,R.drawable.cloud_128px);
+            gridImages.set(GPS_NUM,gridImagesOn[GPS_NUM]);
         }
         if(bluetoothAdmin.checkBluetooth()==1){
-            gridImages.set(TOOTH_NUM,R.drawable.cloud_128px);
+            gridImages.set(TOOTH_NUM,gridImagesOn[TOOTH_NUM]);
         }
     }
     /**
@@ -236,9 +260,9 @@ public class GeneralFragment extends Fragment {
             int i;
             for(i=0;i<gridImages.size();i++){
                 if(params[i]==1){
-                    gridImages.set(i,R.drawable.cloud_128px);
+                    gridImages.set(i,gridImagesOn[i]);
                 }else if(params[i]==-1){
-                    gridImages.set(i,R.drawable.denied_128px);
+                    gridImages.set(i,gridImagesOff[i]);
                 }
             }
             return null;

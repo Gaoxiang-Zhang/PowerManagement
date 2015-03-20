@@ -27,14 +27,15 @@
     <string-array name="general_items">
         <item>WiFi</item>
         <item>数据流量</item>
-        <item>飞行模式</item>
-        <item>音量</item>
-        <item>GPS</item>
         <item>蓝牙</item>
-        <item>休眠时间</item>
+        <item>飞行模式</item>
+        <item>无线热点</item>
+        <item>GPS</item>
+        <item>音量</item>
         <item>互动效果</item>
-        <item>重启/关机</item>
+        <item>休眠时间</item>
     </string-array>
+
     <string name="sound">音量</string>
     <string name="alarm">闹钟</string>
     <string name="media">媒体</string>
@@ -56,4 +57,9 @@
     <string name="touchSound">触摸提示音</string>
     <string name="lockSound">锁屏提示音</string>
     <string name="touchVib">触摸时振动</string>
+
+    <string name="halt">关机</string>
+    <string name="reboot">重启</string>
+    <string name="sure">你确定要？</string>
+
 </resources>

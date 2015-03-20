@@ -66,13 +66,13 @@ public class VolumeActivity extends Activity {
                 int volume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
                 if(volume == 0){
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    system.setImageResource(R.drawable.volume_normal);
+                    system.setImageResource(R.drawable.ring);
                     ring.setProgress(savedVolume);
                 }
                 else{
                     savedVolume = volume;
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-                    system.setImageResource(R.drawable.volume_vibrate);
+                    system.setImageResource(R.drawable.vibrate);
                     ring.setProgress(0);
                 }
             }
@@ -91,10 +91,10 @@ public class VolumeActivity extends Activity {
         if(stream == AudioManager.STREAM_RING && volume == 0){
             int mode = audioManager.getRingerMode();
             if(mode == AudioManager.RINGER_MODE_VIBRATE){
-                system.setImageResource(R.drawable.volume_vibrate);
+                system.setImageResource(R.drawable.vibrate);
             }
             else if(mode == AudioManager.RINGER_MODE_SILENT){
-                system.setImageResource(R.drawable.volume_silent);
+                system.setImageResource(R.drawable.silent);
             }
         }
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -144,24 +144,23 @@ public class VolumeActivity extends Activity {
         }
         // low volume -> vibration
         else if(old_value > 0 && new_value == 0){
-            system.setImageResource(R.drawable.volume_vibrate);
+            system.setImageResource(R.drawable.vibrate);
             ring.setProgress(new_value);
         }
         // vibration/silent -> low volume
         else if(old_value == 0 && new_value > 0){
-            system.setImageResource(R.drawable.volume_normal);
+            system.setImageResource(R.drawable.ring);
             ring.setProgress(new_value);
         }
         // vibration <-> silent
         else if(old_value == 0 && new_value == 0){
             if(mode == AudioManager.RINGER_MODE_SILENT){
-                system.setImageResource(R.drawable.volume_silent);
+                system.setImageResource(R.drawable.silent);
             }
             else if(mode == AudioManager.RINGER_MODE_VIBRATE){
-                system.setImageResource(R.drawable.volume_vibrate);
+                system.setImageResource(R.drawable.vibrate);
             }
         }
-        return;
     }
     /**
      * onDestroy: unregister mReceiver

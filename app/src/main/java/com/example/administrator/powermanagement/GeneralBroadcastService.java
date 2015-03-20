@@ -19,6 +19,7 @@ import android.util.Log;
  */
 public class GeneralBroadcastService extends Service {
     final String GPS_CHANGE_ACTION = "android.location.PROVIDERS_CHANGED";
+    final String HOT_CHANGE_ACTION = "android.net.wifi.WIFI_AP_STATE_CHANGED";
 
     // core receiver to get multiple event and to pack as a single broadcast
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -28,6 +29,8 @@ public class GeneralBroadcastService extends Service {
             Intent broadcast_intent = new Intent();
             //Initial value is 0
             int wifiState,bluetoothState;
+            // WIFI_AP STATE
+            final int HOTSPOT_OPEN = 13, HOTSPOT_CLOSE = 11;
             // If get broadcast from WiFi
             if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(intent.getAction())) {
                 wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
@@ -105,6 +108,20 @@ public class GeneralBroadcastService extends Service {
                 }
             }
 
+            // If get broadcast from hotspot module
+            if (intent.getAction().matches(HOT_CHANGE_ACTION)){
+                int state = intent.getIntExtra("wifi_state",0);
+                switch (state){
+                    case HOTSPOT_CLOSE:
+                        broadcast_intent.putExtra("hotspot_state",-1);
+                        break;
+                    case HOTSPOT_OPEN:
+                        broadcast_intent.putExtra("hotspot_state",1);
+                        break;
+                    default:
+                        broadcast_intent.putExtra("hotspot_state",0);
+                }
+            }
             //send broadcast
             broadcast_intent.setAction("com.example.administrator.powermanagement.gridservice");
             sendBroadcast(broadcast_intent);
@@ -126,6 +143,7 @@ public class GeneralBroadcastService extends Service {
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         mFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         mFilter.addAction(GPS_CHANGE_ACTION);
+        mFilter.addAction(HOT_CHANGE_ACTION);
         registerReceiver(mReceiver, mFilter);
     }
 

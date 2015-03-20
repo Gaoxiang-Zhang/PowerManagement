@@ -36,9 +36,13 @@
             android:name=".InteractionActivity"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
         </activity>
-        <service android:enabled="true" android:name=".GeneralBroadcastService">
+        <service
+            android:enabled="true"
+            android:exported="false"
+            android:name=".GeneralBroadcastService">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED"/>
+                <action android:name="android.net.wifi.WIFI_AP_STATE_CHANGED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
