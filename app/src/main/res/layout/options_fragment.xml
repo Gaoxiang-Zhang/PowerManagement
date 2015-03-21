@@ -4,14 +4,106 @@
     android:padding="20dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
     <TextView
-        android:text="Options"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="50sp"/>
+        android:text="@string/profitYesterday"
+        android:textSize="14sp"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"/>
+
+    <TextView
+        android:id="@+id/yesterdayTime"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="100sp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/detailOption"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <View
+            android:layout_height="match_parent"
+            android:layout_width="1dip"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/systemMode"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@android:color/darker_gray"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/ranking"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <View
+            android:layout_height="match_parent"
+            android:layout_width="1dip"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/profitTotal"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/strategy"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="0dp"/>
+        <TextView
+            android:id="@+id/strategyStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/strategy"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:gravity="end"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
+    </LinearLayout>
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"/>
 
 </LinearLayout>

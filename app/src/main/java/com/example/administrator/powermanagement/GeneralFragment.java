@@ -89,7 +89,7 @@ public class GeneralFragment extends Fragment {
         // Set initial values for gridImages
         imageText=getResources().getStringArray(R.array.general_items);
         gridImages = new ArrayList<>();
-        setGridImages();
+        setGridImages(getActivity().getIntent());
 
         // Set every content of the grid
         gridView = (GridView)general.findViewById(R.id.general_grid);
@@ -105,6 +105,10 @@ public class GeneralFragment extends Fragment {
                         networkAdmin.toggleGPRS();
                         break;
                     case SPOT_NUM:
+                        Intent spot = new Intent();
+                        spot.setClassName("com.android.settings","com.android.settings.TetherSettings");
+                        startActivity(spot);
+                        break;
                     case PLANE_NUM:
                         Intent plane = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
                         startActivity(plane);
@@ -171,7 +175,7 @@ public class GeneralFragment extends Fragment {
     /**
      *   setGridImages: set initial values for ArrayList gridImages
      */
-    private void setGridImages(){
+    private void setGridImages(Intent intent){
         for(int i = 0; i < imageText.length ; i++){
             gridImages.add(gridImagesOff[i]);
         }
@@ -189,6 +193,9 @@ public class GeneralFragment extends Fragment {
         }
         if(bluetoothAdmin.checkBluetooth()==1){
             gridImages.set(TOOTH_NUM,gridImagesOn[TOOTH_NUM]);
+        }
+        if(networkAdmin.isHotspotConnected(intent)){
+            gridImages.set(SPOT_NUM,gridImagesOn[SPOT_NUM]);
         }
     }
     /**

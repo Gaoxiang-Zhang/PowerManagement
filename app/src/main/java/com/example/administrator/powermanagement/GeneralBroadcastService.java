@@ -18,6 +18,7 @@ import android.util.Log;
  * GeneralBroadcastService: receive multiple broadcast and send it to general fragment
  */
 public class GeneralBroadcastService extends Service {
+    // String for change action of gps and hotspot
     final String GPS_CHANGE_ACTION = "android.location.PROVIDERS_CHANGED";
     final String HOT_CHANGE_ACTION = "android.net.wifi.WIFI_AP_STATE_CHANGED";
 

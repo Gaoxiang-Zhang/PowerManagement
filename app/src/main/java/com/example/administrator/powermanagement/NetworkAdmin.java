@@ -16,12 +16,16 @@ import java.lang.reflect.Method;
  * NetworkAdmin is the class that control the state of WiFi, GPRS and airplane mode
  */
 public class NetworkAdmin {
+
     private Context context;
     private ConnectivityManager connectivityManager;
     public NetworkAdmin(Context context){
         this.context = context;
         connectivityManager = (ConnectivityManager)this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
+
+    final int HOTSPOT_OPEN = 13;
+
     /**
      * Judge whether wifi is available
      */
@@ -41,6 +45,13 @@ public class NetworkAdmin {
             return mMobile.isConnected();
         }
         return false;
+    }
+    /**
+     * Judge whether wifi ap is available
+     */
+    public boolean isHotspotConnected(Intent intent){
+        int state = intent.getIntExtra("wifi_state",0);
+        return ( state == HOTSPOT_OPEN );
     }
     /**
      * GPRS network switch

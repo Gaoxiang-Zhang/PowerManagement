@@ -16,9 +16,9 @@
     <string name="responsePrefSummary">帮助我们改善产品体验</string>
     <string name="updatePref">自动更新</string>
     <string-array name="tab_names">
+        <item>快捷菜单</item>
         <item>通用</item>
-        <item>自定义设置</item>
-        <item>耗电排行</item>
+        <item>账户</item>
     </string-array>
     <string-array name="preference_language">
         <item>简体中文</item>
@@ -58,8 +58,14 @@
     <string name="lockSound">锁屏提示音</string>
     <string name="touchVib">触摸时振动</string>
 
-    <string name="halt">关机</string>
-    <string name="reboot">重启</string>
-    <string name="sure">你确定要？</string>
+    <string name="profitYesterday">昨日收益</string>
+
+    <string name="profitTotal">总收益</string>
+
+    <string name="strategy">省电策略</string>
+    <string name="detailOption">详细设置</string>
+    <string name="systemMode">模式定制</string>
+    <string name="ranking">耗电排行</string>
+
 
 </resources>

@@ -15,9 +15,9 @@
     <string name="responsePrefSummary">Help us change experience</string>
     <string name="updatePref">Auto Update</string>
     <string-array name="tab_names">
-        <item>General</item>
         <item>Custom</item>
-        <item>Ranking</item>
+        <item>General</item>
+        <item>Profile</item>
     </string-array>
     <string-array name="preference_language">
         <item>简体中文</item>
