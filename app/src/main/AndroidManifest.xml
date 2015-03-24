@@ -17,7 +17,7 @@
         </activity>
         <activity
             android:name=".AppPreferenceActivity"
-            android:label="@string/pref_name"
+            android:label="@string/settings"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.administrator.powermanagement.AppPreferenceActivity"/>
@@ -46,6 +46,11 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".ProfitActivity">
+        </activity>
+
     </application>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

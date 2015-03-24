@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 public class ConsumerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View consumer = inflater.inflate(R.layout.consumer_fragment,container,false);
+        View consumer = inflater.inflate(R.layout.fragment_user,container,false);
         return consumer;
     }
 }

@@ -79,7 +79,7 @@ public class GeneralFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        final View general = inflater.inflate(R.layout.general_fragment,container,false);
+        final View general = inflater.inflate(R.layout.fragment_general,container,false);
 
         // Initialize Admin
         networkAdmin = new NetworkAdmin(this.getActivity());

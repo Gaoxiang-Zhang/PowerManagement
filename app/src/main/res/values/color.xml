@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#ebebeb</color>
+    <color name="focus">#dbdbdb</color>
+    <color name="white">#ffffff</color>
+
+    <color name="barColor">#333333</color>
+
+
+    <!---->
+    <color name="red_normal">#EC4C3D</color>
+    <color name="red_press">#C54132</color>
+
+    <color name="background_dark">#232428</color>
+    <color name="button_dark">#2d2e33</color>
+    <color name="button_focus">#35373c</color>
+    <color name="text_normal">@color/white</color>
+    <color name="text_focus">#11cdf0</color>
+
+</resources>

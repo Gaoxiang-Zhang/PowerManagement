@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Power Supervisor</string>
-    <string name="pref_name">Settings</string>
+    <string name="settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="help_info">Instruction</string>
     <string name="response">Response</string>

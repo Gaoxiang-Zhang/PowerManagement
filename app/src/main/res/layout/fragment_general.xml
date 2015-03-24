@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="20dp"
+    android:paddingBottom="20dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
 
     <GridView
         android:id="@+id/general_grid"
@@ -18,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:paddingStart="20dp"
+        android:paddingStart="30dp"
         android:paddingEnd="20dp"
         android:paddingBottom="10dp">
         <ImageView
@@ -39,5 +40,6 @@
         android:textSize="14sp"
         android:text="@string/light"
         android:layout_gravity="start"
-        android:paddingStart="38dp"/>
+        android:paddingStart="40dp"
+        android:textColor="@color/text_normal"/>
 </LinearLayout>

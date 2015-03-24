@@ -2,8 +2,7 @@
 <resources>
 
     <string name="app_name">电源管理</string>
-    <string name="pref_name">设置</string>
-    <string name="action_settings">设置</string>
+    <string name="settings">设置</string>
     <string name="help_info">使用帮助</string>
     <string name="response">反馈</string>
     <string name="allow_box">允许</string>
@@ -59,13 +58,22 @@
     <string name="touchVib">触摸时振动</string>
 
     <string name="profitYesterday">昨日收益</string>
-
     <string name="profitTotal">总收益</string>
+    <string name="profitStatus">收益详情</string>
+    <string name="battery">当前电量</string>
+    <string name="statTest">01234.56789</string>
 
     <string name="strategy">省电策略</string>
     <string name="detailOption">详细设置</string>
     <string name="systemMode">模式定制</string>
     <string name="ranking">耗电排行</string>
+
+    <string name="pleaseLogin">请登录</string>
+    <string name="noLogin">未登录</string>
+    <string name="login_register">登陆/注册</string>
+    <string name="logout">登出</string>
+    <string name="sync">数据同步</string>
+    <string name="usageRecord">使用记录</string>
 
 
 </resources>

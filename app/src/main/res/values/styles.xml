@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
     </style>
     <style name="Theme.VolumeDialogTheme" parent="Platform.AppCompat.Light.Dialog">
 

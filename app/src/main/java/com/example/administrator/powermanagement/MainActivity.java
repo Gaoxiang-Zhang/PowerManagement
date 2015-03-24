@@ -6,8 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 
@@ -32,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+
         // Create the adapter that will return a defined fragment in TabsPageAdapter.
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
@@ -51,8 +55,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         //set name for each tab
         tab_names = getResources().getStringArray(R.array.tab_names);
         for (String tab_name : tab_names) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
+            ActionBar.Tab tab = actionBar.newTab().setText(tab_name).setTabListener(this);
+            actionBar.addTab(tab);
         }
 
     }
