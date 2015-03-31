@@ -124,7 +124,7 @@ public class GeneralBroadcastService extends Service {
                 }
             }
             //send broadcast
-            broadcast_intent.setAction("com.example.administrator.powermanagement.gridservice");
+            broadcast_intent.setAction("com.example.administrator.powermanagement.shortcutservice");
             sendBroadcast(broadcast_intent);
         }
     };

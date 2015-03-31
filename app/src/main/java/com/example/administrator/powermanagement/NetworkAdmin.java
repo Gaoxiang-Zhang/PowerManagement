@@ -95,6 +95,8 @@ public class NetworkAdmin {
     public void toggleWiFi(){
         toggleWiFiTask task = new toggleWiFiTask();
         task.execute();
+        //WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+        //wm.setWifiEnabled(!isWifiConnected());
     }
     public class toggleWiFiTask extends AsyncTask<Void,Void,Boolean>
     {

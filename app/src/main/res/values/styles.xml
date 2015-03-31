@@ -1,13 +1,32 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        <item name="android:tabWidgetStyle">@style/AppTheme.TabWidget</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionBarItem</item>
+        <item name="actionOverflowButtonStyle">@style/MyActionBarItem</item>
     </style>
-    <style name="Theme.VolumeDialogTheme" parent="Platform.AppCompat.Light.Dialog">
 
-    </style>
-    <style name="Theme.ScreenDialogTheme" parent="Platform.AppCompat.Dialog">
+    <style name="AppTheme" parent="@style/AppBaseTheme"/>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
     </style>
+
+    <style name="AppTheme.TabWidget">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.TabWidget</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.TabWidget">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="MyActionBarItem" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/dots</item>
+    </style>
+
 </resources>

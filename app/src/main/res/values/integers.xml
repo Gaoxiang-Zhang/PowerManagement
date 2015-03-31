@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="shortcut_icons_on">
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+    </integer-array>
+
+    <integer-array name="shortcut_icons_off">
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+        <item>@drawable/example1</item>
+    </integer-array>
+</resources>
