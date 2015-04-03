@@ -7,6 +7,7 @@
     <string name="response">反馈</string>
     <string name="allow_box">允许</string>
     <string name="forbid_box">禁止</string>
+    <string name="OK">确认</string>
     <string name="cancel">取消</string>
     <string name="basicPref">基本选项</string>
     <string name="connPref">连接选项</string>
@@ -47,16 +48,13 @@
         <item>音量</item>
         <item>休眠时间</item>
         <item>互动效果</item>
-        <item>最近运行</item>
+        <item>当前运行</item>
         <item>最近使用时间</item>
-        <item>CPU负载</item>
-        <item>当前时间</item>
-        <item>当前星期</item>
-        <item>当前位置</item>
+        <item>系统负载</item>
     </string-array>
     <string name="network">连接</string>
     <string name="usage">使用</string>
-    <string name="environment">环境</string>
+    <string name="currentApps">正在运行的应用</string>
 
     <string name="sound">音量</string>
     <string name="alarm">闹钟</string>
@@ -74,8 +72,19 @@
     <string name="screen10m">10分钟</string>
     <string name="screen30m">30分钟</string>
 
+    <string-array name="offTime">
+        <item>15秒</item>
+        <item>30秒</item>
+        <item>1分钟</item>
+        <item>2分钟</item>
+        <item>5分钟</item>
+        <item>10分钟</item>
+        <item>30分钟</item>
+    </string-array>
+
+
     <string name="touchShow">互动效果</string>
-    <string name="DialTone">拨号键盘触摸音效</string>
+    <string name="dialTone">拨号键盘触摸音效</string>
     <string name="touchSound">触摸提示音</string>
     <string name="lockSound">锁屏提示音</string>
     <string name="touchVib">触摸时振动</string>

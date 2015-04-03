@@ -34,8 +34,7 @@ public class MyListAdapter extends BaseAdapter {
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
     // 12 = Latest Usage Time, 13 = CPU Load, 14 = Current Time, 15 = Current Week, 16 = Position
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13,
-            TIME_NUM=14, WEEK_NUM=15, POS_NUM=16;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13;
 
     // Constructor: parse the parameters to data in this adapter
     public MyListAdapter(Context context, String[] title, int[] image, String[] header,
@@ -78,7 +77,6 @@ public class MyListAdapter extends BaseAdapter {
             case TOOTH_NUM:
                 return 1;
             case LIGHT_NUM:
-            case TIME_NUM:
                 return 2;
             case PLANE_NUM:
             case HOTSPOT_NUM:
@@ -91,8 +89,6 @@ public class MyListAdapter extends BaseAdapter {
             case APP_NUM:
             case USAGE_NUM:
             case CPU_NUM:
-            case WEEK_NUM:
-            case POS_NUM:
                 return 4;
         }
         return 0;
@@ -177,9 +173,6 @@ public class MyListAdapter extends BaseAdapter {
             //case PLANE_NUM:
             case FLOW_NUM:
             case CPU_NUM:
-            case TIME_NUM:
-            case WEEK_NUM:
-            case POS_NUM:
                 return false;
             default:
                 return true;

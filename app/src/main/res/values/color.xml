@@ -2,7 +2,7 @@
 <resources>
     <color name="focus">#dbdbdb</color>
     <color name="white">#ffffff</color>
-
+    <color name="black">#000000</color>
 
     <color name="background">#f0f0f0</color>
     <color name="background_dark">#37474f</color>

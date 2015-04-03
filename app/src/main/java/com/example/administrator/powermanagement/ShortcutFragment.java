@@ -4,21 +4,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Network;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by Administrator on 15/3/29.
@@ -36,7 +34,23 @@ public class ShortcutFragment extends Fragment {
     String[] item_headers;
     ArrayList<String> item_results;
     ArrayList<Boolean> item_status;
-    int[] item_icons;
+    //int[] item_icons;
+    final int[] item_icons={
+            R.drawable.wifi,
+            R.drawable.gprs,
+            R.drawable.bluetooth,
+            R.drawable.airplane,
+            R.drawable.hotspot,
+            R.drawable.gps,
+            R.drawable.flow,
+            R.drawable.brightness,
+            R.drawable.volume,
+            R.drawable.sleep,
+            R.drawable.interaction,
+            R.drawable.applications,
+            R.drawable.usage,
+            R.drawable.system
+    };
 
     // Function Admin
     NetworkAdmin networkAdmin = null;
@@ -51,8 +65,7 @@ public class ShortcutFragment extends Fragment {
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
     // 12 = Latest Usage Time, 13 = CPU Load, 14 = Current Time, 15 = Current Week, 16 = Position
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13,
-            TIME_NUM=14, WEEK_NUM=15, POS_NUM=16;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13;
     // SWITCH_NUM: The starting items who have SwitchCompat
     final static int SWITCH_NUM = 6;
 
@@ -71,10 +84,8 @@ public class ShortcutFragment extends Fragment {
 
         // set values for adapter parameters
         item_titles = getResources().getStringArray(R.array.shortcuts);
-        item_icons = getResources().getIntArray(R.array.shortcut_icons_on);
         item_num = item_titles.length;
         item_status = new ArrayList<>();
-        item_icons = new int[item_num];
         item_headers = new String[item_num];
         item_results = new ArrayList<>();
         initialList(getActivity().getIntent());
@@ -113,24 +124,26 @@ public class ShortcutFragment extends Fragment {
                         break;
                     case FLOW_NUM:
                     case LIGHT_NUM:
+                        break;
                     case VOLUME_NUM:
                         Intent sound = new Intent(getActivity(),VolumeActivity.class);
                         startActivity(sound);
                         break;
                     case SLEEP_NUM:
-                        Intent screen = new Intent(getActivity(),ScreenOffActivity.class);
-                        startActivity(screen);
+                        ScreenDialog volumeDialog = new ScreenDialog(getActivity());
+                        volumeDialog.execute();
                         break;
                     case ACTION_NUM:
-                        Intent vibration = new Intent(getActivity(),InteractionActivity.class);
-                        startActivity(vibration);
+                        EffectDialog effectDialog = new EffectDialog();
+                        effectDialog.setCancelable(false);
+                        effectDialog.show(getActivity().getFragmentManager(),"tag");
                         break;
                     case APP_NUM:
+                        Intent app = new Intent(getActivity(),ApplicationActivity.class);
+                        startActivity(app);
+                        break;
                     case USAGE_NUM:
                     case CPU_NUM:
-                    case TIME_NUM:
-                    case WEEK_NUM:
-                    case POS_NUM:
                 }
             }
         });
@@ -175,7 +188,6 @@ public class ShortcutFragment extends Fragment {
         }
         item_headers[WIFI_NUM] = getResources().getString(R.string.network);
         item_headers[LIGHT_NUM] = getResources().getString(R.string.usage);
-        item_headers[TIME_NUM] = getResources().getString(R.string.environment);
         if(networkAdmin.isWifiConnected()){
             item_status.set(WIFI_NUM , true);
         }
@@ -193,7 +205,6 @@ public class ShortcutFragment extends Fragment {
         }
         if(networkAdmin.isHotspotConnected(intent)){
             item_status.set(HOTSPOT_NUM , true);
-
         }
     }
 
@@ -229,5 +240,7 @@ public class ShortcutFragment extends Fragment {
         getActivity().unregisterReceiver(mReceiver);
         super.onDestroy();
     }
+
+
 
 }

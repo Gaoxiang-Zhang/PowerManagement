@@ -124,14 +124,13 @@ public class GeneralFragment extends Fragment {
                         startActivity(sound);
                         break;
                     case VIB_NUM:
-                        Intent vibration = new Intent(getActivity(),InteractionActivity.class);
-                        startActivity(vibration);
+                        EffectDialog effectDialog = new EffectDialog();
+                        effectDialog.show(getActivity().getFragmentManager(),"tag");
                         break;
                     case SCR_NUM:
-                        Intent screen = new Intent(getActivity(),ScreenOffActivity.class);
-                        startActivity(screen);
+                        ScreenDialog volumeDialog = new ScreenDialog(getActivity());
+                        volumeDialog.execute();
                         break;
-
                 }
             }
         });
