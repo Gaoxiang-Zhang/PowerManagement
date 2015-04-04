@@ -21,16 +21,19 @@ import android.widget.TextView;
  */
 public class EffectDialog extends DialogFragment {
 
+    // Switch Compat
     SwitchCompat dialTone = null;
     SwitchCompat touchSound = null;
     SwitchCompat lockSound = null;
     SwitchCompat touchVib = null;
 
+    // Type mark
     final int DIAL_TONE = 0;
     final int TOUCH_SOUND = 1;
     final int LOCK_SOUND = 2;
     final int TOUCH_VIB = 3;
 
+    // Content Observer of different values
     DialToneObserver dialToneObserver = null;
     TouchSoundObserver touchSoundObserver = null;
     LockSoundObserver lockSoundObserver = null;
@@ -119,11 +122,6 @@ public class EffectDialog extends DialogFragment {
         getActivity().getApplicationContext().getContentResolver().
                 registerContentObserver(TOUCH_VIB_URL, true, touchVibObserver);
         return view;
-    }
-
-    @Override
-    public void onCreate(Bundle saveInstanceState){
-        super.onCreate(saveInstanceState);
     }
 
     /**

@@ -11,18 +11,27 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
- * Created by Administrator on 15/4/3.
+ * ScreenDialog: controls the procedure of performance of sleep time
+ * Due to using external library, this class is not extended from DialogFragment
  */
 public class ScreenDialog{
 
     private Context context = null;
+    // Content Observer for sleep time
     public ScreenObserver screenObserver = null;
+    // Main dialog for representing
     private MaterialDialog materialDialog = null;
 
+    /**
+     * ScreenDialog: constructor, initialize the local value
+     * @param context
+     */
     public ScreenDialog(final Context context){
         this.context = context;
         screenObserver = new ScreenObserver(new Handler());
         int time = getScreenOffTime();
+        // initialize material dialog with single choice radio button
+        // Follow the instruction on https://github.com/afollestad/material-dialogs
         materialDialog = new MaterialDialog.Builder(context)
                 .title(R.string.screenOff)
                 .items(R.array.offTime)
@@ -38,12 +47,15 @@ public class ScreenDialog{
                 })
                 .positiveText(R.string.OK)
                 .build();
+        // Set and register content observer
         final Uri SCREEN_URL = Settings.System.getUriFor(Settings.System.SCREEN_OFF_TIMEOUT);
         screenObserver = new ScreenObserver(new Handler());
         context.getApplicationContext().getContentResolver().registerContentObserver(SCREEN_URL,true,screenObserver);
     }
 
-
+    /**
+     * execute: execute function for external calling
+    */
     public void execute(){
         materialDialog.show();
     }
@@ -74,7 +86,7 @@ public class ScreenDialog{
     }
 
     /**
-     * timeToPos: set which button is checked based on current value
+     * timeToPos: switch sleep time(ms) to position
      */
     private int timeToPos(int value){
         switch (value){
@@ -97,7 +109,7 @@ public class ScreenDialog{
     }
 
     /**
-     * posToTime:
+     * posToTime: switch position to sleep time(ms)
      */
     private int posToTime(int pos){
         switch(pos){

@@ -61,7 +61,7 @@
     <string name="media">媒体</string>
     <string name="ring">铃声</string>
     <string name="voice">语音</string>
-    <string name="light">亮度</string>
+    <string name="brightness">亮度</string>
 
     <string name="screenOff">锁屏时间</string>
     <string name="screen15s">15秒</string>

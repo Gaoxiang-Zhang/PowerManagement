@@ -124,14 +124,17 @@ public class ShortcutFragment extends Fragment {
                         break;
                     case FLOW_NUM:
                     case LIGHT_NUM:
+                        BrightnessDialog brightnessDialog = new BrightnessDialog();
+                        brightnessDialog.show(getActivity().getFragmentManager(), "tag");
                         break;
                     case VOLUME_NUM:
-                        Intent sound = new Intent(getActivity(),VolumeActivity.class);
-                        startActivity(sound);
+                        VolumeDialog volumeDialog = new VolumeDialog();
+                        volumeDialog.setCancelable(false);
+                        volumeDialog.show(getActivity().getFragmentManager(), "tag");
                         break;
                     case SLEEP_NUM:
-                        ScreenDialog volumeDialog = new ScreenDialog(getActivity());
-                        volumeDialog.execute();
+                        ScreenDialog screenDialog = new ScreenDialog(getActivity());
+                        screenDialog.execute();
                         break;
                     case ACTION_NUM:
                         EffectDialog effectDialog = new EffectDialog();

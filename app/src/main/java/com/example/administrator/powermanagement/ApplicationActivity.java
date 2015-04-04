@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.SnackBar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,9 @@ public class ApplicationActivity extends ActionBarActivity {
 
         AppListAdapter appListAdapter = new AppListAdapter(this,item_names,item_icons);
         listView.setAdapter(appListAdapter);
+
+        SnackBar snackBar = new SnackBar(this,"Hello");
+        snackBar.show();
     }
 
     /**

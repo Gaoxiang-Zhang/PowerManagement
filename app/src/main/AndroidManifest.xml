@@ -24,10 +24,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".VolumeActivity"
-            android:theme="@style/AppDialogTheme">
-        </activity>
         <service
             android:enabled="true"
             android:exported="false"
