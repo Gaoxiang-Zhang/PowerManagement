@@ -1,230 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!--Clock area-->
+
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
-        <AnalogClock
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_marginStart="20dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:textSize="50sp"
-                android:textColor="@color/text_normal"/>
-        </LinearLayout>
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/main_progress"
+            android:layout_height="180dp"
+            android:layout_width="180dp"
+            android:layout_margin="20dp"
+            custom:arc_progress="55"
+            custom:arc_bottom_text="@string/profitYesterday"
+            custom:arc_unfinished_color="@color/primary_light"
+            custom:arc_finished_color="@color/primary_dark"
+            custom:arc_bottom_text_size="14sp"
+            custom:arc_text_color="@color/primary_dark"/>
     </LinearLayout>
 
-    <!--day/week/total-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/profitStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/profitYesterday"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/black_selector"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textColor="@color/text_normal"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/profitTotal"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/black_selector"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textColor="@color/text_normal"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/profitStatus"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/black_selector"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:textColor="@color/text_normal"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dip"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/black_selector"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/history"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/detailOption"
-            android:textSize="14sp"
-            android:textColor="@color/text_normal"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/statTest"
-            android:layout_marginEnd="20dp"
-            android:textSize="20sp"
-            android:gravity="end"
-            android:textColor="@color/text_normal"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/black_selector"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/history"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ranking"
-            android:textSize="14sp"
-            android:textColor="@color/text_normal"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/statTest"
-            android:layout_marginEnd="20dp"
-            android:textSize="20sp"
-            android:gravity="end"
-            android:textColor="@color/text_normal"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/black_selector"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/history"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/systemMode"
-            android:textSize="14sp"
-            android:textColor="@color/text_normal"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/statTest"
-            android:layout_marginEnd="20dp"
-            android:textSize="20sp"
-            android:gravity="end"
-            android:textColor="@color/text_normal"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dip"/>
-
-    <!--The below seekBar part-->
-    <LinearLayout
+        android:id="@+id/main_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:background="@color/button_dark">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_below="@id/main_header"
+        android:layout_marginBottom="10dp">
+        <include
+            android:id="@+id/menu_battery"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/strategy"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:paddingStart="20dp"
-            android:paddingEnd="0dp"
-            android:textColor="@color/text_normal"/>
-        <TextView
-            android:id="@+id/strategyStatus"
-            android:layout_width="wrap_content"
+            layout="@layout/layout_menutabs"
+            android:layout_weight="1"/>
+        <include
+            android:id="@+id/menu_profit"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/strategy"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:gravity="end"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="@color/text_normal"/>
+            layout="@layout/layout_menutabs"
+            android:layout_weight="1"/>
+        <include
+            android:id="@+id/menu_life"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            layout="@layout/layout_menutabs"
+            android:layout_weight="1"/>
     </LinearLayout>
-    <SeekBar
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@color/button_dark"/>
-</LinearLayout>
+        android:orientation="vertical"
+        android:layout_below="@id/main_tabs">
+        <include
+            android:id="@+id/menu_settings"
+            layout="@layout/layout_menu"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+        <include
+            android:id="@+id/menu_custom"
+            layout="@layout/layout_menu"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+        <include
+            android:id="@+id/menu_ranking"
+            layout="@layout/layout_menu"/>
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-32dp"
+        android:layout_marginEnd="10dp"
+        fab:menu_fab_size="normal">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mode_auto"
+            fab:fab_colorPressed="@color/mode_auto_pressed"
+            fab:fab_colorRipple="@color/mode_auto_pressed"
+            fab:fab_size="mini"
+            fab:fab_label="@string/auto_saving"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_manu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mode_manu"
+            fab:fab_colorPressed="@color/mode_manu_pressed"
+            fab:fab_colorRipple="@color/mode_manu_pressed"
+            fab:fab_size="mini"
+            fab:fab_label="@string/manu_saving"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_disabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/mode_disabled"
+            fab:fab_colorPressed="@color/mode_disabled_pressed"
+            fab:fab_colorRipple="@color/mode_disabled_pressed"
+            fab:fab_size="mini"
+            fab:fab_label="@string/cancel_saving"/>
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+</RelativeLayout>

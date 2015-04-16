@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:clickable="true"
+    android:background="@drawable/white_selector">
+
+    <TextView
+        android:id="@+id/menutabs_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/statTest"
+        android:textColor="@color/secondary_text"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:paddingBottom="5sp"/>
+    <TextView
+        android:id="@+id/menutabs_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="@string/connPref"
+        android:layout_gravity="center"/>
+</LinearLayout>
