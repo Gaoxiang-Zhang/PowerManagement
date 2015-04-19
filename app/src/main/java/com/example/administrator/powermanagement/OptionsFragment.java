@@ -1,16 +1,33 @@
 package com.example.administrator.powermanagement;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.lzyzsd.circleprogress.ArcProgress;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.sql.SQLException;
+import java.util.Calendar;
 
 public class OptionsFragment extends Fragment {
 
@@ -25,6 +42,24 @@ public class OptionsFragment extends Fragment {
 
     // saving state = 0: auto 1: manually 2: disabled
     int saving_state = 0;
+
+    // savingBefore/All: the energy saving yesterday / in sum
+    long savingBefore = 0;
+    long savingAll = 0;
+
+    // broadcast receiver
+    TextView batteryLevel = null;
+    BroadcastReceiver battery_receiver = null;
+    Intent battery_status = null;
+
+    // database stores the monitoring info
+    DBAdapter dbAdapter = null;
+
+    // monitor service
+    Intent monitorService = null;
+
+    // isService on = true means that monitor service is working
+    boolean isServiceOn = false;
 
 
     @Override
@@ -50,6 +85,14 @@ public class OptionsFragment extends Fragment {
         text.setText(getString(R.string.profitTotal));
         text = (TextView)options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.usingTime));
+        batteryLevel = (TextView)options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_value);
+
+        ImageView image = (ImageView)options.findViewById(R.id.menu_settings).findViewById(R.id.menu_icon);
+        image.setImageDrawable(getResources().getDrawable(R.drawable.settings));
+        image = (ImageView)options.findViewById(R.id.menu_custom).findViewById(R.id.menu_icon);
+        image.setImageDrawable(getResources().getDrawable(R.drawable.account));
+        image = (ImageView)options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_icon);
+        image.setImageDrawable(getResources().getDrawable(R.drawable.ruler));
 
         // get the floating button menu and buttons
         menu = (FloatingActionMenu)options.findViewById(R.id.menu_button);
@@ -63,7 +106,27 @@ public class OptionsFragment extends Fragment {
         button_manual.setOnClickListener(clickListener);
         button_off.setOnClickListener(clickListener);
 
+        // initialize battery broadcast receiver
+        initBatteryReceiver();
 
+        // initialize database
+        dbAdapter = DBAdapter.getInstance(getActivity());
+
+        // get monitor service, if the service is not working and the state is 0, start it
+        monitorService = new Intent(getActivity(),MonitorService.class);
+        if(saving_state == 0 && !isServiceOn){
+            isServiceOn = true;
+            getActivity().startService(monitorService);
+        }
+
+        // this function is temporarily used for debug
+        LinearLayout ranking = (LinearLayout)options.findViewById(R.id.menu_ranking);
+        ranking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outputPattern();
+            }
+        });
 
         return options;
     }
@@ -99,21 +162,142 @@ public class OptionsFragment extends Fragment {
                     saving_state = 0;
                     menu.close(true);
                     setMenuColor(saving_state);
+                    if(!isServiceOn){
+                        isServiceOn = true;
+                        getActivity().startActivity(monitorService);
+                    }
                     break;
                 case R.id.menu_manu:
                     Toast.makeText(getActivity(),"2",Toast.LENGTH_SHORT).show();
                     saving_state = 1;
                     menu.close(true);
                     setMenuColor(saving_state);
+                    if(isServiceOn){
+                        isServiceOn = false;
+                        getActivity().stopService(monitorService);
+                    }
                     break;
                 case R.id.menu_disabled:
                     Toast.makeText(getActivity(),"3",Toast.LENGTH_SHORT).show();
                     saving_state = 2;
                     menu.close(true);
                     setMenuColor(saving_state);
+                    if(isServiceOn){
+                        isServiceOn = false;
+                        getActivity().stopService(monitorService);
+                    }
                     break;
             }
         }
     };
+
+    /**
+     * initBatteryReceiver: set battery receiver receive battery status data
+     */
+    private void initBatteryReceiver(){
+        // set battery receiver receive battery status data
+        battery_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(battery_status != null){
+                    int level = battery_status.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                    int scale = battery_status.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                    changeUITask task = new changeUITask();
+                    task.execute((int)(level/(float)scale*100));
+                }
+            }
+        };
+        battery_status = getActivity().registerReceiver(battery_receiver,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+    /**
+     * changeUITask:
+     */
+    private class changeUITask extends AsyncTask<Integer, Integer, Integer>{
+        @Override
+        protected Integer doInBackground(Integer... params){
+            return params[0];
+        }
+        @Override
+        protected void onPostExecute(Integer result){
+            batteryLevel.setText(result.toString()+"%");
+        }
+    }
+
+
+    /**
+     * outputPattern: write the data in database into file
+     */
+    private void outputPattern(){
+
+        // get the file name
+        Calendar calendar = Calendar.getInstance();
+        int filename0 = calendar.get(Calendar.DAY_OF_MONTH);
+        int filename1 = calendar.get(Calendar.HOUR_OF_DAY);
+        int filename2 = calendar.get(Calendar.MINUTE);
+        String filename = filename0+"_"+filename1+"_"+filename2+".dat";
+
+        try {
+            File sdCard = Environment.getExternalStorageDirectory();
+            File directory = new File(sdCard.getAbsolutePath()+"/"+getString(R.string.app_name));
+            if(!directory.exists()){
+                directory.mkdirs();
+            }
+            File file = new File(directory,filename);
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            try{
+                dbAdapter.open();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            Cursor c = dbAdapter.getAllPatterns();
+            if(c.moveToFirst()){
+                do{
+                    osw.write(displayPattern(c));
+                    osw.flush();
+                }while (c.moveToNext());
+            }
+            dbAdapter.close();
+            osw.close();
+            Toast.makeText(getActivity(),"Writing to file "+filename+" done",Toast.LENGTH_SHORT).show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    private String displayPattern(Cursor c){
+        String id = c.getString(0);
+        String week = c.getString(1);
+        String hour = c.getString(2);
+        String min = c.getString(3);
+        String pos = c.getString(4);
+        String app = c.getString(5);
+        String used = c.getString(6);
+        String battery = c.getString(7);
+        String brightness = c.getString(8);
+        String timeout = c.getString(9);
+        String charge = c.getString(10);
+        String wifi = c.getString(11);
+        String gprs = c.getString(12);
+        String tooth = c.getString(13);
+        String gps = c.getString(14);
+        String hotspot = c.getString(15);
+        String flow = c.getString(16);
+        String mobile = c.getString(17);
+        String using = c.getString(18);
+        String data = id+"\t"+week+"\t"+hour+"\t"+min+"\t"+pos+"\t"+app+"\t"+used+"\t"+
+                battery+"\t"+brightness+"\t"+timeout+"\t"+charge+"\t"+wifi+"\t"+gprs+"\t"+
+                tooth+"\t"+gps+"\t"+hotspot+"\t"+flow+"\t"+mobile+"\t"+using+"\n";
+        return data;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        getActivity().unregisterReceiver(battery_receiver);
+    }
 
 }

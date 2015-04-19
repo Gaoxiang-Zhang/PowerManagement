@@ -34,13 +34,13 @@
         android:layout_below="@id/main_header"
         android:layout_marginBottom="10dp">
         <include
-            android:id="@+id/menu_battery"
+            android:id="@+id/menu_profit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             layout="@layout/layout_menutabs"
             android:layout_weight="1"/>
         <include
-            android:id="@+id/menu_profit"
+            android:id="@+id/menu_battery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             layout="@layout/layout_menutabs"
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="-32dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="24dp"
         fab:menu_fab_size="normal">
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_auto"
