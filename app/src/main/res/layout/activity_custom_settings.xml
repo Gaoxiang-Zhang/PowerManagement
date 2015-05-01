@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/custom_settings_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_selector"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/open_mode"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/custom_settings_switch"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/custom_settings_name"
+        layout="@layout/listview_custom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/custom_settings_time"
+        layout="@layout/listview_custom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/custom_settings_screen"
+        layout="@layout/listview_custom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/custom_settings_sound"
+        layout="@layout/listview_custom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/custom_settings_connect"
+        layout="@layout/listview_custom"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <TextView
+        android:id="@+id/custom_settings_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/OK"
+        android:background="@drawable/black_selector"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="15sp"
+        android:paddingBottom="15sp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/custom_settings_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:background="@drawable/red_selector"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="15sp"
+        android:paddingBottom="15sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:clickable="true"/>
+
+
+
+</LinearLayout>

@@ -8,7 +8,7 @@
     android:paddingBottom="12dp">
 
     <TextView
-        android:id="@+id/effect_text"
+        android:id="@+id/switch_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -17,8 +17,9 @@
         android:textSize="16sp"/>
 
     <android.support.v7.widget.SwitchCompat
-        android:id="@+id/effect_switch"
+        android:id="@+id/switch_switch"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:background="@color/white"/>
 
 </LinearLayout>

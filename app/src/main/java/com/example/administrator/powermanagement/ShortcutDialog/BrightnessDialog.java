@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.ShortcutDialog;
 
 import android.app.DialogFragment;
 import android.database.ContentObserver;
@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.administrator.powermanagement.R;
 import com.gc.materialdesign.views.Slider;
 
 /**
@@ -44,6 +45,8 @@ public class BrightnessDialog extends DialogFragment {
                 getDialog().dismiss();
             }
         });
+        text = (TextView)view.findViewById(R.id.cancel);
+        text.setVisibility(View.GONE);
 
         // get and initialize brightness slider
         brightnessSlider = (Slider)view.findViewById(R.id.brightnessSlider);

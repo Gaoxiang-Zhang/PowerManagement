@@ -27,5 +27,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.github.clans:fab:1.4.0'
+    compile 'com.github.nicolasjafelle:refreshmenuitem:1.0'
     compile files('libs/locSDK_5.02.jar')
 }

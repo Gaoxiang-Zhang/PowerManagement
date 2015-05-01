@@ -10,24 +10,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/touchShow"
+        android:text="@string/mode_name"
         android:textSize="20sp"
         android:textColor="@color/primary_text"
         android:gravity="center_vertical"
         android:layout_marginBottom="10dp"/>
 
-    <include
-        layout="@layout/layout_switch"
-        android:id="@+id/dialTone"/>
-    <include
-        layout="@layout/layout_switch"
-        android:id="@+id/touchSound"/>
-    <include
-        layout="@layout/layout_switch"
-        android:id="@+id/lockSound"/>
-    <include
-        layout="@layout/layout_switch"
-        android:id="@+id/touchVib"/>
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,9 +31,23 @@
         android:layout_marginTop="10dp">
         <View
             android:layout_height="match_parent"
-            android:layout_width="200dp"/>
+            android:layout_width="150dp"/>
         <TextView
             android:id="@+id/confirm"
+            android:text="@string/OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:background="@drawable/grey_selector"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="end"/>
+        <TextView
+            android:id="@+id/cancel"
+            android:text="@string/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/primary"
@@ -50,7 +59,5 @@
             android:paddingBottom="10dp"
             android:gravity="end"/>
     </LinearLayout>
-
-
 
 </LinearLayout>

@@ -9,12 +9,15 @@
     <string name="forbid_box">禁止</string>
     <string name="OK">确认</string>
     <string name="cancel">取消</string>
+    <string name="detail">详情</string>
     <string name="basicPref">基本选项</string>
     <string name="connPref">连接选项</string>
     <string name="langPref">语言</string>
     <string name="responsePref">自动发送使用信息</string>
     <string name="responsePrefSummary">帮助我们改善产品体验</string>
     <string name="updatePref">自动更新</string>
+    <string name="open">开启</string>
+    <string name="close">关闭</string>
     <string-array name="tab_names">
         <item>快捷菜单</item>
         <item>通用</item>
@@ -62,6 +65,9 @@
     <string name="ring">铃声</string>
     <string name="voice">语音</string>
     <string name="brightness">亮度</string>
+    <string name="ordinary">正常</string>
+    <string name="vibrate">振动</string>
+    <string name="silent">静音</string>
 
     <string name="screenOff">锁屏时间</string>
     <string name="screen15s">15秒</string>
@@ -103,6 +109,28 @@
     <string name="auto_saving">自动节能</string>
     <string name="manu_saving">手动节能</string>
     <string name="cancel_saving">取消节能</string>
+
+    <string name="sleep_mode">睡眠模式</string>
+    <string name="work_mode">工作模式</string>
+    <string name="study_mode">学习模式</string>
+    <string name="meeting_mode">会议模式</string>
+    <string name="outside_mode">室外模式</string>
+    <string name="driving_mode">驾驶模式</string>
+    <string name="defined_mode">自定义模式</string>
+
+    <string name="mode_setting">模式设置</string>
+    <string name="ordinary_mode">常规模式</string>
+    <string name="ordinary_explanation">系统默认保持在常规模式</string>
+    <string name="open_mode">开启模式</string>
+    <string name="mode_name">模式名称</string>
+    <string name="start_time">开始/结束时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="content_custom">内容定制</string>
+    <string name="delete">删除</string>
+    <string name="wifi">WiFi</string>
+    <string name="bluetooth">蓝牙</string>
+    <string name="gprs">数据流量</string>
+    <string name="notification_tip">即将进入</string>
 
     <string name="pleaseLogin">请登录</string>
     <string name="noLogin">未登录</string>

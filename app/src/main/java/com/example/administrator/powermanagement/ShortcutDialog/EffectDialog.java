@@ -1,6 +1,5 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.ShortcutDialog;
 
-import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -8,13 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.widget.SwitchCompat;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.example.administrator.powermanagement.R;
 
 /**
  * Created by Administrator on 15/4/3.
@@ -48,13 +48,13 @@ public class EffectDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_effect, container);
 
         // set text for each components
-        TextView text = (TextView)view.findViewById(R.id.dialTone).findViewById(R.id.effect_text);
+        TextView text = (TextView)view.findViewById(R.id.dialTone).findViewById(R.id.switch_text);
         text.setText(getResources().getString(R.string.dialTone));
-        text = (TextView)view.findViewById(R.id.touchSound).findViewById(R.id.effect_text);
+        text = (TextView)view.findViewById(R.id.touchSound).findViewById(R.id.switch_text);
         text.setText(getResources().getString(R.string.touchSound));
-        text = (TextView)view.findViewById(R.id.lockSound).findViewById(R.id.effect_text);
+        text = (TextView)view.findViewById(R.id.lockSound).findViewById(R.id.switch_text);
         text.setText(getResources().getString(R.string.lockSound));
-        text = (TextView)view.findViewById(R.id.touchVib).findViewById(R.id.effect_text);
+        text = (TextView)view.findViewById(R.id.touchVib).findViewById(R.id.switch_text);
         text.setText(getResources().getString(R.string.touchVib));
         text = (TextView)view.findViewById(R.id.confirm);
         text.setText(getResources().getString(R.string.OK));
@@ -66,10 +66,10 @@ public class EffectDialog extends DialogFragment {
         });
 
         // get the switch in each component
-        dialTone = (SwitchCompat)view.findViewById(R.id.dialTone).findViewById(R.id.effect_switch);
-        touchSound = (SwitchCompat)view.findViewById(R.id.touchSound).findViewById(R.id.effect_switch);
-        lockSound = (SwitchCompat)view.findViewById(R.id.lockSound).findViewById(R.id.effect_switch);
-        touchVib = (SwitchCompat)view.findViewById(R.id.touchVib).findViewById(R.id.effect_switch);
+        dialTone = (SwitchCompat)view.findViewById(R.id.dialTone).findViewById(R.id.switch_switch);
+        touchSound = (SwitchCompat)view.findViewById(R.id.touchSound).findViewById(R.id.switch_switch);
+        lockSound = (SwitchCompat)view.findViewById(R.id.lockSound).findViewById(R.id.switch_switch);
+        touchVib = (SwitchCompat)view.findViewById(R.id.touchVib).findViewById(R.id.switch_switch);
 
         // set initial state
         dialTone.setChecked(getState(DIAL_TONE));

@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.ShortcutDialog;
 
 import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.administrator.powermanagement.R;
 import com.gc.materialdesign.views.Slider;
 
 /**

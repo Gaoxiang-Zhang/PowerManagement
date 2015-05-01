@@ -10,18 +10,44 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/brightness"
+        android:text="@string/sound"
         android:textSize="20sp"
         android:textColor="@color/primary_text"
         android:gravity="center_vertical"
         android:layout_marginBottom="10dp"/>
 
-    <com.gc.materialdesign.views.Slider
-        android:id="@+id/brightnessSlider"
+    <RadioGroup
+        android:id="@+id/sound_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary">
-    </com.gc.materialdesign.views.Slider>
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/sound_ordinary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ordinary"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+        <RadioButton
+            android:id="@+id/sound_vibrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vibrate"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+        <RadioButton
+            android:id="@+id/sound_silent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/silent"
+            android:textSize="16sp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,7 +82,7 @@
             android:paddingEnd="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:gravity="end" />
+            android:gravity="end"/>
     </LinearLayout>
 
 </LinearLayout>

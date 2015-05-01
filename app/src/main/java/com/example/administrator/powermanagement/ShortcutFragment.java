@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.administrator.powermanagement.ShortcutDialog.BrightnessDialog;
+import com.example.administrator.powermanagement.ShortcutDialog.EffectDialog;
+import com.example.administrator.powermanagement.ShortcutDialog.ScreenDialog;
+import com.example.administrator.powermanagement.ShortcutDialog.VolumeDialog;
 
 import java.util.ArrayList;
 

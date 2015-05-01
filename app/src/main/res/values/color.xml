@@ -26,8 +26,8 @@
 
 
     <!---->
-    <color name="red_normal">#EC4C3D</color>
-    <color name="red_press">#C54132</color>
+    <color name="red_normal">#F44336</color>
+    <color name="red_press">#D32F2F</color>
 
     <color name="button_dark">#2d2e33</color>
     <color name="button_focus">#35373c</color>

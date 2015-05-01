@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.powermanagement.Custom.CustomActivity;
+import com.example.administrator.powermanagement.Custom.CustomService;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -57,9 +60,14 @@ public class OptionsFragment extends Fragment {
 
     // monitor service
     Intent monitorService = null;
+    Intent customService = null;
 
-    // isService on = true means that monitor service is working
-    boolean isServiceOn = false;
+    // isAutoService on = true means that monitor service is working
+    boolean isAutoServiceOn = false;
+    boolean isCustomServiceOn = false;
+
+    SharedPreferences sharedMode = null;
+    static final String KEY_MODE = "mode";
 
 
     @Override
@@ -114,17 +122,37 @@ public class OptionsFragment extends Fragment {
 
         // get monitor service, if the service is not working and the state is 0, start it
         monitorService = new Intent(getActivity(),MonitorService.class);
-        if(saving_state == 0 && !isServiceOn){
-            isServiceOn = true;
+        customService = new Intent(getActivity(), CustomService.class);
+
+        // get shared preference in shared preference
+        sharedMode = getActivity().getSharedPreferences(MainActivity.PREF_NAME, 0);
+        saving_state = sharedMode.getInt(KEY_MODE, 2);
+        setMenuColor(saving_state);
+
+
+        if(saving_state == 0 && !isAutoServiceOn){
+            isAutoServiceOn = true;
             getActivity().startService(monitorService);
+        }
+        else if(saving_state == 1 && !isCustomServiceOn){
+            isCustomServiceOn = true;
+            getActivity().startService(customService);
         }
 
         // this function is temporarily used for debug
         LinearLayout ranking = (LinearLayout)options.findViewById(R.id.menu_ranking);
+        LinearLayout custom = (LinearLayout)options.findViewById(R.id.menu_custom);
         ranking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 outputPattern();
+            }
+        });
+        custom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CustomActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -158,33 +186,42 @@ public class OptionsFragment extends Fragment {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.menu_auto:
-                    Toast.makeText(getActivity(),"1",Toast.LENGTH_SHORT).show();
                     saving_state = 0;
                     menu.close(true);
                     setMenuColor(saving_state);
-                    if(!isServiceOn){
-                        isServiceOn = true;
-                        getActivity().startActivity(monitorService);
+                    if(!isAutoServiceOn){
+                        isAutoServiceOn = true;
+                        getActivity().startService(monitorService);
+                    }
+                    if(isCustomServiceOn){
+                        isCustomServiceOn = false;
+                        getActivity().stopService(customService);
                     }
                     break;
                 case R.id.menu_manu:
-                    Toast.makeText(getActivity(),"2",Toast.LENGTH_SHORT).show();
                     saving_state = 1;
                     menu.close(true);
                     setMenuColor(saving_state);
-                    if(isServiceOn){
-                        isServiceOn = false;
+                    if(isAutoServiceOn){
+                        isAutoServiceOn = false;
                         getActivity().stopService(monitorService);
+                    }
+                    if(!isCustomServiceOn){
+                        isCustomServiceOn = true;
+                        getActivity().startService(customService);
                     }
                     break;
                 case R.id.menu_disabled:
-                    Toast.makeText(getActivity(),"3",Toast.LENGTH_SHORT).show();
                     saving_state = 2;
                     menu.close(true);
                     setMenuColor(saving_state);
-                    if(isServiceOn){
-                        isServiceOn = false;
+                    if(isAutoServiceOn){
+                        isAutoServiceOn = false;
                         getActivity().stopService(monitorService);
+                    }
+                    if(isCustomServiceOn){
+                        isCustomServiceOn = false;
+                        getActivity().stopService(customService);
                     }
                     break;
             }
@@ -298,6 +335,9 @@ public class OptionsFragment extends Fragment {
     public void onDestroy(){
         super.onDestroy();
         getActivity().unregisterReceiver(battery_receiver);
+        // write the shared preference in storage
+        SharedPreferences.Editor editor = sharedMode.edit();
+        editor.putInt(KEY_MODE,saving_state);
+        editor.apply();
     }
-
 }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sound"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/primary_text"
         android:gravity="center_vertical"
         android:layout_marginBottom="12dp"/>
 

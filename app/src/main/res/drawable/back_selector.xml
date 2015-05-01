@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_pressed="true"
-        android:drawable="@color/primary_dark"
+        android:drawable="@drawable/back_pressed"
         /> <!-- pressed -->
     <item
-        android:drawable="@color/primary"
+        android:drawable="@drawable/back"
         /> <!-- default -->
 </selector>

@@ -8,7 +8,8 @@
         <item name="android:tabWidgetStyle">@style/AppTheme.TabWidget</item>
         <item name="android:actionOverflowButtonStyle">@style/MyActionBarItem</item>
         <item name="actionOverflowButtonStyle">@style/MyActionBarItem</item>
-        <item name="android:actionBarWidgetTheme">@style/PopupMenuTextView</item>
+        <item name="android:selectableItemBackground">@drawable/black_selector</item>
+        <item name="selectableItemBackground">@drawable/black_selector</item>
         <item name="android:popupMenuStyle">@style/MyMenuTheme</item>
     </style>
 
@@ -30,14 +31,6 @@
     <style name="MyActionBarItem" parent="android:style/Widget.Holo.ActionButton.Overflow">
         <item name="android:src">@drawable/dots</item>
     </style>
-
-    <!--This is for dropdown menu-->
-    <style name="PopupMenuTextView" parent="@android:style/Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:drawablePadding">25dp</item>
-    </style>
-
 
     <style name="MyMenuTheme" parent="android:Widget.Holo.Light.ListPopupWindow">
         <item name="android:popupBackground">@color/primary</item>

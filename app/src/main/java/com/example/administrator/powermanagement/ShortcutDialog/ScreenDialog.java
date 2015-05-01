@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.ShortcutDialog;
 
 
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.administrator.powermanagement.R;
 
 /**
  * ScreenDialog: controls the procedure of performance of sleep time

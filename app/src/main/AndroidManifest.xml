@@ -46,6 +46,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
+        <activity android:name=".Custom.CustomActivity">
+        </activity>
+        <activity android:name=".Custom.CustomSettings"/>
+        <activity android:name=".Custom.CustomTip"
+            android:theme="@style/AppDialogTheme"/>
+
+        <service
+            android:name=".Custom.CustomService"
+            android:enabled="true"
+            android:exported="false"/>
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

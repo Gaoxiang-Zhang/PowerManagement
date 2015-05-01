@@ -36,6 +36,8 @@ public class MainActivity extends ActionBarActivity implements OnTabChangeListen
     private TabHost mTabHost;
     private Toolbar mToolbar;
 
+    public static final String PREF_NAME = "MyPowerManagement";
+
     /**
      * onCreate()
      */
