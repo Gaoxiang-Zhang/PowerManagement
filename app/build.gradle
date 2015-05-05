@@ -29,4 +29,5 @@ dependencies {
     compile 'com.github.clans:fab:1.4.0'
     compile 'com.github.nicolasjafelle:refreshmenuitem:1.0'
     compile files('libs/locSDK_5.02.jar')
+    compile files('libs/wekaSTRIPPED.jar')
 }

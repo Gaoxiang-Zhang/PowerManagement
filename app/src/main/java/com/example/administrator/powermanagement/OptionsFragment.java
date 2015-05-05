@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -50,10 +49,10 @@ public class OptionsFragment extends Fragment {
     long savingBefore = 0;
     long savingAll = 0;
 
-    // broadcast receiver
+    //showing battery level and remaining time and the control receiver get broadcast from General
     TextView batteryLevel = null;
-    BroadcastReceiver battery_receiver = null;
-    Intent battery_status = null;
+    TextView remainTime = null;
+    BroadcastReceiver batteryReceiver = null;
 
     // database stores the monitoring info
     DBAdapter dbAdapter = null;
@@ -94,6 +93,8 @@ public class OptionsFragment extends Fragment {
         text = (TextView)options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.usingTime));
         batteryLevel = (TextView)options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_value);
+        remainTime = (TextView)options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_value);
+
 
         ImageView image = (ImageView)options.findViewById(R.id.menu_settings).findViewById(R.id.menu_icon);
         image.setImageDrawable(getResources().getDrawable(R.drawable.settings));
@@ -233,32 +234,35 @@ public class OptionsFragment extends Fragment {
      */
     private void initBatteryReceiver(){
         // set battery receiver receive battery status data
-        battery_receiver = new BroadcastReceiver() {
+        batteryReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(battery_status != null){
-                    int level = battery_status.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                    int scale = battery_status.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                    changeUITask task = new changeUITask();
-                    task.execute((int)(level/(float)scale*100));
-                }
+                changeUITask task = new changeUITask();
+                task.execute(intent.getStringExtra("battery_level"), intent.getStringExtra("remain_time"));
             }
         };
-        battery_status = getActivity().registerReceiver(battery_receiver,
-                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        IntentFilter batteryFilter = new IntentFilter();
+        batteryFilter.addAction("com.example.administrator.powermanagement.battery");
+        getActivity().registerReceiver(batteryReceiver,batteryFilter);
     }
 
     /**
      * changeUITask:
      */
-    private class changeUITask extends AsyncTask<Integer, Integer, Integer>{
+    private class changeUITask extends AsyncTask<String, Integer, Integer>{
+
+        String level = "", life = "";
+
         @Override
-        protected Integer doInBackground(Integer... params){
-            return params[0];
+        protected Integer doInBackground(String... params){
+            level = params[0];
+            life = params[1];
+            return 0;
         }
         @Override
         protected void onPostExecute(Integer result){
-            batteryLevel.setText(result.toString()+"%");
+            batteryLevel.setText(level);
+            remainTime.setText(life);
         }
     }
 
@@ -334,7 +338,7 @@ public class OptionsFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        getActivity().unregisterReceiver(battery_receiver);
+        getActivity().unregisterReceiver(batteryReceiver);
         // write the shared preference in storage
         SharedPreferences.Editor editor = sharedMode.edit();
         editor.putInt(KEY_MODE,saving_state);

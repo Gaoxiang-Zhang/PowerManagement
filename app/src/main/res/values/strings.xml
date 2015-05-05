@@ -18,6 +18,7 @@
     <string name="updatePref">自动更新</string>
     <string name="open">开启</string>
     <string name="close">关闭</string>
+
     <string-array name="tab_names">
         <item>快捷菜单</item>
         <item>通用</item>
@@ -98,8 +99,15 @@
     <string name="profitYesterday">昨日收益</string>
     <string name="profitTotal">总收益</string>
     <string name="battery">当前电量</string>
-    <string name="usingTime">使用时间</string>
+    <string name="usingTime">预计剩余时间</string>
     <string name="statTest">01234.56789</string>
+    <string name="acCharging">AC充电</string>
+    <string name="usbCharging">USB充电</string>
+    <string name="wirelessCharging">无线充电</string>
+    <string name="defaultCharging">未知充电</string>
+    <string name="hour">小时</string>
+    <string name="minute">分钟</string>
+    <string name="not_calculated">正在计算</string>
 
     <string name="strategy">省电策略</string>
     <string name="detailOption">详细设置</string>
