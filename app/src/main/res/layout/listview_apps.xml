@@ -18,11 +18,4 @@
         android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:text="@string/statTest"/>
-    <TextView
-        android:id="@+id/list_load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="20dp"
-        android:text="@string/statTest"/>
 </LinearLayout>

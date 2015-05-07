@@ -1,6 +1,7 @@
 package com.example.administrator.powermanagement;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,19 +15,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.administrator.powermanagement.Shortcut.ApplicationActivity;
+import com.example.administrator.powermanagement.Shortcut.ShortcutApplication;
 import com.example.administrator.powermanagement.Shortcut.BrightnessDialog;
 import com.example.administrator.powermanagement.Shortcut.EffectDialog;
-import com.example.administrator.powermanagement.Shortcut.GeneralBroadcastService;
-import com.example.administrator.powermanagement.Shortcut.InfoActivity;
-import com.example.administrator.powermanagement.Shortcut.MyListAdapter;
+import com.example.administrator.powermanagement.Shortcut.ShortcutService;
+import com.example.administrator.powermanagement.Shortcut.ShortcutSystem;
+import com.example.administrator.powermanagement.Shortcut.ShortcutAdapter;
 import com.example.administrator.powermanagement.Shortcut.ScreenDialog;
 import com.example.administrator.powermanagement.Shortcut.VolumeDialog;
 
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 15/3/29.
+ * ShortcutFragment: the first fragment shows the information of system related to power management
  */
 public class ShortcutFragment extends Fragment {
 
@@ -34,7 +35,7 @@ public class ShortcutFragment extends Fragment {
     ListView listView = null;
     Context context = null;
     Integer item_num;
-    MyListAdapter myListAdapter;
+    ShortcutAdapter shortcutAdapter;
 
     // Definitions for parameters to Adapter, Array means parsing Object
     String[] item_titles;
@@ -55,7 +56,7 @@ public class ShortcutFragment extends Fragment {
             R.drawable.sleep,
             R.drawable.interaction,
             R.drawable.applications,
-            R.drawable.usage,
+            R.drawable.sync,
             R.drawable.system
     };
 
@@ -70,9 +71,9 @@ public class ShortcutFragment extends Fragment {
 
     // 0 = Wifi, 1 = GPRS, 2 = Bluetooth, 3 = Airplane, 4 = Hotspot, 5 = GPS, 6 = Network Flow,
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
-    // 12 = Latest Usage Time, 13 = CPU Load, 14 = Current Time, 15 = Current Week, 16 = Position
+    // 12 = Sync, 13 = system info
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13;
     // SWITCH_NUM: The starting items who have SwitchCompat
     final static int SWITCH_NUM = 6;
 
@@ -98,9 +99,9 @@ public class ShortcutFragment extends Fragment {
         initialList(getActivity().getIntent());
 
         // Set Adapter and OnClickListener for ListView
-        myListAdapter = new MyListAdapter(context,item_titles,item_icons,item_headers,
+        shortcutAdapter = new ShortcutAdapter(context,item_titles,item_icons,item_headers,
                 item_results,item_status,networkAdmin,bluetoothAdmin);
-        listView.setAdapter(myListAdapter);
+        listView.setAdapter(shortcutAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -130,6 +131,13 @@ public class ShortcutFragment extends Fragment {
                         gpsAdmin.toggleGPS();
                         break;
                     case FLOW_NUM:
+                        Intent flow = new Intent();
+                        flow.setComponent(new ComponentName(
+                                "com.android.settings",
+                                "com.android.settings.Settings$DataUsageSummaryActivity"
+                        ));
+                        startActivity(flow);
+                        break;
                     case LIGHT_NUM:
                         BrightnessDialog brightnessDialog = new BrightnessDialog();
                         brightnessDialog.show(getActivity().getFragmentManager(), "tag");
@@ -149,13 +157,15 @@ public class ShortcutFragment extends Fragment {
                         effectDialog.show(getActivity().getFragmentManager(),"tag");
                         break;
                     case APP_NUM:
-                        Intent app = new Intent(getActivity(),ApplicationActivity.class);
+                        Intent app = new Intent(getActivity(),ShortcutApplication.class);
                         startActivity(app);
                         break;
-                    case USAGE_NUM:
+                    case SYNC_NUM:
+                        Intent usage = new Intent(Settings.ACTION_SYNC_SETTINGS);
+                        startActivity(usage);
                         break;
                     case CPU_NUM:
-                        Intent cpu = new Intent(getActivity(), InfoActivity.class);
+                        Intent cpu = new Intent(getActivity(), ShortcutSystem.class);
                         startActivity(cpu);
                         break;
                 }
@@ -163,7 +173,7 @@ public class ShortcutFragment extends Fragment {
         });
 
         // Start GridService
-        Intent i = new Intent(this.getActivity(),GeneralBroadcastService.class);
+        Intent i = new Intent(this.getActivity(),ShortcutService.class);
         getActivity().startService(i);
 
         // Set and register broadcast receiver
@@ -241,7 +251,7 @@ public class ShortcutFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            myListAdapter.notifyDataSetChanged();
+            shortcutAdapter.notifyDataSetChanged();
         }
     }
 

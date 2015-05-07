@@ -30,7 +30,7 @@
         <service
             android:enabled="true"
             android:exported="false"
-            android:name=".Shortcut.GeneralBroadcastService">
+            android:name=".Shortcut.ShortcutService">
             <intent-filter>
                 <action android:name="android.location.PROVIDERS_CHANGED"/>
                 <action android:name="android.net.wifi.WIFI_AP_STATE_CHANGED"/>
@@ -41,12 +41,12 @@
         <activity
             android:name=".ProfitActivity">
         </activity>
-        <activity android:name=".Shortcut.ApplicationActivity">
+        <activity android:name=".Shortcut.ShortcutApplication">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".Shortcut.InfoActivity">
+        <activity android:name=".Shortcut.ShortcutSystem">
 
         </activity>
         <activity android:name=".Custom.CustomActivity">

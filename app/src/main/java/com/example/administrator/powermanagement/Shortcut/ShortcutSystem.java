@@ -28,11 +28,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * InfoActivity: activity called from shortcut fragment and show the following infomation of system:
+ * Shortcut System: activity called from shortcut fragment and show the following infomation of system:
  * device model, system version, cpu version, cpu usage, battery capacity, memory usage,
  * internal storage and external storage
  */
-public class InfoActivity extends ActionBarActivity {
+public class ShortcutSystem extends ActionBarActivity {
 
     // toolbar above
     Toolbar mToolbar = null;

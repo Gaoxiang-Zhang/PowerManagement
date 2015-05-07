@@ -48,13 +48,13 @@
         <item>飞行模式</item>
         <item>无线热点</item>
         <item>GPS</item>
-        <item>网络流量</item>
+        <item>流量统计</item>
         <item>亮度</item>
         <item>音量</item>
         <item>休眠时间</item>
         <item>互动效果</item>
         <item>当前运行</item>
-        <item>最近使用时间</item>
+        <item>同步设置</item>
         <item>系统信息</item>
     </string-array>
     <string name="network">连接</string>

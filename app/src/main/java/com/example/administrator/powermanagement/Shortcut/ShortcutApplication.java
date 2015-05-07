@@ -7,9 +7,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,14 +38,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Application Activity: show running apps info
+ * shortcut application: show running apps info from shortcut fragment
  */
-public class ApplicationActivity extends ActionBarActivity {
+public class ShortcutApplication extends ActionBarActivity {
 
     // item_names and item_icons contains the names and icons of the application
     ArrayList<String> item_names = null;
     ArrayList<Drawable> item_icons = null;
     ArrayList<String> item_values = null;
+    ArrayList<String> package_names = null;
 
     // base list view and corresponding adapter
     ListView listView = null;
@@ -78,6 +81,7 @@ public class ApplicationActivity extends ActionBarActivity {
         item_names = new ArrayList<>();
         item_icons = new ArrayList<>();
         item_values = new ArrayList<>();
+        package_names = new ArrayList<>();
 
         // initialize the toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,6 +102,16 @@ public class ApplicationActivity extends ActionBarActivity {
         listView = (ListView)findViewById(R.id.app_list);
         appListAdapter = new AppListAdapter(this,item_names,item_icons);
         listView.setAdapter(appListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // This is intended for opening software detail information
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.setData(Uri.parse("package:" + package_names.get(position)));
+                startActivity(intent);
+            }
+        });
 
         initialFloatButton();
     }
@@ -166,8 +180,10 @@ public class ApplicationActivity extends ActionBarActivity {
                 }
                 CharSequence c = info.loadLabel(packageManager);
                 Drawable icon = info.loadIcon(packageManager);
+                String name = info.packageName;
                 item_names.add(c.toString());
                 item_icons.add(icon);
+                package_names.add(name);
             }catch(PackageManager.NameNotFoundException e){
                 e.printStackTrace();
             }
@@ -271,6 +287,7 @@ public class ApplicationActivity extends ActionBarActivity {
         protected void onPostExecute(Integer param){
             item_names.clear();
             item_icons.clear();
+            package_names.clear();
             generateList(param);
             appListAdapter.notifyDataSetChanged();
         }

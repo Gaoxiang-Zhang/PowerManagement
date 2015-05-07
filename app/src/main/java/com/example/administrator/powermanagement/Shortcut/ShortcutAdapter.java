@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,9 +19,9 @@ import com.example.administrator.powermanagement.R;
 import java.util.ArrayList;
 
 /**
- * MyListAdapter: The adapter for ListView in ShortcutFragment
+ * : The adapter for ListView in ShortcutFragment
  */
-public class MyListAdapter extends BaseAdapter {
+public class ShortcutAdapter extends BaseAdapter {
 
     // Variable definition:
     private Context context;
@@ -36,14 +35,14 @@ public class MyListAdapter extends BaseAdapter {
 
     // 0 = Wifi, 1 = GPRS, 2 = Bluetooth, 3 = Airplane, 4 = Hotspot, 5 = GPS, 6 = Network Flow,
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
-    // 12 = Latest Usage Time, 13 = CPU Load, 14 = Current Time, 15 = Current Week, 16 = Position
+    // 12 = Sync, 13 = system info
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, USAGE_NUM=12, CPU_NUM=13;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13;
 
     // Constructor: parse the parameters to data in this adapter
-    public MyListAdapter(Context context, String[] title, int[] image, String[] header,
-                         ArrayList<String> result, ArrayList<Boolean> status,
-                         NetworkAdmin network, BluetoothAdmin bluetooth){
+    public ShortcutAdapter(Context context, String[] title, int[] image, String[] header,
+                           ArrayList<String> result, ArrayList<Boolean> status,
+                           NetworkAdmin network, BluetoothAdmin bluetooth){
         this.context = context;
         this.list_title = title;
         this.imageContent = image;
@@ -91,7 +90,7 @@ public class MyListAdapter extends BaseAdapter {
             case SLEEP_NUM:
             case ACTION_NUM:
             case APP_NUM:
-            case USAGE_NUM:
+            case SYNC_NUM:
             case CPU_NUM:
                 return 4;
         }
@@ -163,23 +162,6 @@ public class MyListAdapter extends BaseAdapter {
             view = convertView;
         }
         return view;
-    }
-
-    // areAllItemsEnabled: set that not all grids are able to be clicked
-    @Override
-    public boolean areAllItemsEnabled(){
-        return false;
-    }
-    // isEnabled: set whether a grid can be clicked by its position
-    @Override
-    public boolean isEnabled(int position){
-        switch (position){
-            //case PLANE_NUM:
-            case FLOW_NUM:
-                return false;
-            default:
-                return true;
-        }
     }
 
     /**
