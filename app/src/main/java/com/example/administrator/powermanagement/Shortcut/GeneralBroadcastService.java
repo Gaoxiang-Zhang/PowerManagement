@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Shortcut;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -14,6 +14,8 @@ import android.os.BatteryManager;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+
+import com.example.administrator.powermanagement.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

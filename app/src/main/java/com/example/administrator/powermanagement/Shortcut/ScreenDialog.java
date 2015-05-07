@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement.ShortcutDialog;
+package com.example.administrator.powermanagement.Shortcut;
 
 
 import android.content.Context;

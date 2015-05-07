@@ -14,10 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.administrator.powermanagement.ShortcutDialog.BrightnessDialog;
-import com.example.administrator.powermanagement.ShortcutDialog.EffectDialog;
-import com.example.administrator.powermanagement.ShortcutDialog.ScreenDialog;
-import com.example.administrator.powermanagement.ShortcutDialog.VolumeDialog;
+import com.example.administrator.powermanagement.Shortcut.ApplicationActivity;
+import com.example.administrator.powermanagement.Shortcut.BrightnessDialog;
+import com.example.administrator.powermanagement.Shortcut.EffectDialog;
+import com.example.administrator.powermanagement.Shortcut.GeneralBroadcastService;
+import com.example.administrator.powermanagement.Shortcut.InfoActivity;
+import com.example.administrator.powermanagement.Shortcut.MyListAdapter;
+import com.example.administrator.powermanagement.Shortcut.ScreenDialog;
+import com.example.administrator.powermanagement.Shortcut.VolumeDialog;
 
 import java.util.ArrayList;
 
@@ -149,7 +153,11 @@ public class ShortcutFragment extends Fragment {
                         startActivity(app);
                         break;
                     case USAGE_NUM:
+                        break;
                     case CPU_NUM:
+                        Intent cpu = new Intent(getActivity(), InfoActivity.class);
+                        startActivity(cpu);
+                        break;
                 }
             }
         });

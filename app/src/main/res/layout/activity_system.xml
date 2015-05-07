@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/system_model"
+                layout="@layout/layout_icon_title_value"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/system_version"
+                layout="@layout/layout_icon_title_value"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/cpu_type"
+                layout="@layout/layout_icon_title_value"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/cpu_load"
+                layout="@layout/layout_icon_title_value"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/battery_info"
+                layout="@layout/layout_icon_title_value"/>
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+            <include
+                android:id="@+id/memory_info"
+                layout="@layout/layout_progress"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/internal_info"
+                layout="@layout/layout_progress"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/sd_info"
+                layout="@layout/layout_progress"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

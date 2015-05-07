@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Shortcut;
 
 import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
@@ -12,6 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.administrator.powermanagement.BluetoothAdmin;
+import com.example.administrator.powermanagement.NetworkAdmin;
+import com.example.administrator.powermanagement.R;
 
 import java.util.ArrayList;
 
@@ -172,7 +176,6 @@ public class MyListAdapter extends BaseAdapter {
         switch (position){
             //case PLANE_NUM:
             case FLOW_NUM:
-            case CPU_NUM:
                 return false;
             default:
                 return true;

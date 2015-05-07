@@ -18,6 +18,7 @@
     <string name="updatePref">自动更新</string>
     <string name="open">开启</string>
     <string name="close">关闭</string>
+    <string name="unknown">未知</string>
 
     <string-array name="tab_names">
         <item>快捷菜单</item>
@@ -54,7 +55,7 @@
         <item>互动效果</item>
         <item>当前运行</item>
         <item>最近使用时间</item>
-        <item>系统负载</item>
+        <item>系统信息</item>
     </string-array>
     <string name="network">连接</string>
     <string name="usage">使用</string>
@@ -95,6 +96,21 @@
     <string name="touchSound">触摸提示音</string>
     <string name="lockSound">锁屏提示音</string>
     <string name="touchVib">触摸时振动</string>
+
+    <string name="all_apps">全部应用</string>
+    <string name="system_apps">系统应用</string>
+    <string name="user_apps">用户应用</string>
+
+    <string-array name="system_info">
+        <item>设备型号</item>
+        <item>Android系统版本</item>
+        <item>CPU</item>
+        <item>CPU使用率</item>
+        <item>电池容量</item>
+        <item>内存资源</item>
+        <item>内部存储</item>
+        <item>SD卡存储</item>
+    </string-array>
 
     <string name="profitYesterday">昨日收益</string>
     <string name="profitTotal">总收益</string>

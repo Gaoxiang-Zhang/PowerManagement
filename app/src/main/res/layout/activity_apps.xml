@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,46 @@
     <ListView
         android:id="@+id/app_list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
     </ListView>
 
-</LinearLayout>
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        fab:menu_fab_size="normal">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorPressed="@color/primary_dark"
+            fab:fab_colorRipple="@color/primary_dark"
+            fab:fab_size="mini"
+            fab:fab_label="@string/all_apps"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorPressed="@color/primary_dark"
+            fab:fab_colorRipple="@color/primary_dark"
+            fab:fab_size="mini"
+            fab:fab_label="@string/user_apps"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorPressed="@color/primary_dark"
+            fab:fab_colorRipple="@color/primary_dark"
+            fab:fab_size="mini"
+            fab:fab_label="@string/system_apps"/>
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>
