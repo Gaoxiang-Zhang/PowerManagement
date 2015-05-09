@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.administrator.powermanagement.Custom.CustomActivity;
 import com.example.administrator.powermanagement.Custom.CustomService;
+import com.example.administrator.powermanagement.Monitor.MonitorService;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -54,7 +55,7 @@ public class OptionsFragment extends Fragment {
     TextView remainTime = null;
     BroadcastReceiver batteryReceiver = null;
 
-    // database stores the monitoring info
+    // database stores the monitoring info and custom info
     DBAdapter dbAdapter = null;
 
     // monitor service

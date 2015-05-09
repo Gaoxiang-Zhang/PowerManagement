@@ -4,8 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_selector"
-    android:clickable="true">
+    android:background="@drawable/white_selector">
 
     <ImageView
         android:id="@+id/tab_icon"

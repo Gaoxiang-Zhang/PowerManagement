@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.XmlResourceParser;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,12 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.administrator.powermanagement.HelpResponse.ResponseActivity;
 
 
 /**
@@ -93,6 +91,10 @@ public class MainActivity extends ActionBarActivity implements OnTabChangeListen
                 Intent i = new Intent(this,AppPreferenceActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.response:
+                Intent response = new Intent(this, ResponseActivity.class);
+                startActivity(response);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -138,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements OnTabChangeListen
 
         fList.add(new ShortcutFragment());
         fList.add(new OptionsFragment());
-        fList.add(new ConsumerFragment());
+        fList.add(new UserFragment());
 
         return fList;
     }

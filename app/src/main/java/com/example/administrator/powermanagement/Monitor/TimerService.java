@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Monitor;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

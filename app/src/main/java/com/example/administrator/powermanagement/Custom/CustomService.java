@@ -20,6 +20,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.administrator.powermanagement.BluetoothAdmin;
+import com.example.administrator.powermanagement.DBAdapter;
 import com.example.administrator.powermanagement.MainActivity;
 import com.example.administrator.powermanagement.NetworkAdmin;
 import com.example.administrator.powermanagement.R;
@@ -51,7 +52,7 @@ public class CustomService extends Service {
     String[] ordinary;
 
     // static custom database
-    CustomDatabase database;
+    DBAdapter database;
 
     // data receiver and filter, receive data change broadcast from custom activity
     BroadcastReceiver dataReceiver = null;
@@ -101,7 +102,7 @@ public class CustomService extends Service {
         getSharedOrdinary();
 
         // get database
-        database = CustomDatabase.getInstance(this);
+        database = DBAdapter.getInstance(this);
 
         // Firstly, get task from database
         getAllDataFromDatabase();

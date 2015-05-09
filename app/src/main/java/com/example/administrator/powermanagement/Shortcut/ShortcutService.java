@@ -170,6 +170,9 @@ public class ShortcutService extends Service {
                     }
                     batteryPair.clear();
                 }
+                else if(status == BatteryManager.BATTERY_STATUS_FULL){
+                    result = getString(R.string.fullBattery);
+                }
                 else {
                     result = calculateRemainTime(level);
                 }

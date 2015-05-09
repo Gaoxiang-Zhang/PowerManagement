@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Monitor;
 
 import android.app.ActivityManager;
 import android.app.Service;
@@ -13,6 +13,12 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+
+import com.example.administrator.powermanagement.BluetoothAdmin;
+import com.example.administrator.powermanagement.DBAdapter;
+import com.example.administrator.powermanagement.GPSAdmin;
+import com.example.administrator.powermanagement.LocationAdmin;
+import com.example.administrator.powermanagement.NetworkAdmin;
 
 import java.sql.SQLException;
 import java.util.Calendar;

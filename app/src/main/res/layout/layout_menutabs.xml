@@ -13,7 +13,7 @@
         android:id="@+id/menutabs_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/statTest"
+        android:text="@string/not_calculated"
         android:textColor="@color/secondary_text"
         android:textSize="18sp"
         android:layout_gravity="center"

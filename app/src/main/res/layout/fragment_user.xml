@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="10dp">
+        android:paddingStart="20dp">
 
         <ImageView
             android:id="@+id/portrait"
@@ -30,7 +30,7 @@
                 android:text="@string/noLogin"
                 android:textSize="20sp"
                 android:paddingStart="20dp"
-                android:textColor="@color/text_normal"/>
+                android:textColor="@color/primary_text"/>
             <TextView
                 android:id="@+id/userId"
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
                 android:text="@string/pleaseLogin"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
-                android:textColor="@color/text_normal"/>
+                android:textColor="@color/primary_text"/>
             </LinearLayout>
     </LinearLayout>
 
@@ -58,7 +58,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/black_selector">
+        android:background="@drawable/white_selector">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/black_selector">
+        android:background="@drawable/white_selector">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/black_selector">
+        android:background="@drawable/white_selector">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/black_selector">
+        android:background="@drawable/white_selector">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/black_selector">
+        android:background="@drawable/white_selector">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

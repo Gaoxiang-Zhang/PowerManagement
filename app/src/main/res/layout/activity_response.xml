@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/response_tag"
+        android:textColor="@color/secondary_text"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/devider"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/response_function"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/response_function"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:clickable="true"/>
+        <TextView
+            android:id="@+id/response_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/response_error"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:clickable="true"/>
+        <TextView
+            android:id="@+id/response_ui"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/response_ui"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:clickable="true"/>
+        <TextView
+            android:id="@+id/response_other"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/response_other"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:clickable="true"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/response_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/response_content"
+        android:textColor="@color/primary_text"
+        android:inputType="textCapSentences|textMultiLine"
+        android:layout_margin="18dp"
+        android:maxLines="10"
+        android:textSize="14sp"/>
+
+    <EditText
+        android:id="@+id/response_contact"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/response_contact"
+        android:textColor="@color/primary_text"
+        android:layout_margin="18dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/OK"
+        android:background="@drawable/black_selector"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:paddingTop="15sp"
+        android:paddingBottom="15sp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:clickable="true"/>
+
+
+
+
+</LinearLayout>

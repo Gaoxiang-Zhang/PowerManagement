@@ -13,7 +13,7 @@ public final class DBAdapter {
     //The instance used by all classes in this project
     private static DBAdapter commonAdpater = null;
 
-    // key name of database
+    // key name of the first database
     static final String KEY_ROWID = "_id";
     static final String KEY_WEEK = "week";
     static final String KEY_HOUR = "hour";
@@ -35,14 +35,23 @@ public final class DBAdapter {
     static final String KEY_USING = "interaction";
     static final String TAG = "DBAdapter";
 
+    // extra key name of the custom database
+    static final String KEY_NAME = "name";
+    static final String KEY_START = "start_time";
+    static final String KEY_END = "end_time";
+    static final String KEY_SCREEN = "screen";
+    static final String KEY_SOUND = "sound";
+    static final String KEY_TOGGLE = "toggle";
+
     // Database name, table name and version
     static final String DATABASE_NAME = "PowerDB";
-    static final String DATABASE_TABLE = "patterns";
+    static final String DATABASE_TABLE_PATTERN = "patterns";
+    static final String DATABASE_TABLE_CUSTOM = "customs";
     static final int DATABASE_VERSION = 1;
 
     // SQL for creating table
-    static final String DATABASE_CREATE =
-            "create table "+ DATABASE_TABLE + " ( " +
+    static final String DATABASE1_CREATE =
+            "create table "+ DATABASE_TABLE_PATTERN + " ( " +
                     KEY_ROWID + " integer primary key autoincrement, "+
                     KEY_WEEK + " text not null, "+
                     KEY_HOUR + " text not null, "+
@@ -62,6 +71,17 @@ public final class DBAdapter {
                     KEY_FLOW + " text not null, "+
                     KEY_MOBILE + " text not null, "+
                     KEY_USING +" text not null" +");";
+    static final String DATABASE2_CREATE = "create table " + DATABASE_TABLE_CUSTOM + " ( " +
+            KEY_ROWID + " integer primary key autoincrement, " +
+            KEY_NAME + " text not null, " +
+            KEY_START + " text not null, "+
+            KEY_END + " text not null, "+
+            KEY_SCREEN + " text not null, " +
+            KEY_SOUND + " text not null, "+
+            KEY_WIFI + " text not null, "+
+            KEY_GPRS + " text not null, " +
+            KEY_TOOTH + " text not null, "+
+            KEY_TOGGLE + " text not null " + ");";
 
     // local variable
     final Context context;
@@ -99,16 +119,19 @@ public final class DBAdapter {
         @Override
         public void onCreate(SQLiteDatabase db){
             // Create database table with given create SQL
-            db.execSQL(DATABASE_CREATE);
+            db.execSQL(DATABASE1_CREATE);
+            db.execSQL(DATABASE2_CREATE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
             // Drop database table
-            db.execSQL("DROP TABLE IF EXISTS "+DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+ DATABASE_TABLE_PATTERN);
+            db.execSQL("DROP TABLE IF EXISTS "+ DATABASE_TABLE_CUSTOM);
             onCreate(db);
         }
     }
+
 
     /**
      * open(): create and open a database that will used for reading and writing
@@ -151,21 +174,21 @@ public final class DBAdapter {
         initialValues.put(KEY_FLOW, flow);
         initialValues.put(KEY_MOBILE, mobile);
         initialValues.put(KEY_USING, using);
-        return database.insert(DATABASE_TABLE, null, initialValues);
+        return database.insert(DATABASE_TABLE_PATTERN, null, initialValues);
     }
 
     /**
      * deletePattern: delete pattern from database
      */
     public boolean deletePattern(long rowId){
-        return database.delete(DATABASE_TABLE,KEY_ROWID + "=" + rowId, null) > 0;
+        return database.delete(DATABASE_TABLE_PATTERN,KEY_ROWID + "=" + rowId, null) > 0;
     }
 
     /**
      * retrieve all patterns in database
      */
     public Cursor getAllPatterns(){
-        return database.query(DATABASE_TABLE,new String[]{KEY_ROWID,KEY_WEEK,KEY_HOUR,
+        return database.query(DATABASE_TABLE_PATTERN,new String[]{KEY_ROWID,KEY_WEEK,KEY_HOUR,
         KEY_MIN,KEY_POSITION,KEY_APPS,KEY_USING_APPS,KEY_BATTERY,KEY_BRIGHTNESS,KEY_TIMEOUT,
         KEY_CHARGE,KEY_WIFI,KEY_GPRS,KEY_TOOTH,KEY_GPS,KEY_HOTSPOT,KEY_FLOW,KEY_MOBILE,KEY_USING}
                 ,null,null,null,null,null);
@@ -175,7 +198,7 @@ public final class DBAdapter {
      * get pattern with given id
      */
     public Cursor getPattern(long rowID){
-        Cursor myCursor = database.query(true,DATABASE_TABLE,new String[]{KEY_ROWID,KEY_WEEK,KEY_HOUR,
+        Cursor myCursor = database.query(true, DATABASE_TABLE_PATTERN,new String[]{KEY_ROWID,KEY_WEEK,KEY_HOUR,
                 KEY_MIN,KEY_POSITION,KEY_APPS,KEY_USING_APPS,KEY_BATTERY,KEY_BRIGHTNESS,KEY_TIMEOUT,
                 KEY_CHARGE,KEY_WIFI,KEY_GPRS,KEY_TOOTH,KEY_GPS,KEY_HOTSPOT,KEY_FLOW,KEY_MOBILE,KEY_USING},
                 KEY_ROWID + " = "+ rowID, null, null, null, null, null);
@@ -183,5 +206,64 @@ public final class DBAdapter {
             myCursor.moveToFirst();
         }
         return myCursor;
+    }
+
+    public int insertCustom(String[] params){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_NAME, params[0]);
+        contentValues.put(KEY_START, params[1]);
+        contentValues.put(KEY_END, params[2]);
+        contentValues.put(KEY_SCREEN, params[3]);
+        contentValues.put(KEY_SOUND, params[4]);
+        contentValues.put(KEY_WIFI, params[5]);
+        contentValues.put(KEY_GPRS, params[6]);
+        contentValues.put(KEY_TOOTH, params[7]);
+        contentValues.put(KEY_TOGGLE, params[8]);
+        return (int)database.insert(DATABASE_TABLE_CUSTOM, null, contentValues);
+    }
+
+    /**
+     * getAllCustom: retrieve all customs in database
+     */
+    public Cursor getAllCustoms(){
+        return database.query(DATABASE_TABLE_CUSTOM, new String[]{KEY_ROWID, KEY_NAME, KEY_START, KEY_END,
+                KEY_SCREEN, KEY_SOUND, KEY_WIFI, KEY_GPRS, KEY_TOOTH, KEY_TOGGLE}, null, null, null, null, null);
+    }
+
+    /**
+     * getCustom: retrieve custom with given id
+     */
+    public Cursor getCustom(long rowID){
+        Cursor myCursor = database.query(true, DATABASE_TABLE_CUSTOM, new String[]{KEY_ROWID, KEY_NAME, KEY_START, KEY_END,
+                        KEY_SCREEN, KEY_SOUND, KEY_WIFI, KEY_GPRS, KEY_TOOTH, KEY_TOGGLE}, KEY_ROWID + " = " + rowID,
+                null, null, null, null, null);
+        if(myCursor != null){
+            myCursor.moveToFirst();
+        }
+        return myCursor;
+    }
+
+    /**
+     * deleteCustom: delete custom from database with given id
+     */
+    public boolean deleteCustom(long rowID){
+        return database.delete(DATABASE_TABLE_CUSTOM, KEY_ROWID + " = " + rowID, null) > 0;
+    }
+
+    /**
+     * updateCustom: update custom with given id and data
+     */
+    public boolean updateCustom(String[] params){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_NAME, params[1]);
+        contentValues.put(KEY_START, params[2]);
+        contentValues.put(KEY_END, params[3]);
+        contentValues.put(KEY_SCREEN, params[4]);
+        contentValues.put(KEY_SOUND, params[5]);
+        contentValues.put(KEY_WIFI, params[6]);
+        contentValues.put(KEY_GPRS, params[7]);
+        contentValues.put(KEY_TOOTH, params[8]);
+        contentValues.put(KEY_TOGGLE, params[9]);
+        return database.update(DATABASE_TABLE_CUSTOM, contentValues, KEY_ROWID + "=" + params[0], null) > 0;
     }
 }

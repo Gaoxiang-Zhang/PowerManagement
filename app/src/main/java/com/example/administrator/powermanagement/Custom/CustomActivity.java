@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.administrator.powermanagement.DBAdapter;
 import com.example.administrator.powermanagement.MainActivity;
 import com.example.administrator.powermanagement.R;
 
@@ -35,7 +36,7 @@ public class CustomActivity extends ActionBarActivity {
     // toolbar
     Toolbar mToolbar = null;
     // database stores custom settings
-    CustomDatabase database;
+    DBAdapter database;
     // custom_values holds the local custom settings
     static ArrayList<String[]> custom_values;
     // ordinary holds the pre-defined ordinary settings
@@ -70,7 +71,7 @@ public class CustomActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         // get database
-        database = CustomDatabase.getInstance(this);
+        database = DBAdapter.getInstance(this);
 
         // initial ordinary usage data
         initialOrdinary();
@@ -221,7 +222,7 @@ public class CustomActivity extends ActionBarActivity {
         }catch (SQLException e){
             e.printStackTrace();
         }
-        int id = database.insertPattern(params);
+        int id = database.insertCustom(params);
         database.close();
 
         // insert the data into activity list

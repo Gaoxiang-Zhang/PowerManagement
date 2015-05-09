@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+
+    <include
+        android:id="@+id/response"
+        layout="@layout/layout_icon_title_value"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+
+    <include
+        android:id="@+id/help"
+        layout="@layout/layout_icon_title_value"/>
+
+</LinearLayout>

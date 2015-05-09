@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="user_icons">
+        <item>@drawable/user_sync</item>
+        <item>@drawable/user_settings</item>
+        <item>@drawable/user_help</item>
+        <item>@drawable/user_account</item>
+    </array>
+</resources>

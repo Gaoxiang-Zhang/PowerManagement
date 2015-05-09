@@ -55,6 +55,9 @@
         <activity android:name=".Custom.CustomTip"
             android:theme="@style/AppDialogTheme"/>
 
+        <activity android:name=".HelpResponse.ResponseActivity"/>
+        <activity android:name=".HelpResponse.SecondaryMenu"/>
+
         <service
             android:name=".Custom.CustomService"
             android:enabled="true"
@@ -65,10 +68,10 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
-        <service android:name=".MonitorService"
+        <service android:name=".Monitor.MonitorService"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".TimerService"
+        <service android:name=".Monitor.TimerService"
             android:enabled="true"
             android:exported="false"/>
 
