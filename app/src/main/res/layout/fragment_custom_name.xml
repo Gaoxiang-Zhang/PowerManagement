@@ -31,7 +31,7 @@
         android:layout_marginTop="10dp">
         <View
             android:layout_height="match_parent"
-            android:layout_width="150dp"/>
+            android:layout_width="130dp"/>
         <TextView
             android:id="@+id/confirm"
             android:text="@string/OK"

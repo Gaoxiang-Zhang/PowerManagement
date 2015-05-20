@@ -53,28 +53,31 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@id/main_tabs">
-        <include
-            android:id="@+id/menu_settings"
-            layout="@layout/layout_menu"/>
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dip"/>
-        <include
-            android:id="@+id/menu_custom"
-            layout="@layout/layout_menu"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"/>
-        <include
-            android:id="@+id/menu_ranking"
-            layout="@layout/layout_menu"/>
-    </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/menu_settings"
+                layout="@layout/layout_menu"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/menu_custom"
+                layout="@layout/layout_menu"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <include
+                android:id="@+id/menu_ranking"
+                layout="@layout/layout_menu"/>
+        </LinearLayout>
+    </ScrollView>
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_button"
         android:layout_width="wrap_content"
