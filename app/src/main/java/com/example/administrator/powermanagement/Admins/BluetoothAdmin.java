@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Admins;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -36,20 +36,19 @@ public class BluetoothAdmin {
      * toggleBluetooth: switch the status of bluetooth (External port)
      * toggleToothTask: switch the status of bluetooth in another thread (Main implements)
      */
-    public void toggleBluetooth(){
+    public void toggleBluetooth(boolean value){
         toggleToothTask task = new toggleToothTask();
-        task.execute();
+        task.execute(value);
     }
-    public class toggleToothTask extends AsyncTask<Void,Void,Boolean>
+    public class toggleToothTask extends AsyncTask<Boolean,Void,Boolean>
     {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            Boolean enable = ( checkBluetooth() == 1 );
-            return enable;
+        protected Boolean doInBackground(Boolean... params) {
+            return params[0];
         }
         @Override
         protected void onPostExecute(Boolean result) {
-            if(!result){
+            if(result){
                 bluetoothAdapter.enable();
             }
             else{

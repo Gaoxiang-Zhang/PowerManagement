@@ -94,6 +94,7 @@
     <orderEntry type="library" exported="" name="armeabi" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
+    <orderEntry type="library" exported="" name="material-spinner-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="RoundCornerProgressBar-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="fab-1.4.0" level="project" />

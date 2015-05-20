@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.administrator.powermanagement.BluetoothAdmin;
-import com.example.administrator.powermanagement.NetworkAdmin;
+import com.example.administrator.powermanagement.Admins.BluetoothAdmin;
+import com.example.administrator.powermanagement.Admins.NetworkAdmin;
 import com.example.administrator.powermanagement.R;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ShortcutAdapter extends BaseAdapter {
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
     // 12 = Sync, 13 = system info
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13, SENSOR_NUM=14;
 
     // Constructor: parse the parameters to data in this adapter
     public ShortcutAdapter(Context context, String[] title, int[] image, String[] header,
@@ -92,6 +92,7 @@ public class ShortcutAdapter extends BaseAdapter {
             case APP_NUM:
             case SYNC_NUM:
             case CPU_NUM:
+            case SENSOR_NUM:
                 return 4;
         }
         return 0;
@@ -141,10 +142,11 @@ public class ShortcutAdapter extends BaseAdapter {
             title.setText(list_title[position]);
             header.setText(list_header[position]);
             result.setText(list_result.get(position));
-            switchCompat.setChecked(list_status.get(position));
+            Log.d("debug info", position + " " + switchCompat.isChecked() + " " + list_status.get(position));
+            if(!switchCompat.isFocused()) {
+                switchCompat.setChecked(list_status.get(position));
+            }
             switchCompat.setOnCheckedChangeListener(onCheckedChangeListener);
-            Log.d("What Info",""+list_status.get(position));
-            //switchCompat.setOnTouchListener(onTouchListener);
 
         }
         else{
@@ -155,10 +157,10 @@ public class ShortcutAdapter extends BaseAdapter {
             icon.setImageResource(imageContent[position]);
             title.setText(list_title[position]);
             result.setText(list_result.get(position));
-            // This judge is to avoid infinite loop
-            Log.d("What Info",position+""+list_status.get(position));
-            //if(switchCompat.isFocused())
-            switchCompat.setChecked(list_status.get(position));
+            Log.d("debug info", position + " " + switchCompat.isChecked() + " " + list_status.get(position) + "?");
+            if(!switchCompat.isFocused()) {
+                switchCompat.setChecked(list_status.get(position));
+            }
             view = convertView;
         }
         return view;
@@ -172,6 +174,7 @@ public class ShortcutAdapter extends BaseAdapter {
             new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton view, boolean b) {
+                    Log.d("debug info", "on checked change listener "+b+"");
                     View parentRow = (View) view.getParent();
                     ListView listView = (ListView) parentRow.getParent().getParent();
                     // listview == null means that this is changed automatically
@@ -179,11 +182,11 @@ public class ShortcutAdapter extends BaseAdapter {
                     if(listView != null) {
                         int position = listView.getPositionForView(parentRow);
                         if (position == WIFI_NUM) {
-                            networkAdmin.toggleWiFi();
+                            networkAdmin.toggleWiFi(b);
                         } else if (position == GPRS_NUM) {
-                            networkAdmin.toggleGPRS();
+                            networkAdmin.toggleGPRS(b);
                         } else if (position == TOOTH_NUM) {
-                            bluetoothAdmin.toggleBluetooth();
+                            bluetoothAdmin.toggleBluetooth(b);
                         }
                     }
                 }

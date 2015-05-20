@@ -15,14 +15,15 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.example.administrator.powermanagement.BluetoothAdmin;
-import com.example.administrator.powermanagement.DBAdapter;
+import com.example.administrator.powermanagement.Admins.BluetoothAdmin;
+import com.example.administrator.powermanagement.Admins.DBAdapter;
 import com.example.administrator.powermanagement.MainActivity;
-import com.example.administrator.powermanagement.NetworkAdmin;
+import com.example.administrator.powermanagement.Admins.NetworkAdmin;
 import com.example.administrator.powermanagement.R;
 
 import java.sql.SQLException;
@@ -526,8 +527,9 @@ public class CustomService extends Service {
      * setBrightness: set system brightness
      */
     private void setBrightness(int brightness){
-        android.provider.Settings.System.putInt(getContentResolver(),
-                android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
+        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
     }
 
     /**
@@ -554,18 +556,9 @@ public class CustomService extends Service {
     private void setNetwork(int wifi_state, int gprs_state, int bluetooth_state){
         NetworkAdmin networkAdmin = new NetworkAdmin(context);
         BluetoothAdmin bluetoothAdmin = new BluetoothAdmin();
-        int current_wifi = networkAdmin.isWifiConnected() ? 1 : 0;
-        int current_gprs = networkAdmin.isMobileConnected() ? 1 : 0;
-        int current_tooth = bluetoothAdmin.checkBluetooth();
-        if ( wifi_state != current_wifi ){
-            networkAdmin.toggleWiFi();
-        }
-        if ( gprs_state != current_gprs ) {
-            networkAdmin.toggleGPRS();
-        }
-        if ( current_tooth != bluetooth_state ){
-            bluetoothAdmin.toggleBluetooth();
-        }
+        networkAdmin.toggleWiFi(wifi_state == 1);
+        networkAdmin.toggleGPRS(gprs_state == 1);
+        bluetoothAdmin.toggleBluetooth(bluetooth_state == 1);
     }
 
 

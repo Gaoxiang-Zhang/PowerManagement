@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.administrator.powermanagement.DBAdapter;
+import com.example.administrator.powermanagement.Admins.DBAdapter;
 import com.example.administrator.powermanagement.MainActivity;
 import com.example.administrator.powermanagement.R;
 

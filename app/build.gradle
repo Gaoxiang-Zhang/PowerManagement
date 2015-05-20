@@ -28,6 +28,7 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.github.clans:fab:1.4.0'
     compile 'com.github.nicolasjafelle:refreshmenuitem:1.0'
+    compile 'com.github.ganfra:material-spinner:1.0.2'
     compile 'com.akexorcist:RoundCornerProgressBar:1.1.0'
     compile files('libs/locSDK_5.02.jar')
     compile files('libs/wekaSTRIPPED.jar')

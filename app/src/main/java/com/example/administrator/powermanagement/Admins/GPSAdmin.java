@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Admins;
 
 import android.content.Context;
 import android.content.Intent;

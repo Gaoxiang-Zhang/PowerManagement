@@ -16,8 +16,8 @@
     <color name="devider">#B6B6B6</color>
     <color name="indicator">#E5E5E5</color>
 
-    <color name="mode_manu">#ffeb3b</color>
-    <color name="mode_manu_pressed">#fbc02d</color>
+    <color name="mode_manu">#FFC107</color>
+    <color name="mode_manu_pressed">#FFA000</color>
     <color name="mode_auto">#4caf50</color>
     <color name="mode_auto_pressed">#388e3c</color>
     <color name="mode_disabled">#f44336</color>

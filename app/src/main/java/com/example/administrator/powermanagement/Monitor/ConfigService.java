@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.net.TrafficStats;
 import android.os.BatteryManager;
 import android.os.IBinder;
@@ -14,25 +15,27 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.administrator.powermanagement.BluetoothAdmin;
-import com.example.administrator.powermanagement.DBAdapter;
-import com.example.administrator.powermanagement.GPSAdmin;
-import com.example.administrator.powermanagement.LocationAdmin;
-import com.example.administrator.powermanagement.NetworkAdmin;
+import com.example.administrator.powermanagement.Admins.BluetoothAdmin;
+import com.example.administrator.powermanagement.Admins.DBAdapter;
+import com.example.administrator.powermanagement.Admins.GPSAdmin;
+import com.example.administrator.powermanagement.Admins.LocationAdmin;
+import com.example.administrator.powermanagement.Admins.NetworkAdmin;
 
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
 /**
- * MonitorService for monitoring and writing to database
+ * ConfigService for monitoring and writing to database
  */
-public class MonitorService extends Service {
+public class ConfigService extends Service {
 
+    //
     DBAdapter dbAdapter = null;
     BroadcastReceiver receiver = null;
     IntentFilter intentFilter = null;
 
+    AudioManager audioManager = null;
     NetworkAdmin networkAdmin = null;
     GPSAdmin gpsAdmin = null;
     BluetoothAdmin bluetoothAdmin = null;
@@ -56,6 +59,8 @@ public class MonitorService extends Service {
 
     private int old_second = 60;
 
+    final String TAG = "monitor_info";
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         super.onStartCommand(intent, flags, startId);
@@ -74,6 +79,7 @@ public class MonitorService extends Service {
         gpsAdmin = new GPSAdmin(this);
         bluetoothAdmin = new BluetoothAdmin();
         powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
         // Initialize location admin and set receiver
         locationAdmin = new LocationAdmin(getApplicationContext());
@@ -101,7 +107,7 @@ public class MonitorService extends Service {
 
         startTimeService();
 
-        Log.d("monitor_info","start service");
+        Log.d(TAG,"start configservice");
     }
 
     /**
@@ -123,7 +129,7 @@ public class MonitorService extends Service {
         String location;
         String all_apps, running_apps;
         int battery_level, battery_status;
-        int brightness, screenoff;
+        int brightness, screenoff, sound;
         boolean wifi, tooth, gps, hotspot, gprs;
         long all_flow, mobile_flow;
         boolean isUsing;
@@ -144,31 +150,30 @@ public class MonitorService extends Service {
         // Get position info
         location = address;
 
-        // Get application info
-        all_apps = getAllApps();
-        running_apps = getRunningApps();
-
         // Get battery status and level
         battery_level = (int)getBatteryLevel();
         battery_status = getBatteryStatus();
 
+        // get using info
+        isUsing = powerManager.isScreenOn();
+
+        // Get application info
+        running_apps = getRunningApps();
+
         // Get current Brightness and timeout value
         brightness = getBrightnessValue();
         screenoff = getScreenOffTime();
+        sound = getSoundType();
 
         // get hardware status
-        wifi = networkAdmin.isWifiConnected();
+        wifi = networkAdmin.isWifiAvailable();
         tooth = (bluetoothAdmin.checkBluetooth() == 1);
-        gprs = networkAdmin.isMobileConnected();
-        hotspot = networkAdmin.isHotspotConnected(thisIntent);
+        gprs = networkAdmin.isMobileAvailable();
         gps = gpsAdmin.isGPSOn();
 
         // get network flow
         all_flow = getAllFlow();
         mobile_flow = getMobileFlow();
-
-        // get using info
-        isUsing = powerManager.isScreenOn();
 
         // check if data is adequate
         boolean isFit = checkData(second,location);
@@ -176,43 +181,21 @@ public class MonitorService extends Service {
         // Write the data to database
         Log.d("monitor_info","get all info "+second+"/"+location);
         if(isFit){
-            dbAdapter.insertPattern(week,hour,minute,location,all_apps,running_apps,battery_level,
+            /*dbAdapter.insertPattern(week,hour,minute,location,all_apps,running_apps,battery_level,
                     brightness,screenoff,battery_status,wifi,gprs,tooth,gps,hotspot,all_flow,
-                    mobile_flow,isUsing);
-            Log.d("monitor_info", minute + "/" + all_apps + "/" + battery_status + "/" + brightness + "/" +
-                    screenoff + "/" + all_flow + ":" + second+"..."+location);
-            Log.d("monitor_info","write data to database");
+                    mobile_flow,isUsing);*/
+            Log.d(TAG, location);
+            Log.d(TAG, running_apps);
+            Log.d(TAG,"write data to database");
         }
         dbAdapter.close();
-    }
-
-    /**
-     * getAllApps: get all apps with "|" as a seperator
-     */
-    private String getAllApps(){
-        String result = null;
-        ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-        PackageManager packageManager = getPackageManager();
-        final List<ActivityManager.RunningAppProcessInfo> runningTaskInfos = activityManager.getRunningAppProcesses();
-        for (int i = 0 ; i< runningTaskInfos.size() ; i++){
-            try {
-                CharSequence c = packageManager.getApplicationLabel(packageManager.getApplicationInfo(
-                        runningTaskInfos.get(i).processName, PackageManager.GET_META_DATA ));
-                if(c!=null) {
-                    result = result + '|' + c.toString();
-                }
-            } catch (PackageManager.NameNotFoundException e){
-                e.printStackTrace();
-            }
-        }
-        return result;
     }
 
     /**
      * getRunningApps: get current running apps with "|" as a seperator
      */
     private String getRunningApps(){
-        String result = null;
+        String result = "";
         ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
         PackageManager packageManager = getPackageManager();
         final List<ActivityManager.RunningAppProcessInfo> runningTaskInfos = activityManager.getRunningAppProcesses();
@@ -225,7 +208,7 @@ public class MonitorService extends Service {
                     CharSequence c = packageManager.getApplicationLabel(packageManager.getApplicationInfo(
                             runningTaskInfos.get(i).processName, PackageManager.GET_META_DATA ));
                     if( c!=null ){
-                        result = result + '|' + c.toString();
+                        result = result + ';' + c.toString();
                     }
                 }
             } catch (PackageManager.NameNotFoundException e){
@@ -308,6 +291,10 @@ public class MonitorService extends Service {
             e.printStackTrace();
         }
         return time;
+    }
+
+    private int getSoundType(){
+        return audioManager.getRingerMode();
     }
 
     /**

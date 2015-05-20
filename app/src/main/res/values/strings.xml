@@ -11,13 +11,10 @@
     <string name="detail">详情</string>
     <string name="basicPref">基本选项</string>
     <string name="connPref">连接选项</string>
-    <string name="langPref">语言</string>
-    <string name="responsePref">自动发送使用信息</string>
-    <string name="responsePrefSummary">帮助我们改善产品体验</string>
-    <string name="updatePref">自动更新</string>
     <string name="open">开启</string>
     <string name="close">关闭</string>
     <string name="unknown">未知</string>
+    <string name="not_implemented">尚未实现</string>
 
     <string-array name="tab_names">
         <item>快捷菜单</item>
@@ -55,6 +52,7 @@
         <item>当前运行</item>
         <item>同步设置</item>
         <item>系统信息</item>
+        <item>传感器列表</item>
     </string-array>
     <string name="network">连接</string>
     <string name="usage">使用</string>
@@ -111,6 +109,30 @@
         <item>SD卡存储</item>
     </string-array>
 
+    <string-array name="sensors_list">
+        <item>未知</item>
+        <item>加速度传感器</item>
+        <item>磁力传感器</item>
+        <item>方向传感器</item>
+        <item>陀螺仪传感器</item>
+        <item>光线传感器</item>
+        <item>压力传感器</item>
+        <item>温度传感器</item>
+        <item>距离传感器</item>
+        <item>重力传感器</item>
+        <item>线性加速度传感器</item>
+        <item>旋转矢量传感器</item>
+        <item>湿度传感器</item>
+        <item>温度传感器</item>
+        <item>未校准磁力传感器</item>
+        <item>游戏动作传感器</item>
+        <item>未校准陀螺仪传感器</item>
+        <item>特殊动作触发传感器</item>
+        <item>步行检测传感器</item>
+        <item>计步传感器</item>
+        <item>地磁旋转矢量传感器</item>
+    </string-array>
+
     <string name="profitYesterday">昨日收益</string>
     <string name="profitTotal">总收益</string>
     <string name="battery">当前电量</string>
@@ -129,6 +151,7 @@
     <string name="detailOption">详细设置</string>
     <string name="customMode">模式定制</string>
     <string name="ranking">耗电排行</string>
+    <string name="debug">调试Log</string>
 
     <string name="auto_saving">自动节能</string>
     <string name="manu_saving">手动节能</string>
@@ -171,6 +194,8 @@
     </string-array>
 
 
+    <string name="resAndHelp">帮助和反馈</string>
+    <string name="userAccount">账户</string>
     <string name="response">用户反馈</string>
     <string name="help">新手帮助</string>
     <string name="response_tag">选择反馈类型</string>
@@ -180,6 +205,16 @@
     <string name="response_other">其他建议</string>
     <string name="response_content">你的反馈将帮助我们更快地成长</string>
     <string name="response_contact">请输入联系方式（QQ或手机）</string>
+
+    <string-array name="language">
+        <item>简体中文</item>
+        <item>English</item>
+    </string-array>
+    <string name="uiPref">界面选项</string>
+    <string name="langPref">语言</string>
+    <string name="autoSend">自动发送使用信息</string>
+    <string name="autoSendHint">帮助我们改善产品体验</string>
+    <string name="autoUpdate">自动更新</string>
 
 
 

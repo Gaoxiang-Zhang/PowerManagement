@@ -9,15 +9,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.administrator.powermanagement.Admins.BluetoothAdmin;
+import com.example.administrator.powermanagement.Admins.GPSAdmin;
+import com.example.administrator.powermanagement.Admins.NetworkAdmin;
 import com.example.administrator.powermanagement.Shortcut.ShortcutApplication;
 import com.example.administrator.powermanagement.Shortcut.BrightnessDialog;
 import com.example.administrator.powermanagement.Shortcut.EffectDialog;
+import com.example.administrator.powermanagement.Shortcut.ShortcutSensor;
 import com.example.administrator.powermanagement.Shortcut.ShortcutService;
 import com.example.administrator.powermanagement.Shortcut.ShortcutSystem;
 import com.example.administrator.powermanagement.Shortcut.ShortcutAdapter;
@@ -57,7 +62,8 @@ public class ShortcutFragment extends Fragment {
             R.drawable.interaction,
             R.drawable.applications,
             R.drawable.sync,
-            R.drawable.system
+            R.drawable.system,
+            R.drawable.sensors
     };
 
     // Function Admin
@@ -71,11 +77,13 @@ public class ShortcutFragment extends Fragment {
 
     // 0 = Wifi, 1 = GPRS, 2 = Bluetooth, 3 = Airplane, 4 = Hotspot, 5 = GPS, 6 = Network Flow,
     // 7 = Brightness, 8 = Volume, 9 = Sleep Time, 10 = Interaction Time11 = Latest App Usage,
-    // 12 = Sync, 13 = system info
+    // 12 = Sync, 13 = system info 14 = sensor list
     final static int WIFI_NUM=0, GPRS_NUM=1, TOOTH_NUM=2, PLANE_NUM=3,  HOTSPOT_NUM=4, GPS_NUM=5, FLOW_NUM=6,
-            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13;
+            LIGHT_NUM=7, VOLUME_NUM=8, SLEEP_NUM=9, ACTION_NUM=10, APP_NUM=11, SYNC_NUM =12, CPU_NUM=13, SENSOR_NUM=14;
     // SWITCH_NUM: The starting items who have SwitchCompat
     final static int SWITCH_NUM = 6;
+
+    int old_wifi = 2, old_tooth = 2, old_data = 2, old_plane = 2, old_gps = 2, old_hot = 2;
 
 
     @Override
@@ -168,6 +176,10 @@ public class ShortcutFragment extends Fragment {
                         Intent cpu = new Intent(getActivity(), ShortcutSystem.class);
                         startActivity(cpu);
                         break;
+                    case SENSOR_NUM:
+                        Intent sensor = new Intent(getActivity(), ShortcutSensor.class);
+                        startActivity(sensor);
+                        break;
                 }
             }
         });
@@ -191,6 +203,7 @@ public class ShortcutFragment extends Fragment {
                 hotspot_result = intent.getIntExtra("hotspot_state",0);
                 editListItem edit= new editListItem();
                 //wifi,tooth,mobile data
+                Log.d("debug info", "receive signal "+wifi_result);
                 edit.execute(wifi_result,data_result,tooth_result,plane_result,hotspot_result,gps_result);
 
             }
@@ -215,7 +228,7 @@ public class ShortcutFragment extends Fragment {
         if(networkAdmin.isWifiConnected()){
             item_status.set(WIFI_NUM , true);
         }
-        if(networkAdmin.isMobileConnected()){
+        if(networkAdmin.isMobileAvailable()){
             item_status.set(GPRS_NUM , true);
         }
         if(networkAdmin.isAirplaneModeOn()){
@@ -235,23 +248,31 @@ public class ShortcutFragment extends Fragment {
     /**
      * editListItem: async task for changing UI
      */
-    public class editListItem extends AsyncTask<Integer,Integer,String> {
+    public class editListItem extends AsyncTask<Integer,Integer,Boolean> {
         @Override
-        protected String doInBackground(Integer... params) {
+        protected Boolean doInBackground(Integer... params) {
             int i;
+            Boolean change = false;
             for(i=0;i<SWITCH_NUM;i++){
                 if(params[i]==1){
-                    item_status.set(i,true);
+                    if(!item_status.get(i)){
+                        item_status.set(i,true);
+                        change = true;
+                    }
                 }else if(params[i]==-1){
-                    item_status.set(i,false);
+                    if(item_status.get(i)){
+                        item_status.set(i,false);
+                        change = true;
+                    }
                 }
             }
-            return null;
+            return change;
         }
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            shortcutAdapter.notifyDataSetChanged();
+        protected void onPostExecute(Boolean result) {
+            if(result){
+                shortcutAdapter.notifyDataSetChanged();
+            }
         }
     }
 

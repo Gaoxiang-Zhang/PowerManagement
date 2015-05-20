@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -370,22 +371,40 @@ public class ShortcutSystem extends ActionBarActivity {
      */
     private double[] getSdInfo(){
         final long B2GB = 1024 * 1024 * 1024;
+
+        boolean foundPath = false;
+
         File path = Environment.getExternalStorageDirectory();
-        StatFs stat;
+        StatFs stat = null;
         // here is a trick because android regard internal storage as a as card
         // so when setting "internal primary" in device, the result would be same
         // as getDataDirectory, just as /storage/emulated/0
         if(!path.getAbsolutePath().equals("/storage/emulated/0")){
             stat = new StatFs(path.getAbsolutePath());
+            foundPath = true;
         }
         else{
-            stat = new StatFs("/storage/sdcard1");
+            File file = new File("/storage/sdcard1");
+            if(file.exists() || file.isDirectory()){
+                stat = new StatFs("/storage/sdcard1");
+                foundPath = true;
+            }
+            if(!foundPath){
+                File file1 = new File("/storage/sdcard0");
+                if(file1.exists() || file1.isDirectory()){
+                    stat = new StatFs("/storage/sdcard0");
+                    foundPath = true;
+                }
+            }
         }
-        long usedSize = (long)stat.getBlockSize() * ((long)stat.getBlockCount() - (long)stat.getAvailableBlocks());
-        long totalSize = (long)stat.getBlockSize() * (long)stat.getBlockCount();
-        double used = (double) usedSize / B2GB;
-        double total = (double) totalSize / B2GB;
-        return new double[]{total, used};
+        if(foundPath){
+            long usedSize = (long)stat.getBlockSize() * ((long)stat.getBlockCount() - (long)stat.getAvailableBlocks());
+            long totalSize = (long)stat.getBlockSize() * (long)stat.getBlockCount();
+            double used = (double) usedSize / B2GB;
+            double total = (double) totalSize / B2GB;
+            return new double[]{total, used};
+        }
+        return null;
     }
 
     /**

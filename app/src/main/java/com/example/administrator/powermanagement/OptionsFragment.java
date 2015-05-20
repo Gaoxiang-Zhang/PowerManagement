@@ -18,9 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.powermanagement.Admins.DBAdapter;
+import com.example.administrator.powermanagement.Config.DebugAdmin;
 import com.example.administrator.powermanagement.Custom.CustomActivity;
 import com.example.administrator.powermanagement.Custom.CustomService;
-import com.example.administrator.powermanagement.Monitor.MonitorService;
+import com.example.administrator.powermanagement.Config.ConfigService;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -33,6 +35,8 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 public class OptionsFragment extends Fragment {
+
+    Context context = null;
 
     // ArcProgress: supported by lzyzsd, controls the profit meter of this page
     ArcProgress arcProgress = null;
@@ -69,11 +73,15 @@ public class OptionsFragment extends Fragment {
     SharedPreferences sharedMode = null;
     static final String KEY_MODE = "mode";
 
+    DebugAdmin debugAdmin = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         final View options = inflater.inflate(R.layout.fragment_main,container,false);
+
+        context = getActivity();
 
         // get and set the initial value of arc progress
         arcProgress = (ArcProgress)options.findViewById(R.id.main_progress);
@@ -86,7 +94,7 @@ public class OptionsFragment extends Fragment {
         text = (TextView)options.findViewById(R.id.menu_custom).findViewById(R.id.menu_title);
         text.setText(getString(R.string.customMode));
         text = (TextView)options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_title);
-        text.setText(getString(R.string.ranking));
+        text.setText(getString(R.string.debug));
         text = (TextView)options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.battery));
         text = (TextView)options.findViewById(R.id.menu_profit).findViewById(R.id.menutabs_item);
@@ -100,9 +108,9 @@ public class OptionsFragment extends Fragment {
         ImageView image = (ImageView)options.findViewById(R.id.menu_settings).findViewById(R.id.menu_icon);
         image.setImageDrawable(getResources().getDrawable(R.drawable.settings));
         image = (ImageView)options.findViewById(R.id.menu_custom).findViewById(R.id.menu_icon);
-        image.setImageDrawable(getResources().getDrawable(R.drawable.account));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.custom));
         image = (ImageView)options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_icon);
-        image.setImageDrawable(getResources().getDrawable(R.drawable.ruler));
+        image.setImageDrawable(getResources().getDrawable(R.drawable.ranking));
 
         // get the floating button menu and buttons
         menu = (FloatingActionMenu)options.findViewById(R.id.menu_button);
@@ -123,7 +131,7 @@ public class OptionsFragment extends Fragment {
         dbAdapter = DBAdapter.getInstance(getActivity());
 
         // get monitor service, if the service is not working and the state is 0, start it
-        monitorService = new Intent(getActivity(),MonitorService.class);
+        monitorService = new Intent(getActivity(),ConfigService.class);
         customService = new Intent(getActivity(), CustomService.class);
 
         // get shared preference in shared preference
@@ -141,13 +149,16 @@ public class OptionsFragment extends Fragment {
             getActivity().startService(customService);
         }
 
+        debugAdmin = new DebugAdmin(context);
+
         // this function is temporarily used for debug
         LinearLayout ranking = (LinearLayout)options.findViewById(R.id.menu_ranking);
         LinearLayout custom = (LinearLayout)options.findViewById(R.id.menu_custom);
         ranking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                outputPattern();
+                debugAdmin.outputToFile(0);
+                debugAdmin.outputToFile(1);
             }
         });
         custom.setOnClickListener(new View.OnClickListener() {

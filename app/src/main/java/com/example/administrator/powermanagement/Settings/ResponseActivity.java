@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement.HelpResponse;
+package com.example.administrator.powermanagement.Settings;
 
 import android.content.Context;
 import android.os.Bundle;

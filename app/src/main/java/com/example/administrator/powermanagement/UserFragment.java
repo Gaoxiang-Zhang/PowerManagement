@@ -3,7 +3,6 @@ package com.example.administrator.powermanagement;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,10 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.administrator.powermanagement.HelpResponse.SecondaryMenu;
-
-import java.util.ArrayList;
+import com.example.administrator.powermanagement.Admins.NetworkAdmin;
+import com.example.administrator.powermanagement.Settings.SecondaryMenu;
+import com.example.administrator.powermanagement.Settings.SettingsActivity;
 
 public class UserFragment extends Fragment {
 
@@ -27,6 +27,8 @@ public class UserFragment extends Fragment {
     String[] list_title = null;
     TypedArray list_icon = null;
 
+    NetworkAdmin networkAdmin = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
@@ -34,6 +36,7 @@ public class UserFragment extends Fragment {
         listView = (ListView)view.findViewById(R.id.user_list);
         initListView();
 
+        networkAdmin = new NetworkAdmin(getActivity());
 
         return view;
     }
@@ -51,14 +54,18 @@ public class UserFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
+                        Toast.makeText(getActivity(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
+                        Intent setIntent = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(setIntent);
                         break;
                     case 2:
                         Intent resHelp = new Intent(getActivity(), SecondaryMenu.class);
                         startActivity(resHelp);
                         break;
                     case 3:
+                        Toast.makeText(getActivity(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

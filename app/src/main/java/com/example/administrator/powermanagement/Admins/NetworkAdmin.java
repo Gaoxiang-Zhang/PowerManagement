@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Admins;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +29,13 @@ public class NetworkAdmin {
     /**
      * Judge whether wifi is available
      */
+    public boolean isWifiAvailable(){
+        NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(mWifi != null){
+            return mWifi.isAvailable();
+        }
+        return false;
+    }
     public boolean isWifiConnected(){
         NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if(mWifi != null){
@@ -39,6 +46,13 @@ public class NetworkAdmin {
     /**
      * Judge whether mobile data is available
      */
+    public boolean isMobileAvailable(){
+        NetworkInfo mMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if(mMobile != null){
+            return mMobile.isAvailable();
+        }
+        return false;
+    }
     public boolean isMobileConnected(){
         NetworkInfo mMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if(mMobile != null){
@@ -56,18 +70,15 @@ public class NetworkAdmin {
     /**
      * GPRS network switch
      */
-    public void toggleGPRS(){
-        if(!isWifiConnected()){
-            toggleGPRSTask task = new toggleGPRSTask();
-            task.execute();
-        }
+    public void toggleGPRS(Boolean value){
+        toggleGPRSTask task = new toggleGPRSTask();
+        task.execute(value);
     }
-    public class toggleGPRSTask extends AsyncTask<Void,Void,Boolean>
+    public class toggleGPRSTask extends AsyncTask<Boolean,Void,Boolean>
     {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            boolean enabled = isMobileConnected();
-            return !enabled;
+        protected Boolean doInBackground(Boolean... params) {
+            return params[0];
         }
         @Override
         protected void onPostExecute(Boolean result) {
@@ -92,20 +103,19 @@ public class NetworkAdmin {
     /**
      * WiFi network switch
      */
-    public void toggleWiFi(){
+    public void toggleWiFi(boolean value){
         toggleWiFiTask task = new toggleWiFiTask();
-        task.execute();
+        task.execute(value);
         //WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        //wm.setWifiEnabled(!isWifiConnected());
+        //wm.setWifiEnabled(!isWifiAvailable());
     }
-    public class toggleWiFiTask extends AsyncTask<Void,Void,Boolean>
+    public class toggleWiFiTask extends AsyncTask<Boolean,Void,Boolean>
     {
         WifiManager wm;
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Boolean... params) {
             wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-            boolean enabled = isWifiConnected();
-            return !enabled;
+            return params[0];
         }
         @Override
         protected void onPostExecute(Boolean result) {

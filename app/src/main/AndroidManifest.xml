@@ -18,15 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AppPreferenceActivity"
-            android:label="@string/settings"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="com.example.administrator.powermanagement.AppPreferenceActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
         <service
             android:enabled="true"
             android:exported="false"
@@ -38,25 +29,23 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".ProfitActivity">
-        </activity>
         <activity android:name=".Shortcut.ShortcutApplication">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
         <activity android:name=".Shortcut.ShortcutSystem">
-
         </activity>
+        <activity android:name=".Shortcut.ShortcutSensor"/>
         <activity android:name=".Custom.CustomActivity">
         </activity>
         <activity android:name=".Custom.CustomSettings"/>
         <activity android:name=".Custom.CustomTip"
             android:theme="@style/AppDialogTheme"/>
 
-        <activity android:name=".HelpResponse.ResponseActivity"/>
-        <activity android:name=".HelpResponse.SecondaryMenu"/>
+        <activity android:name=".Settings.ResponseActivity"/>
+        <activity android:name=".Settings.SecondaryMenu"/>
+        <activity android:name=".Settings.SettingsActivity"/>
 
         <service
             android:name=".Custom.CustomService"
@@ -68,7 +57,15 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
-        <service android:name=".Monitor.MonitorService"
+
+        <service android:name=".Config.ConfigService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name=".Config.TimerService"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <service android:name=".Monitor.ConfigService"
             android:enabled="true"
             android:exported="false"/>
         <service android:name=".Monitor.TimerService"
@@ -86,8 +83,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

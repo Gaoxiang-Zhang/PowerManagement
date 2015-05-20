@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement;
+package com.example.administrator.powermanagement.Admins;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +36,8 @@ public class LocationAdmin {
                 if (bdLocation == null) {
                     return;
                 }
-                broadcastIntent.putExtra("address", bdLocation.getAddrStr());
+                broadcastIntent.putExtra("latitude", bdLocation.getLatitude());
+                broadcastIntent.putExtra("longitude", bdLocation.getLongitude());
                 context.sendBroadcast(broadcastIntent);
                 stopLocationService();
             }
@@ -52,7 +53,7 @@ public class LocationAdmin {
         // allowing open GPS
         option.setOpenGps(true);
         // set coordinate type
-        option.setCoorType("bd0911");
+        option.setCoorType("bd09ll");
         // set location priority
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         // set request interval

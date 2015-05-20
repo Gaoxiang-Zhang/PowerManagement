@@ -1,4 +1,4 @@
-package com.example.administrator.powermanagement.HelpResponse;
+package com.example.administrator.powermanagement.Settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.powermanagement.R;
 
@@ -67,7 +68,7 @@ public class SecondaryMenu extends ActionBarActivity {
         helpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(context, getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
             }
         });
     }

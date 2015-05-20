@@ -21,7 +21,9 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.powermanagement.HelpResponse.ResponseActivity;
+import com.example.administrator.powermanagement.Settings.ResponseActivity;
+import com.example.administrator.powermanagement.Settings.SecondaryMenu;
+import com.example.administrator.powermanagement.Settings.SettingsActivity;
 
 
 /**
@@ -84,16 +86,16 @@ public class MainActivity extends ActionBarActivity implements OnTabChangeListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch(id){
-            case R.id.help_info:
-                Toast.makeText(this,"help",Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.action_settings:
-                Intent i = new Intent(this,AppPreferenceActivity.class);
+                Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.response:
-                Intent response = new Intent(this, ResponseActivity.class);
-                startActivity(response);
+            case R.id.response_help:
+                Intent resHelp = new Intent(this, SecondaryMenu.class);
+                startActivity(resHelp);
+                return true;
+            case R.id.account:
+                Toast.makeText(this, getString(R.string.not_implemented),Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

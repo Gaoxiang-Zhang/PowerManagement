@@ -15,7 +15,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="3dip"/>
+        android:layout_height="1dip"
+        android:background="@color/devider"/>
 
     <ListView
         android:id="@+id/custom_list"
