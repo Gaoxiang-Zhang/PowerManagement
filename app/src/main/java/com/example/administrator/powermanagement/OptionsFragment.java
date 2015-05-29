@@ -77,47 +77,47 @@ public class OptionsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View options = inflater.inflate(R.layout.fragment_main,container,false);
+        final View options = inflater.inflate(R.layout.fragment_main, container, false);
 
         context = getActivity();
 
         // get and set the initial value of arc progress
-        arcProgress = (ArcProgress)options.findViewById(R.id.main_progress);
+        arcProgress = (ArcProgress) options.findViewById(R.id.main_progress);
         arcProgress.setProgress(10);
         arcProgress.setBottomText(getString(R.string.profitYesterday));
 
         // set text in this page
-        TextView text = (TextView)options.findViewById(R.id.menu_settings).findViewById(R.id.menu_title);
+        TextView text = (TextView) options.findViewById(R.id.menu_settings).findViewById(R.id.menu_title);
         text.setText(getString(R.string.detailOption));
-        text = (TextView)options.findViewById(R.id.menu_custom).findViewById(R.id.menu_title);
+        text = (TextView) options.findViewById(R.id.menu_custom).findViewById(R.id.menu_title);
         text.setText(getString(R.string.customMode));
-        text = (TextView)options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_title);
+        text = (TextView) options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_title);
         text.setText(getString(R.string.debug));
-        text = (TextView)options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_item);
+        text = (TextView) options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.battery));
-        text = (TextView)options.findViewById(R.id.menu_profit).findViewById(R.id.menutabs_item);
+        text = (TextView) options.findViewById(R.id.menu_profit).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.profitTotal));
-        text = (TextView)options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_item);
+        text = (TextView) options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_item);
         text.setText(getString(R.string.usingTime));
-        batteryLevel = (TextView)options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_value);
-        remainTime = (TextView)options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_value);
+        batteryLevel = (TextView) options.findViewById(R.id.menu_battery).findViewById(R.id.menutabs_value);
+        remainTime = (TextView) options.findViewById(R.id.menu_life).findViewById(R.id.menutabs_value);
 
 
-        ImageView image = (ImageView)options.findViewById(R.id.menu_settings).findViewById(R.id.menu_icon);
+        ImageView image = (ImageView) options.findViewById(R.id.menu_settings).findViewById(R.id.menu_icon);
         image.setImageDrawable(getResources().getDrawable(R.drawable.settings));
-        image = (ImageView)options.findViewById(R.id.menu_custom).findViewById(R.id.menu_icon);
+        image = (ImageView) options.findViewById(R.id.menu_custom).findViewById(R.id.menu_icon);
         image.setImageDrawable(getResources().getDrawable(R.drawable.custom));
-        image = (ImageView)options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_icon);
+        image = (ImageView) options.findViewById(R.id.menu_ranking).findViewById(R.id.menu_icon);
         image.setImageDrawable(getResources().getDrawable(R.drawable.ranking));
 
         // get the floating button menu and buttons
-        menu = (FloatingActionMenu)options.findViewById(R.id.menu_button);
+        menu = (FloatingActionMenu) options.findViewById(R.id.menu_button);
         setMenuColor(saving_state);
-        button_auto = (FloatingActionButton)options.findViewById(R.id.menu_auto);
-        button_manual = (FloatingActionButton)options.findViewById(R.id.menu_manu);
-        button_off = (FloatingActionButton)options.findViewById(R.id.menu_disabled);
+        button_auto = (FloatingActionButton) options.findViewById(R.id.menu_auto);
+        button_manual = (FloatingActionButton) options.findViewById(R.id.menu_manu);
+        button_off = (FloatingActionButton) options.findViewById(R.id.menu_disabled);
 
         // set click listener to floating buttons
         button_auto.setOnClickListener(clickListener);
@@ -131,7 +131,7 @@ public class OptionsFragment extends Fragment {
         dbAdapter = DBAdapter.getInstance(getActivity());
 
         // get monitor service, if the service is not working and the state is 0, start it
-        monitorService = new Intent(getActivity(),ConfigService.class);
+        monitorService = new Intent(getActivity(), ConfigService.class);
         customService = new Intent(getActivity(), CustomService.class);
 
         // get shared preference in shared preference
@@ -140,11 +140,10 @@ public class OptionsFragment extends Fragment {
         setMenuColor(saving_state);
 
 
-        if(saving_state == 0 && !isAutoServiceOn){
+        if (saving_state == 0 && !isAutoServiceOn) {
             isAutoServiceOn = true;
             getActivity().startService(monitorService);
-        }
-        else if(saving_state == 1 && !isCustomServiceOn){
+        } else if (saving_state == 1 && !isCustomServiceOn) {
             isCustomServiceOn = true;
             getActivity().startService(customService);
         }
@@ -152,8 +151,8 @@ public class OptionsFragment extends Fragment {
         debugAdmin = new DebugAdmin(context);
 
         // this function is temporarily used for debug
-        LinearLayout ranking = (LinearLayout)options.findViewById(R.id.menu_ranking);
-        LinearLayout custom = (LinearLayout)options.findViewById(R.id.menu_custom);
+        LinearLayout ranking = (LinearLayout) options.findViewById(R.id.menu_ranking);
+        LinearLayout custom = (LinearLayout) options.findViewById(R.id.menu_custom);
         ranking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,13 +163,14 @@ public class OptionsFragment extends Fragment {
         custom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),CustomActivity.class);
+                Intent intent = new Intent(getActivity(), CustomActivity.class);
                 getActivity().startActivity(intent);
             }
         });
 
         return options;
     }
+
 
     /**
      * setMenuColor: set menu color based on different status
@@ -276,75 +276,6 @@ public class OptionsFragment extends Fragment {
             batteryLevel.setText(level);
             remainTime.setText(life);
         }
-    }
-
-
-    /**
-     * outputPattern: write the data in database into file
-     */
-    private void outputPattern(){
-
-        // get the file name
-        Calendar calendar = Calendar.getInstance();
-        int filename0 = calendar.get(Calendar.DAY_OF_MONTH);
-        int filename1 = calendar.get(Calendar.HOUR_OF_DAY);
-        int filename2 = calendar.get(Calendar.MINUTE);
-        String filename = filename0+"_"+filename1+"_"+filename2+".dat";
-
-        try {
-            File sdCard = Environment.getExternalStorageDirectory();
-            File directory = new File(sdCard.getAbsolutePath()+"/"+getString(R.string.app_name));
-            if(!directory.exists()){
-                directory.mkdirs();
-            }
-            File file = new File(directory,filename);
-            FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(fOut);
-            try{
-                dbAdapter.open();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-            Cursor c = dbAdapter.getAllPatterns();
-            if(c.moveToFirst()){
-                do{
-                    osw.write(displayPattern(c));
-                    osw.flush();
-                }while (c.moveToNext());
-            }
-            dbAdapter.close();
-            osw.close();
-            Toast.makeText(getActivity(),"Writing to file "+filename+" done",Toast.LENGTH_SHORT).show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    private String displayPattern(Cursor c){
-        String id = c.getString(0);
-        String week = c.getString(1);
-        String hour = c.getString(2);
-        String min = c.getString(3);
-        String pos = c.getString(4);
-        String app = c.getString(5);
-        String used = c.getString(6);
-        String battery = c.getString(7);
-        String brightness = c.getString(8);
-        String timeout = c.getString(9);
-        String charge = c.getString(10);
-        String wifi = c.getString(11);
-        String gprs = c.getString(12);
-        String tooth = c.getString(13);
-        String gps = c.getString(14);
-        String hotspot = c.getString(15);
-        String flow = c.getString(16);
-        String mobile = c.getString(17);
-        String using = c.getString(18);
-        String data = id+"\t"+week+"\t"+hour+"\t"+min+"\t"+pos+"\t"+app+"\t"+used+"\t"+
-                battery+"\t"+brightness+"\t"+timeout+"\t"+charge+"\t"+wifi+"\t"+gprs+"\t"+
-                tooth+"\t"+gps+"\t"+hotspot+"\t"+flow+"\t"+mobile+"\t"+using+"\n";
-        return data;
     }
 
     @Override

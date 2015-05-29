@@ -1,6 +1,7 @@
 package com.example.administrator.powermanagement.Config;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.LocationManager;
 import android.media.AudioManager;
 import android.net.TrafficStats;
 import android.os.BatteryManager;
@@ -18,19 +18,19 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.administrator.powermanagement.Admins.BluetoothAdmin;
 import com.example.administrator.powermanagement.Admins.DBAdapter;
 import com.example.administrator.powermanagement.Admins.LocationAdmin;
 import com.example.administrator.powermanagement.Admins.NetworkAdmin;
 import com.example.administrator.powermanagement.MainActivity;
-import com.example.administrator.powermanagement.R;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * ConfigService for monitoring and writing to database
@@ -65,44 +65,57 @@ public class ConfigService extends Service {
 
     // DEBUG_TAG for debug
     final String DEBUG_TAG = "config info";
-    final static long KBYTE = 1024L;
-    final static int PATTERN_TAG = 0;
-    final static int MONITOR_TAG = 1;
-    final static double SIMILAR_THRESHOLD = 0.50;
-    final static double SAME_THRESHOLD = 0.80;
-    final static long MIN_NETWORK_FLOW = 100;
-    final static long MIN_MOBILE_FLOW = 100;
-    private final static double DEF_PI = 3.14159265359; // PI
-    private final static double DEF_2PI= 6.28318530712; // 2*PI
-    private final static double DEF_PI180= 0.01745329252; // PI/180.0
-    private final static double DEF_R =6370693.5; // radius of earth
-
 
     // network information
-
     private long RxBytes = 0;
     private long TxBytes = 0;
     private long MobileRx = 0;
     private long MobileTx = 0;
+    // the constant to calculate data usage from B to KB
+    final static long KBYTE = 1024L;
+    // miute of a day
+    final int MINUTE_OF_A_DAY = 60 * 24;
+    // minimal value to judge if there exists data transform
+    final static long MIN_NETWORK_FLOW = 50;
+    final static long MIN_MOBILE_FLOW = 50;
+
+    // tag to distinguish pattern or monitor to database
+    final static int PATTERN_TAG = 0;
+    final static int MONITOR_TAG = 1;
+
+    // threshold that hold the similar of application
+    final static double SIMILAR_THRESHOLD = 0.60;
+
 
     // monitoring information
     int userInteractionTimes = 0;
     int heuristicTimes = 0;
     int predictionTimes = 0;
 
+    // judge if this the first time for users to use in this screen on period
     boolean flagFirst = true;
 
-    //
+    // judge if this the first time for users to use this app
     SharedPreferences sharedPreferences = null;
     SharedPreferences.Editor editor = null;
+    String KEY_COMPRESS = "KEY_COMPRESS", KEY_HEURISTIC = "KEY_HEURISTIC", KEY_PREDICTION = "KEY_PREDICTION",
+    KEY_PATTERNS = "KEY_PATTERNS";
 
 
+    /**
+     * onCreate
+     */
     public void onCreate() {
         context = this;
         Log.d(DEBUG_TAG, "start config service");
+        // initial the admin
         initAdmin();
+        // initial the receiver
         initReceiver();
+        // initial the user data used for evaluation
         userData = new ArrayList<>();
+        // if the user open the software for the first time, set with heuristic
+        // in order not to get incorrect information
         sharedPreferences = getSharedPreferences(MainActivity.PREF_NAME, 0);
         int firstOfConfig = sharedPreferences.getInt("firstOfConfig", 0);
         // first time of execution
@@ -114,6 +127,7 @@ public class ConfigService extends Service {
             editor.apply();
         }
         startTimerService();
+
     }
 
     /**
@@ -271,7 +285,12 @@ public class ConfigService extends Service {
                 e.printStackTrace();
             }
         }
-        return result;
+        if(result.length()!=0) {
+            return result.substring(1);
+        }else{
+            return result;
+
+        }
     }
 
     /**
@@ -389,6 +408,7 @@ public class ConfigService extends Service {
         int sleep = getScreenOffTime();
         long flow = getAllFlow();
         long mobile = getMobileFlow();
+        Log.d(DEBUG_TAG, "get user data with" + apps);
         return new String[]{time[0]+"", time[1]+"", time[2]+"", latitude+"", longitude+"",
             battery_level+"", battery_state+"", apps, brightness+"", sleep+"", sound+"", flow+"", mobile+""};
     }
@@ -397,8 +417,8 @@ public class ConfigService extends Service {
      * timerWithScreenOn: just store current data into user data array list
      */
     private void timerWithScreenOn(){
-        Log.d(DEBUG_TAG, "entering timer function with screen on");
-        // neglect usage within an interval of timers (namely in 1 minute)
+        Log.d(DEBUG_TAG, "entering timer function with screen on "+flagFirst);
+        // neglect usage for the first time because of not accurate network flow
         if(flagFirst){
             flagFirst = false;
             return;
@@ -410,17 +430,18 @@ public class ConfigService extends Service {
      * timerWithScreenOff: judge the similarity of pattern and current situation
      */
     private void timerWithScreenOff(){
+        // get current data
         String[] current = getUserData();
         Log.d(DEBUG_TAG, "entering timer function with screen off");
+        // calculate similarity to existing pattern in database
         String[] similar = calculateSimilarity(current);
         // similiar != null means that there is a pattern fit current situation
         if(similar != null){
-            setWithData(similar);
+            setWithData(similar, current);
         }
         else{
             setHeuristic(current);
         }
-        setHeuristic(current);
     }
 
     /**
@@ -431,11 +452,13 @@ public class ConfigService extends Service {
         // set flagFirst to true for next user data collection
         flagFirst = true;
         // get the user data for the last time in this interaction period
-        userData.add(getUserData());
-        // category the user data collected in this period and store into the pattern database
-        generateCentriod();
-        // clear temporary data
-        userData.clear();
+        // if userData = null, means that this usage is less than 1 minute, so ignore this usage
+        if(userData.size() != 0){
+            // category the user data collected in this period and store into the pattern database
+            generateCentriod();
+            // clear temporary data
+            userData.clear();
+        }
     }
 
     /**
@@ -453,8 +476,10 @@ public class ConfigService extends Service {
             mobile_flow = MIN_MOBILE_FLOW;
             all_flow = MIN_NETWORK_FLOW;
         }
+        // write the times of heuristic method
+        int times = getFromPreference(KEY_HEURISTIC);
+        writeToPreference(KEY_HEURISTIC, times + 1);
 
-        heuristicTimes++;
         // set brightness and screen off time with lowest value, and keep sound as usual
         setBrightness(10);
         setScreenOffTime(30000);
@@ -471,21 +496,26 @@ public class ConfigService extends Service {
     /**
      * setWithData: config the system with given data
      */
-    private void setWithData(String[] newData){
-        predictionTimes++;
+    private void setWithData(String[] newData, String[] nowData){
+        // write the times of pattern method
+        int times = getFromPreference(KEY_PREDICTION);
+        writeToPreference(KEY_PREDICTION, times+1);
+
         int wifi_state = 0, gprs_state = 0, tooth_state = 0;
         int brightness = Integer.parseInt(newData[8]);
         int screen = Integer.parseInt(newData[9]);
         int sound = Integer.parseInt(newData[10]);
         int all_flow = Integer.parseInt(newData[11]);
         int mobile_flow = Integer.parseInt(newData[12]);
+        int now_all = Integer.parseInt(nowData[11]);
+        int now_mobile = Integer.parseInt(nowData[12]);
         setBrightness(brightness);
         setScreenOffTime(screen);
         setVolume(sound);
-        if(networkAdmin.isWifiAvailable() && (all_flow - mobile_flow >= MIN_NETWORK_FLOW || audioManager.isMusicActive())){
+        if(all_flow - mobile_flow >= MIN_NETWORK_FLOW || audioManager.isMusicActive() || now_all - now_mobile >= MIN_NETWORK_FLOW){
             wifi_state = 1;
         }
-        if(networkAdmin.isMobileAvailable() && (mobile_flow >= MIN_MOBILE_FLOW)){
+        if(mobile_flow >= MIN_MOBILE_FLOW || audioManager.isMusicActive() || now_mobile >= MIN_MOBILE_FLOW){
             gprs_state = 1;
         }
         setNetwork(wifi_state, gprs_state, tooth_state);
@@ -497,9 +527,47 @@ public class ConfigService extends Service {
      * generateCentroid: category the collected user data and find the center point
      */
     private void generateCentriod(){
-        //ArrayList<String[]> result = new ArrayList<>();
-        //TODO: generate centroids in result
-        storeCentroid(userData);
+
+        ArrayList<String[]> result = new ArrayList<>();
+
+        // the number of context that has been categorized
+        int flag = 0, start = 0, end = 0;
+
+        while(flag < userData.size()){
+            // got the last one
+            if(end == userData.size() - 1){
+                Log.d(DEBUG_TAG,"add the last centroid");
+                result.add(userData.get(end));
+                break;
+            }
+            // if start and end+1 is not sililar
+            if(posSimilarity(userData.get(start),userData.get(end+1)) > 100 ||
+                    timeSimilarity(userData.get(start),userData.get(end+1)) > 30 ||
+                    appSimilarity(userData.get(start),userData.get(end+1)) < SIMILAR_THRESHOLD){
+                // if the end exists
+                if(result.indexOf(userData.get(end))>=0){
+                    Log.d(DEBUG_TAG,"the latter centroid is not similar with all formers");
+                    start++;
+                    end++;
+                }
+                // if the end not exists
+                else {
+                    Log.d(DEBUG_TAG,"the "+ end +" centroid is not similar with the start "+start);
+                    result.add(userData.get(end));
+                    flag++;
+                    start = end + 1;
+                }
+            }
+            else{
+                Log.d(DEBUG_TAG,"the "+ end +" centroid is similar with the start "+start);
+                end++;
+                flag++;
+            }
+        }
+        // write the times of deleted patterns
+        int times = getFromPreference(KEY_COMPRESS);
+        writeToPreference(KEY_COMPRESS, times + userData.size() - result.size());
+        storeCentroid(result);
     }
 
     /**
@@ -510,6 +578,9 @@ public class ConfigService extends Service {
             String[] newPattern = data.get(i);
             writeToDatabase(newPattern, PATTERN_TAG);
         }
+        // write the times of patterns in database
+        int times = getFromPreference(KEY_PATTERNS);
+        writeToPreference(KEY_PATTERNS, times + data.size());
     }
 
     /**
@@ -561,8 +632,8 @@ public class ConfigService extends Service {
      */
     private String[] calculateSimilarity(String[] data){
 
-        String[] minimal = null;
-        double similar = 1.0;
+        // all of the pattern
+        ArrayList<String[]> patterns = new ArrayList<>();
 
         try{
             dbAdapter.open();
@@ -571,86 +642,74 @@ public class ConfigService extends Service {
             return null;
         }
         Cursor c = dbAdapter.getAllPatterns();
-        String[] pattern = new String[c.getColumnCount()];
 
+        // get all patterns from list
         if(c.moveToFirst()){
             do{
+                String[] pattern = new String[c.getColumnCount()];
                 for(int i = 0; i < c.getColumnCount(); i++){
                     pattern[i] = c.getString(i);
                 }
-                double result = getSimilarity(data, pattern);
-                // <= means the latter data (latest happened) will have more importance
-                if(result <= similar){
-                    similar = result;
-                    minimal = pattern;
-                }
+                patterns.add(pattern);
             }while (c.moveToNext());
         }
+        Log.d(DEBUG_TAG, "get " + patterns.size() + " patterns from database");
         dbAdapter.close();
-        if(similar >= SIMILAR_THRESHOLD){
-            return minimal;
+        return getSimilarity(data, patterns);
+    }
+
+    private String[] getSimilarity(String[] data, ArrayList<String[]> patterns){
+
+        String[] selected = null;
+        double similarity = 0;
+        int battery = 100;
+
+        for(int i = 0 ; i< patterns.size() ; i++){
+            String[] pattern  = patterns.get(i);
+            if(posSimilarity(data, pattern) > 100 || timeSimilarity(data, pattern) > 30){
+                continue;
+            }
+            int battery1 = Integer.parseInt(pattern[5]), battery2 = Integer.parseInt(data[5]);
+            double value = appSimilarity(data, pattern);
+            if(value > similarity || value == similarity && Math.abs(battery1 - battery2) <= battery){
+                selected = pattern;
+                battery = Math.abs(battery1 - battery2);
+            }
         }
-        return null;
+        if(selected == null){
+            Log.d(DEBUG_TAG, "no pattern found");
+        }
+        else{
+            Log.d(DEBUG_TAG,"get the similarity of time "+selected[0]+":"+selected[1]);
+        }
+        return selected;
+
     }
 
     /**
-     * getSimilarity: get the similarity of two packed data
+     * posSimilarity: calculate the distance between 2 packed data
      */
-    private double getSimilarity(String[] params1, String[] params2){
-
-        // get data and repack them to similarity calculation functions
-        double lat1 = Double.parseDouble(params1[3]),
-                lat2 = Double.parseDouble(params2[3]),
-                lon1 = Double.parseDouble(params1[4]),
-                lon2 = Double.parseDouble(params2[4]);
-        int week1 = Integer.parseInt(params1[0]),
-                week2 = Integer.parseInt(params2[0]),
-                hour1 = Integer.parseInt(params1[1]),
-                hour2 = Integer.parseInt(params2[1]),
-                min1 = Integer.parseInt(params1[2]),
-                min2 = Integer.parseInt(params2[2]);
-        String[] app1 = params1[7].split(";");
-        String[] app2 = params2[7].split(";");
-
-        // calculate time, space and application similarity
-        double pos = posSimiliarity(lat1, lon1, lat2, lon2);
-        double time = timeSimilarity(week1, hour1, min1, week2, hour2, min2);
-        double app = appSimiliarity(app1, app2);
-
-        Log.d(DEBUG_TAG, "calculate similarity with pos="+pos+" time="+time+" app="+app);
-
-        // the result is weighted linear function
-        return 0.4 * pos + 0.4 * time + 0.2 * app;
-    }
-
-    /**
-     * posSimilarity: calculate 2 <latitude, longitude> pairs similarity
-     * the similarity is 1 if the distance < 100m (coarse prediction)
-     * otherwise the similarity is 0.1
-     */
-    private double posSimiliarity(double lat1, double lon1, double lat2, double lon2){
-
+    private double posSimilarity(String[] data, String[] pattern){
+        // get latitude and longitude
+        double lat1 = Double.parseDouble(data[3]),
+                lat2 = Double.parseDouble(pattern[3]),
+                lon1 = Double.parseDouble(data[4]),
+                lon2 = Double.parseDouble(pattern[4]);
         lat1 = lat1 * 10000;
         lat2 = lat2 * 10000;
         lon1 = lon1 * 10000;
         lon2 = lon2 * 10000;
-
-        double distance = Math.sqrt(Math.pow(lat1 - lat2, 2.0) + Math.pow(lon1 - lon2, 2.0));
-        if(distance < 100){
-            return 1.0;
-        }
-        return 0.1;
+        Log.d(DEBUG_TAG, lat1+"," + lat2 + "," + lon1 + "," + lon2);
+        return Math.sqrt(Math.pow(lat1 - lat2, 2.0) + Math.pow(lon1 - lon2, 2.0));
     }
 
     /**
-     * timeSimilarity: calculate 2 <week, hour, minute> pairs similarity
+     * timeSimilarity: filter the time beyond 30min
      */
-    private double timeSimilarity(int week1, int hour1, int minute1, int week2, int hour2, int minute2){
-
-        // the similarity
-        double similar = 0;
-        // miute of a day
-        int MINUTE_OF_A_DAY = 60 * 24;
+    private int timeSimilarity(String[] data, String[] pattern){
+        int hour1 = Integer.parseInt(pattern[1]), hour2 = Integer.parseInt(data[1]),
+                minute1 = Integer.parseInt(pattern[2]), minute2 = Integer.parseInt(data[2]);
+        Log.d(DEBUG_TAG, "enter time similarity");
         //calcullate the time interval between 2 time
         int time_interval = 0;
         if(hour1 > hour2){
@@ -662,52 +721,46 @@ public class ConfigService extends Service {
         else{
             time_interval = ( hour2 - hour1 ) * 60 + ( minute1 - minute2 );
         }
-        time_interval = Math.min(time_interval, MINUTE_OF_A_DAY - time_interval);
-
-        // with in an hour
-        if(time_interval <= 60){
-            similar = 0.9;
-        }
-        // between an hour and 5 hour
-        else if(time_interval >60 && time_interval < 300){
-            similar = 0 - (time_interval / 300) + 1.1;
-        }
-        else{
-            similar = 0.1;
-        }
-        if(week1 == week2){
-            similar += 0.1;
-        }
-        return similar;
+        Log.d(DEBUG_TAG, "time is "+time_interval);
+        return Math.min(time_interval, MINUTE_OF_A_DAY - time_interval);
     }
 
     /**
-     * appSimilarity: calculate 2 lists similarity
+     * appSimilarity: calculate
      */
-    private double appSimiliarity(String[] list1, String[] list2) {
+    private double appSimilarity(String[] data, String[] pattern){
 
-        int same = 0, different = 0;
+        Set<String> set1 = new HashSet<>(), set2 = new HashSet<>();
+        String[] app1 = pattern[7].split(";"), app2 = data[7].split(";");
+        for(int i = 0 ; i < app1.length ; i++){
+            set1.add(app1[i]);
+        }
+        for(int i = 0 ; i < app2.length ; i++){
+            set2.add(app2[i]);
+        }
 
-        // find the same and different pair of 2 list
-        for(int i = 0 ; i < list1.length ; i++){
-            for(int j = 0; j < list2.length ; j++){
-                if( list1[i].length() != 0 && list2[j].length() != 0){
-                    if(list1[i].equals(list2[j])){
-                        same++;
-                    }
-                    else{
-                        different++;
-                    }
-                }
-            }
+        Set<String> nSet = new HashSet<>(set1),uSet = new HashSet<>(set1);
+        // intersaction
+        nSet.retainAll(set2);
+        // union
+        uSet.addAll(set2);
+
+        if(uSet.size() == 0){
+            return 0;
         }
-        // no available data in lists
-        if(different == 0 && same == 0){
-            return 1.0;
-        }
-        else{
-            return same / Math.sqrt(different + same);
-        }
+        Log.d(DEBUG_TAG, nSet.size()+"/"+uSet.size());
+        return (double)nSet.size() / uSet.size();
+    }
+
+
+    private int getFromPreference(String key){
+        return sharedPreferences.getInt(key, 0);
+    }
+
+    private void writeToPreference(String key, int new_value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key,new_value);
+        editor.apply();
     }
 
     @Override
@@ -716,11 +769,19 @@ public class ConfigService extends Service {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        flags = START_STICKY;
+        Notification notification = new Notification();
+        startForeground(0, notification);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
     public void onDestroy(){
-        Log.d(DEBUG_TAG, "stop config service");
         super.onDestroy();
+        Log.d(DEBUG_TAG, "stop config service");
+        //stopService(timerIntent);
         unregisterReceiver(locationReceiver);
         unregisterReceiver(eventReceiver);
-        stopService(timerIntent);
     }
 }

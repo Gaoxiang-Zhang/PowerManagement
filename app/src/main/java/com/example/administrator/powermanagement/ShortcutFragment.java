@@ -83,8 +83,6 @@ public class ShortcutFragment extends Fragment {
     // SWITCH_NUM: The starting items who have SwitchCompat
     final static int SWITCH_NUM = 6;
 
-    int old_wifi = 2, old_tooth = 2, old_data = 2, old_plane = 2, old_gps = 2, old_hot = 2;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

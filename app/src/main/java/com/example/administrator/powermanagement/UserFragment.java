@@ -3,6 +3,8 @@ package com.example.administrator.powermanagement;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -54,7 +56,10 @@ public class UserFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        Toast.makeText(getActivity(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
+                        LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        Toast.makeText(getActivity(),location.getLatitude()+""+location.getLongitude(),Toast.LENGTH_LONG).show();
                         break;
                     case 1:
                         Intent setIntent = new Intent(getActivity(), SettingsActivity.class);

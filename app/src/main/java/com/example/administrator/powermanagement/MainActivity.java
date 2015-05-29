@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements OnTabChangeListen
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.text));
         mToolbar.setTitle(R.string.app_name);
-        mToolbar.setNavigationIcon(R.drawable.ic_launcher);
+        mToolbar.setNavigationIcon(R.drawable.bar_launcher);
         setSupportActionBar(mToolbar);
 
         //get ViewPager that holds the animation of fragment swipe

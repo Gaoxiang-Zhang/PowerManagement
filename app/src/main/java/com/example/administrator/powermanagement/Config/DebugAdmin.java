@@ -1,12 +1,14 @@
 package com.example.administrator.powermanagement.Config;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.administrator.powermanagement.Admins.DBAdapter;
+import com.example.administrator.powermanagement.MainActivity;
 import com.example.administrator.powermanagement.R;
 
 import java.io.File;
@@ -24,12 +26,17 @@ public class DebugAdmin {
     Context context = null;
     DBAdapter adapter = null;
 
+    SharedPreferences sharedPreferences = null;
+    String KEY_COMPRESS = "KEY_COMPRESS", KEY_HEURISTIC = "KEY_HEURISTIC", KEY_PREDICTION = "KEY_PREDICTION",
+            KEY_PATTERNS = "KEY_PATTERNS";
+
     final static int PATTERN_TAG = 0;
     final static int MONITOR_TAG = 1;
 
     public DebugAdmin(Context ctx){
         context = ctx;
         adapter = DBAdapter.getInstance(context);
+        sharedPreferences = context.getSharedPreferences(MainActivity.PREF_NAME, 0);
     }
 
     public void outputToFile(int type){
@@ -57,6 +64,10 @@ public class DebugAdmin {
             File file = new File(directory, filename);
             FileOutputStream fOut = new FileOutputStream(file);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            osw.write("Heuristic times: "+sharedPreferences.getInt(KEY_HEURISTIC,0)+"\n");
+            osw.write("Prediction times: "+sharedPreferences.getInt(KEY_PREDICTION,0)+"\n");
+            osw.write("Patterns times: "+sharedPreferences.getInt(KEY_PATTERNS,0)+"\n");
+            osw.write("Compress times: "+sharedPreferences.getInt(KEY_COMPRESS,0)+"\n");
             try{
                 adapter.open();
             } catch (SQLException e){
