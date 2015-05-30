@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
@@ -8,6 +8,7 @@
     android:padding="24dp">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/connPref"
@@ -18,22 +19,29 @@
 
     <include
         android:id="@+id/wifi"
-        layout="@layout/layout_switch"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_switch"
+        android:layout_below="@+id/title"/>
     <include
         android:id="@+id/gprs"
-        layout="@layout/layout_switch"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_switch"
+        android:layout_below="@+id/wifi"/>
     <include
         android:id="@+id/tooth"
-        layout="@layout/layout_switch"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_switch"
+        android:layout_below="@+id/gprs"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_marginTop="10dp">
-        <View
-            android:layout_height="match_parent"
-            android:layout_width="130dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tooth"
+        android:layout_alignParentEnd="true">
         <TextView
             android:id="@+id/confirm"
             android:text="@string/OK"
@@ -62,4 +70,4 @@
             android:gravity="end"/>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

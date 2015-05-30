@@ -65,6 +65,7 @@ public class EffectDialog extends DialogFragment {
             }
         });
 
+
         // get the switch in each component
         dialTone = (SwitchCompat)view.findViewById(R.id.dialTone).findViewById(R.id.switch_switch);
         touchSound = (SwitchCompat)view.findViewById(R.id.touchSound).findViewById(R.id.switch_switch);

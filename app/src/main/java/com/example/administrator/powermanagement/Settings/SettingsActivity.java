@@ -1,13 +1,22 @@
 package com.example.administrator.powermanagement.Settings;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.example.administrator.powermanagement.MainActivity;
 import com.example.administrator.powermanagement.R;
+
+import java.util.Locale;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 

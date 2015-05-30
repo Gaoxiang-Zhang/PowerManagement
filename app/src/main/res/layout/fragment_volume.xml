@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
@@ -8,6 +8,7 @@
     android:padding="24dp">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sound"
@@ -18,25 +19,35 @@
 
     <include
         android:id="@+id/ring"
-        layout="@layout/layout_volume"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_volume"
+        android:layout_below="@+id/title"/>
     <include
         android:id="@+id/alarm"
-        layout="@layout/layout_volume"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_volume"
+        android:layout_below="@+id/ring"/>
     <include
         android:id="@+id/media"
-        layout="@layout/layout_volume"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_volume"
+        android:layout_below="@+id/alarm"/>
     <include
         android:id="@+id/voice"
-        layout="@layout/layout_volume"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_volume"
+        android:layout_below="@+id/media"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_marginTop="10dp">
-        <View
-            android:layout_height="match_parent"
-            android:layout_width="180dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/voice"
+        android:layout_alignParentEnd="true">
         <TextView
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
@@ -53,4 +64,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

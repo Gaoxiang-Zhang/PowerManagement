@@ -3,24 +3,202 @@
 
     <string name="app_name">Power Supervisor</string>
     <string name="settings">Settings</string>
-    <string name="action_settings">Settings</string>
-    <string name="help_info">Instruction</string>
-    <string name="response">Response</string>
+    <string name="help_info">Instructions</string>
     <string name="allow_box">Allow</string>
     <string name="forbid_box">Forbid</string>
-    <string name="basicPref">Basic Option</string>
-    <string name="connPref">Connection Option</string>
-    <string name="langPref">Language</string>
-    <string name="responsePref">Send usage messages</string>
-    <string name="responsePrefSummary">Help us change experience</string>
-    <string name="updatePref">Auto Update</string>
+    <string name="OK">CONFIRM</string>
+    <string name="cancel">CANCEL</string>
+    <string name="detail">Detail</string>
+    <string name="basicPref">Basic Settings</string>
+    <string name="connPref">Link Settings</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="unknown">Unknown</string>
+    <string name="not_implemented">Not Implemented</string>
+
     <string-array name="tab_names">
-        <item>Custom</item>
+        <item>Shortcut</item>
         <item>General</item>
-        <item>Profile</item>
+        <item>Account</item>
     </string-array>
     <string-array name="preference_language">
+        <item>Follow System</item>
         <item>简体中文</item>
         <item>English</item>
     </string-array>
+
+    <string-array name="shortcuts">
+        <item>Wi-Fi</item>
+        <item>GPRS</item>
+        <item>Bluetooth</item>
+        <item>Airplane Mode</item>
+        <item>Hotspot</item>
+        <item>GPS</item>
+        <item>Data Usage</item>
+        <item>Brightness</item>
+        <item>Volume</item>
+        <item>Hibernation Time</item>
+        <item>Interaction</item>
+        <item>Running Apps</item>
+        <item>Sync Settings</item>
+        <item>System Information</item>
+        <item>Sensor List</item>
+    </string-array>
+    <string name="network">Network</string>
+    <string name="usage">Usage</string>
+    <string name="currentApps">Running Applications</string>
+
+    <string name="sound">Volume</string>
+    <string name="alarm">Alarm</string>
+    <string name="media">Media</string>
+    <string name="ring">Ring</string>
+    <string name="voice">Voice</string>
+    <string name="brightness">Brightness</string>
+    <string name="ordinary">Ring</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="silent">Silent</string>
+
+    <string name="screenOff">Lock Screen Time</string>
+    <string name="screen15s">15s</string>
+    <string name="screen30s">30s</string>
+    <string name="screen1m">1min</string>
+    <string name="screen2m">2min</string>
+    <string name="screen5m">5min</string>
+    <string name="screen10m">10min</string>
+    <string name="screen30m">30min</string>
+
+    <string-array name="offTime">
+        <item>15s</item>
+        <item>30s</item>
+        <item>1min</item>
+        <item>2min</item>
+        <item>5min</item>
+        <item>10min</item>
+        <item>30min</item>
+    </string-array>
+
+
+    <string name="touchShow">Interaction</string>
+    <string name="dialTone">Dial Tone</string>
+    <string name="touchSound">Touch Sound</string>
+    <string name="lockSound">Lock Sound</string>
+    <string name="touchVib">Touch Vibration</string>
+
+    <string name="all_apps">All Apps</string>
+    <string name="system_apps">System Apps</string>
+    <string name="user_apps">User Apps</string>
+
+    <string-array name="system_info">
+        <item>Device Model</item>
+        <item>System Edition</item>
+        <item>CPU</item>
+        <item>CPU Usage</item>
+        <item>Battery Capacity</item>
+        <item>Memory</item>
+        <item>Internal Storage</item>
+        <item>SD Card Storage</item>
+    </string-array>
+
+    <string-array name="sensors_list">
+        <item>Unknown</item>
+        <item>Accelerometer</item>
+        <item>Magnetic Field</item>
+        <item>Orientation</item>
+        <item>Gyroscope</item>
+        <item>Light</item>
+        <item>Pressure</item>
+        <item>Temperature</item>
+        <item>Proximity</item>
+        <item>Gravity</item>
+        <item>Linear Acceleration</item>
+        <item>Rotation Vector</item>
+        <item>Relative Humidity</item>
+        <item>Ambient Temperature</item>
+        <item>Magnetic Field Uncalibrated</item>
+        <item>Game Rotation Vector</item>
+        <item>Gyroscope Uncalibrated</item>
+        <item>Significant Motion</item>
+        <item>Step Detector</item>
+        <item>Step Counter</item>
+        <item>Geomagnetic Rotation Vector</item>
+    </string-array>
+
+    <string name="profitYesterday">Profit</string>
+    <string name="profitTotal">Total</string>
+    <string name="battery">Battery Level</string>
+    <string name="usingTime">Remaining Time</string>
+    <string name="statTest">01234.56789</string>
+    <string name="acCharging">AC Charging</string>
+    <string name="usbCharging">USB Charging</string>
+    <string name="wirelessCharging">Wireless Charging</string>
+    <string name="defaultCharging">Unknown Charging</string>
+    <string name="fullBattery">Full</string>
+    <string name="hour">Hour</string>
+    <string name="minute">Minute</string>
+    <string name="not_calculated">Calculating</string>
+
+    <string name="strategy">Optimizing Strategy</string>
+    <string name="detailOption">Detailed Settings</string>
+    <string name="customMode">Custom Mode</string>
+    <string name="ranking">Power Ranking</string>
+    <string name="debug">Debug Log</string>
+
+    <string name="auto_saving">Auto Saving</string>
+    <string name="manu_saving">Custom Saving</string>
+    <string name="cancel_saving">Cancel Saving</string>
+
+    <string name="sleep_mode">Sleep Mode</string>
+    <string name="defined_mode">Custom Mode</string>
+
+    <string name="mode_setting">Mode Settings</string>
+    <string name="ordinary_mode">Regular Mode</string>
+    <string name="ordinary_explanation">Default Mode</string>
+    <string name="open_mode">Open Mode</string>
+    <string name="mode_name">Name</string>
+    <string name="start_time">Start/End Time</string>
+    <string name="content_custom">Content</string>
+    <string name="delete">Delete</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="gprs">GPRS</string>
+    <string name="notification_tip">Entering...</string>
+
+    <string name="pleaseLogin">Please Login</string>
+    <string name="noLogin">Not Login</string>
+    <string name="login_register">Login/Register</string>
+    <string name="logout">Logout</string>
+    <string name="sync">Data Sync</string>
+    <string name="usageRecord">Usage Record</string>
+
+    <string-array name="user_interface">
+        <item>Data Sync</item>
+        <item>User Settings</item>
+        <item>Help and Response</item>
+        <item>Account</item>
+    </string-array>
+
+
+    <string name="resAndHelp">Help and Response</string>
+    <string name="userAccount">Account</string>
+    <string name="response">User Response</string>
+    <string name="help">Instruction</string>
+    <string name="response_tag">Response Type</string>
+    <string name="response_function">Function</string>
+    <string name="response_error">Error</string>
+    <string name="response_ui">UI</string>
+    <string name="response_other">Other</string>
+    <string name="response_content">Your Response will help us improving</string>
+    <string name="response_contact">Please leave your contact</string>
+
+    <string-array name="language">
+        <item>Follow System</item>
+    </string-array>
+    <string name="uiPref">UI Preference</string>
+    <string name="langPref">Language</string>
+    <string name="autoSend">Automatically Send Log</string>
+    <string name="autoSendHint">Help Us Improve Experience</string>
+    <string name="autoUpdate">Automatically Update</string>
+
+
+
 </resources>
