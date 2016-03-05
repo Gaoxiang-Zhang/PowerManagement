@@ -12,7 +12,9 @@ A foundamental work of Android power management.
 
 	> Datta,    S.K.;    Bonnet,    C.;    Nikaein,    N.;    "Android    power management: Current and future trends," Enabling Technologies for  Smartphone  and  Internet  of  Things  (ETSIoT),  2012  First IEEE Workshop on, pp.48-53, 18 June 2012. 
 
-+ The short paper is available on my website [short paper]("http://gaoxiang-zhang.github.io/document/graduation.pdf")
++ The short paper is available on my website:
+[short paper](http://gaoxiang-zhang.github.io/document/graduation.pdf)
+
 
 ## Overall
 
