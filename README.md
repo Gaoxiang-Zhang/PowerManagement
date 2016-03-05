@@ -7,7 +7,7 @@ A foundamental work of Android power management.
 ## Background
 
 + This work is my **undergraduate graduation project** in Peking University.
-+ The work is directed by Associate Prof. **Kaigui Bian** and Associate Prof. **Xiaolin Wang**
++ The work is directed by Associate Prof. **Kaigui Bian** and Associate Prof. **Xiaolin Wang** in the Institute of Network Computing and Information Systems, Peking Univ.
 + The work is partially based on the work of **Datta et. al.**
 
 	> Datta,    S.K.;    Bonnet,    C.;    Nikaein,    N.;    "Android    power management: Current and future trends," Enabling Technologies for  Smartphone  and  Internet  of  Things  (ETSIoT),  2012  First IEEE Workshop on, pp.48-53, 18 June 2012. 
