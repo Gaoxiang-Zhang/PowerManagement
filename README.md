@@ -26,29 +26,29 @@ The Project has 3 main modules:
 
 * Provide shortcut and information of system settings related to power management
 
-	![](readme/screenshot_1.png) 
-	![](readme/screenshot_2.png)
+	![](readme/screenshot1.png) 
+	![](readme/screenshot2.png)
 	
 * Convenient configuration
 
-	![](readme/screenshot_3.png) 
-	![](readme/screenshot_4.png)
+	![](readme/screenshot3.png) 
+	![](readme/screenshot4.png)
 	
 * Detailed system information
 
-	![](readme/screenshot_5.png) 
-	![](readme/screenshot_6.png)
+	![](readme/screenshot5.png) 
+	![](readme/screenshot6.png)
 	
 ## Configuration Module
 
 * Main part of the project, provide automatically and manually power management
 
-	![](readme/screenshot_7.png)
+	![](readme/screenshot7.png)
 	
 * Manual configuration: manually set the time period and the corresponding power management scheme
 
-	![](readme/screenshot_8.png) 
-	![](readme/screenshot_9.png)
+	![](readme/screenshot8.png) 
+	![](readme/screenshot9.png)
 	
 * Automatically configuration: automatically set the corresponding power management scheme based on context information
 
@@ -56,7 +56,7 @@ The Project has 3 main modules:
 
 * Settings for users
 
-	![](readme/screenshot_10.png)
+	![](readme/screenshot10.png)
 	
 ## The Third-party Libraries Used in the Project
 
